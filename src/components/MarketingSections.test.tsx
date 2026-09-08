@@ -64,10 +64,9 @@ test("renders the inspected source copy and connects every conversion link", () 
     expect(document.getElementById(id)).toBeInTheDocument();
   });
 
-  expect(screen.getByRole("img", { name: /interface aura/i })).toHaveAttribute(
-    "src",
-    "/assets/phone-aura.png",
-  );
+  screen.getAllByRole("img", { name: /interface aura/i }).forEach((image) => {
+    expect(image).toHaveAttribute("src", "/assets/phone-aura.png");
+  });
   const hero = document.getElementById("hero");
   expect(hero).not.toBeNull();
   expect(within(hero!).getByRole("img", { name: /interface aura/i })).toHaveAttribute(
