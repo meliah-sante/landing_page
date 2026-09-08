@@ -20,6 +20,7 @@ export default function App() {
           <section
             key={section.id}
             id={section.id}
+            role="region"
             aria-label={section.label}
             className="container py-16"
           >
