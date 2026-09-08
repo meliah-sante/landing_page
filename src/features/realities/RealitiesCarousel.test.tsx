@@ -188,6 +188,21 @@ test("shows adjacent slide previews on wider viewports", () => {
 });
 
 test("keeps stable reality nodes while visibly changing slide position", async () => {
+  Object.defineProperty(window, "matchMedia", {
+    configurable: true,
+    writable: true,
+    value: (query: string) => ({
+      matches: false,
+      media: query,
+      onchange: null,
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      dispatchEvent: () => false,
+    }),
+  });
+
   const user = userEvent.setup();
   render(<RealitiesCarousel />);
 

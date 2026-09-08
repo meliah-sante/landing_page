@@ -19,10 +19,11 @@ function formatEuros(amount: number): string {
 function formatHours(hours: number): string {
   const wholeHours = Math.floor(hours);
   const minutes = Math.round((hours - wholeHours) * 60);
+  const formattedWholeHours = wholeHours.toLocaleString("fr-FR");
   if (minutes === 0) {
-    return `${wholeHours} h`;
+    return `${formattedWholeHours} h`;
   }
-  return `${wholeHours} h ${minutes.toString().padStart(2, "0")}`;
+  return `${formattedWholeHours} h ${minutes.toString().padStart(2, "0")}`;
 }
 
 const resultCards = [
