@@ -32,3 +32,9 @@ test("rejects empty or out-of-range staff counts", () => {
   );
   expect(validateStaffCount("40")).toBeUndefined();
 });
+
+test("clamps non-finite staff counts safely", () => {
+  expect(calculateLoss(Number.NaN)).toEqual(calculateLoss(1));
+  expect(calculateLoss(Number.POSITIVE_INFINITY)).toEqual(calculateLoss(1000));
+  expect(calculateLoss(Number.NEGATIVE_INFINITY)).toEqual(calculateLoss(1));
+});

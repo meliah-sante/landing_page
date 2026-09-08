@@ -176,12 +176,12 @@ export function LossCalculator() {
             <Accordion.Trigger className="group flex min-h-11 w-full items-center justify-between gap-3 px-5 py-4 text-left text-sm font-semibold text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-inset">
               Comment ces chiffres sont calculés
               <ChevronDown
-                className="h-4 w-4 shrink-0 text-charcoal/50 transition-transform group-data-[state=open]:rotate-180"
+                className="h-4 w-4 shrink-0 text-charcoal/50 transition-transform motion-reduce:transition-none group-data-[state=open]:rotate-180 motion-reduce:group-data-[state=open]:rotate-0"
                 aria-hidden="true"
               />
             </Accordion.Trigger>
           </Accordion.Header>
-          <Accordion.Content className="overflow-hidden px-5 pb-4 text-sm leading-relaxed text-charcoal/70 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
+          <Accordion.Content className="overflow-hidden px-5 pb-4 text-sm leading-relaxed text-charcoal/70 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down motion-reduce:animate-none motion-reduce:transition-none">
             Les estimations partent d&apos;une référence de 40 soignants : 13 h 20
             récupérées par jour et 76 766 € par an. Les valeurs évoluent
             proportionnellement au nombre de soignants, sur 230 jours ouvrés et 12 mois.

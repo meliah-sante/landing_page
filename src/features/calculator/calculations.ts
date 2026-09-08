@@ -24,6 +24,10 @@ export const STAFF_COUNT_ERROR =
   "Indiquez un nombre de soignants entre 1 et 1000.";
 
 function clampStaffCount(staffCount: number): number {
+  if (!Number.isFinite(staffCount)) {
+    return staffCount > 0 ? MAX_STAFF : MIN_STAFF;
+  }
+
   return Math.min(MAX_STAFF, Math.max(MIN_STAFF, Math.round(staffCount)));
 }
 
