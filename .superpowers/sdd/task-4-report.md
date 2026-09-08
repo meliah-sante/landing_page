@@ -241,3 +241,61 @@ Exit code 0
 ```
 
 All final verification output is warning-free.
+
+---
+
+## Calculator Boundary Contrast Follow-up
+
+### Finding Resolved
+
+- Replaced the unfocused `border-charcoal/15` boundary on the staff count, name, and email inputs with a shared `border-charcoal/50` boundary.
+- The revised boundary measures approximately `3.2:1` against white and `3.1:1` against warm white, meeting WCAG 1.4.11 non-text contrast.
+- Preserved the existing accessible coral focus ring and the calculator's warm-white input treatment.
+- Centralized the input classes so every equivalent calculator field receives the same boundary and focus treatment.
+
+### TDD Evidence
+
+Added a regression test first that checks all three calculator inputs for the accessible shared boundary.
+
+Observed RED:
+
+```text
+Expected to contain: "border-charcoal/50"
+Received: "border-charcoal/15"
+5 pass
+1 fail
+```
+
+After implementation:
+
+```text
+6 pass
+0 fail
+27 expect() calls
+```
+
+### Verification
+
+```text
+bun test
+40 pass
+0 fail
+221 expect() calls
+Ran 40 tests across 6 files.
+```
+
+```text
+bun run lint
+eslint .
+Exit code 0
+```
+
+```text
+bun run build
+tsc -b && vite build
+2332 modules transformed
+Build completed successfully
+Exit code 0
+```
+
+All verification output is warning-free.
