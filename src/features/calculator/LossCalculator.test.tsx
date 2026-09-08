@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { LossCalculator } from "./LossCalculator";
 
@@ -7,7 +7,51 @@ test("switches between euro and hour results", async () => {
   render(<LossCalculator />);
   expect(screen.getByText("76 766 €")).toBeInTheDocument();
   await user.click(screen.getByRole("tab", { name: /heures/i }));
-  expect(screen.getByText(/13 h 20/i)).toBeInTheDocument();
+  expect(
+    within(screen.getByRole("tabpanel", { name: "Heures" })).getByText(/13 h 20/i),
+  ).toBeInTheDocument();
+});
+
+test("announces valid staff updates once with a concise active-mode summary", () => {
+  render(<LossCalculator />);
+
+  const calculator = screen.getByRole("spinbutton", {
+    name: "Nombre de soignants",
+  }).closest<HTMLElement>(".rounded-3xl")!;
+  const liveSummary = within(calculator).getByRole("status");
+
+  expect(liveSummary).toHaveAttribute("aria-live", "polite");
+  expect(liveSummary).toHaveAttribute("aria-atomic", "true");
+  expect(liveSummary).toHaveClass("sr-only");
+  expect(liveSummary).toHaveTextContent(
+    "Pour 40 soignants : 334 € par jour, 6 397 € par mois, 76 766 € par an.",
+  );
+  expect(calculator.querySelectorAll('[aria-live="polite"]')).toHaveLength(1);
+
+  fireEvent.change(screen.getByLabelText("Nombre de soignants"), {
+    target: { value: "20" },
+  });
+
+  expect(liveSummary).toHaveTextContent(
+    "Pour 20 soignants : 167 € par jour, 3 199 € par mois, 38 383 € par an.",
+  );
+});
+
+test("announces the controlled active result mode without duplicate live regions", async () => {
+  const user = userEvent.setup();
+  render(<LossCalculator />);
+
+  const liveSummary = screen.getByRole("status");
+  await user.click(screen.getByRole("tab", { name: "Heures" }));
+
+  expect(screen.getByRole("tab", { name: "Heures" })).toHaveAttribute(
+    "aria-selected",
+    "true",
+  );
+  expect(liveSummary).toHaveTextContent(
+    "Pour 40 soignants : 13 h 20 par jour, 255 h 34 par mois, 3 066 h 40 par an.",
+  );
+  expect(document.querySelectorAll('[aria-live="polite"]')).toHaveLength(1);
 });
 
 test("uses an accessible unfocused boundary on every form input", () => {
@@ -30,7 +74,9 @@ test("reveals the detailed result only after valid local submission", async () =
   await user.type(screen.getByLabelText("Votre nom"), "Camille");
   await user.type(screen.getByLabelText("Email professionnel"), "camille@clinique.fr");
   await user.click(screen.getByRole("button", { name: /voir ma perte réelle/i }));
-  const detail = screen.getByRole("status");
+  const detail = screen.getByRole("heading", {
+    name: "Votre résultat détaillé",
+  }).parentElement!;
   expect(detail).toHaveTextContent(/résultat détaillé/i);
   expect(detail).toHaveTextContent("334 €");
   expect(detail).toHaveTextContent("6 397 €");
@@ -41,6 +87,54 @@ test("reveals the detailed result only after valid local submission", async () =
   expect(detail).toHaveTextContent(
     "Vos données sont traitées localement dans votre navigateur. Elles ne sont ni envoyées ni enregistrées.",
   );
+});
+
+test("identifies required lead fields before validation without changing labels", () => {
+  render(<LossCalculator />);
+
+  const guidance = screen.getByText("Tous les champs ci-dessous sont obligatoires.");
+  expect(guidance).toBeVisible();
+
+  [
+    ["Votre nom", "name"],
+    ["Email professionnel", "email"],
+  ].forEach(([label, autocomplete]) => {
+    const input = screen.getByRole("textbox", { name: label });
+    expect(input).toBeRequired();
+    expect(input).toHaveAttribute("aria-required", "true");
+    expect(input).toHaveAttribute("autocomplete", autocomplete);
+    expect(input.getAttribute("aria-describedby")?.split(" ")).toContain(guidance.id);
+  });
+});
+
+test("clears each prior lead error as soon as that field becomes valid", async () => {
+  const user = userEvent.setup();
+  render(<LossCalculator />);
+
+  await user.click(screen.getByRole("button", { name: /voir ma perte réelle/i }));
+  const nameInput = screen.getByRole("textbox", { name: "Votre nom" });
+  const emailInput = screen.getByRole("textbox", { name: "Email professionnel" });
+
+  await user.type(nameInput, " ");
+  expect(nameInput).toHaveAttribute("aria-invalid", "true");
+  expect(screen.getByText("Indiquez votre nom.")).toBeInTheDocument();
+
+  await user.type(nameInput, "Camille");
+  expect(nameInput).not.toHaveAttribute("aria-invalid");
+  expect(screen.queryByText("Indiquez votre nom.")).not.toBeInTheDocument();
+
+  await user.type(emailInput, "adresse-invalide");
+  expect(emailInput).toHaveAttribute("aria-invalid", "true");
+  expect(
+    screen.getByText("Indiquez un email professionnel valide."),
+  ).toBeInTheDocument();
+
+  await user.clear(emailInput);
+  await user.type(emailInput, "camille@clinique.fr");
+  expect(emailInput).not.toHaveAttribute("aria-invalid");
+  expect(
+    screen.queryByText("Indiquez un email professionnel valide."),
+  ).not.toBeInTheDocument();
 });
 
 test("shows the local-processing disclosure before collecting lead details", () => {
@@ -123,10 +217,12 @@ test("associates lead validation errors with inputs", async () => {
   expect(nameInput).toHaveAttribute("aria-invalid", "true");
   expect(emailInput).toHaveAttribute("aria-invalid", "true");
 
-  const nameErrorId = nameInput.getAttribute("aria-describedby");
-  const emailErrorId = emailInput.getAttribute("aria-describedby");
-  expect(document.getElementById(nameErrorId!)).toHaveTextContent("Indiquez votre nom.");
-  expect(document.getElementById(emailErrorId!)).toHaveTextContent(
+  const nameDescriptionIds = nameInput.getAttribute("aria-describedby")!.split(" ");
+  const emailDescriptionIds = emailInput.getAttribute("aria-describedby")!.split(" ");
+  expect(document.getElementById(nameDescriptionIds.at(-1)!)).toHaveTextContent(
+    "Indiquez votre nom.",
+  );
+  expect(document.getElementById(emailDescriptionIds.at(-1)!)).toHaveTextContent(
     "Indiquez un email professionnel valide.",
   );
 });

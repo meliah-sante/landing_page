@@ -35,10 +35,11 @@ const resultCards = [
 const inputClassName =
   "w-full rounded-xl border border-charcoal/50 bg-warm-white px-4 py-3 text-base text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-white";
 
+type ResultMode = "euros" | "heures";
 type ResultPeriod = (typeof resultCards)[number]["key"];
 
 function getPeriodValue(
-  mode: "euros" | "heures",
+  mode: ResultMode,
   loss: ReturnType<typeof calculateLoss>,
   period: ResultPeriod,
 ) {
@@ -59,11 +60,20 @@ function getPeriodValue(
   return formatHours(values[period]);
 }
 
+function getLiveSummary(
+  mode: ResultMode,
+  loss: ReturnType<typeof calculateLoss>,
+  staffCount: number,
+): string {
+  const staffLabel = `${staffCount} soignant${staffCount > 1 ? "s" : ""}`;
+  return `Pour ${staffLabel} : ${getPeriodValue(mode, loss, "daily")} par jour, ${getPeriodValue(mode, loss, "monthly")} par mois, ${getPeriodValue(mode, loss, "yearly")} par an.`;
+}
+
 function ResultCards({
   mode,
   loss,
 }: {
-  mode: "euros" | "heures";
+  mode: ResultMode;
   loss: ReturnType<typeof calculateLoss>;
 }) {
   return (
@@ -91,10 +101,7 @@ function DetailedBreakdown({
   staffCount: number;
 }) {
   return (
-    <div
-      role="status"
-      className="mt-6 rounded-2xl border border-coral/20 bg-coral/5 p-5 text-sm text-charcoal"
-    >
+    <div className="mt-6 rounded-2xl border border-coral/20 bg-coral/5 p-5 text-sm text-charcoal">
       <h3 className="font-semibold">Votre résultat détaillé</h3>
       <p className="mt-2 text-charcoal/80">
         Pour {staffCount} soignant{staffCount > 1 ? "s" : ""}, voici l&apos;ensemble
@@ -139,11 +146,13 @@ export function LossCalculator() {
   const nameErrorId = useId();
   const emailInputId = useId();
   const emailErrorId = useId();
+  const leadRequiredGuidanceId = useId();
 
   const [staffInput, setStaffInput] = useState("40");
   const [lastValidStaff, setLastValidStaff] = useState(40);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [resultMode, setResultMode] = useState<ResultMode>("euros");
   const [errors, setErrors] = useState<LeadErrors>({});
   const [detailedResultVisible, setDetailedResultVisible] = useState(false);
 
@@ -157,6 +166,26 @@ export function LossCalculator() {
     if (!validateStaffCount(rawValue)) {
       setLastValidStaff(Number.parseInt(rawValue.trim(), 10));
     }
+  };
+
+  const handleNameChange = (rawValue: string) => {
+    setName(rawValue);
+    setErrors((currentErrors) => {
+      if (!currentErrors.name || validateLead(rawValue, email).name) {
+        return currentErrors;
+      }
+      return { ...currentErrors, name: undefined };
+    });
+  };
+
+  const handleEmailChange = (rawValue: string) => {
+    setEmail(rawValue);
+    setErrors((currentErrors) => {
+      if (!currentErrors.email || validateLead(name, rawValue).email) {
+        return currentErrors;
+      }
+      return { ...currentErrors, email: undefined };
+    });
   };
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -198,7 +227,6 @@ export function LossCalculator() {
       {staffError ? (
         <p
           id={previewStatusId}
-          role="status"
           className="mb-4 rounded-xl border border-coral-accessible/25 bg-coral-soft px-4 py-3 text-sm font-medium text-charcoal"
         >
           Aperçu calculé pour le dernier effectif valide : {lastValidStaff} soignant
@@ -213,7 +241,10 @@ export function LossCalculator() {
           staffError && "opacity-60",
         )}
       >
-        <Tabs.Root defaultValue="euros">
+        <Tabs.Root
+          value={resultMode}
+          onValueChange={(value) => setResultMode(value as ResultMode)}
+        >
           <Tabs.List
             aria-label="Mode d'affichage des résultats"
             className="mb-6 inline-flex rounded-full border border-charcoal/10 bg-warm-white p-1"
@@ -247,6 +278,9 @@ export function LossCalculator() {
             <ResultCards mode="heures" loss={loss} />
           </Tabs.Content>
         </Tabs.Root>
+        <p role="status" aria-live="polite" aria-atomic="true" className="sr-only">
+          {getLiveSummary(resultMode, loss, lastValidStaff)}
+        </p>
       </div>
 
       <Accordion.Root type="single" collapsible className="mb-8">
@@ -274,6 +308,9 @@ export function LossCalculator() {
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
+        <p id={leadRequiredGuidanceId} className="text-sm font-medium text-charcoal/75">
+          Tous les champs ci-dessous sont obligatoires.
+        </p>
         <div>
           <label htmlFor={nameInputId} className="mb-2 block text-sm font-medium text-charcoal">
             Votre nom
@@ -282,9 +319,12 @@ export function LossCalculator() {
             id={nameInputId}
             type="text"
             value={name}
-            onChange={(event) => setName(event.target.value)}
+            onChange={(event) => handleNameChange(event.target.value)}
+            required
+            aria-required="true"
+            autoComplete="name"
             aria-invalid={errors.name ? true : undefined}
-            aria-describedby={errors.name ? nameErrorId : undefined}
+            aria-describedby={`${leadRequiredGuidanceId}${errors.name ? ` ${nameErrorId}` : ""}`}
             className={inputClassName}
           />
           {errors.name ? (
@@ -302,9 +342,12 @@ export function LossCalculator() {
             id={emailInputId}
             type="email"
             value={email}
-            onChange={(event) => setEmail(event.target.value)}
+            onChange={(event) => handleEmailChange(event.target.value)}
+            required
+            aria-required="true"
+            autoComplete="email"
             aria-invalid={errors.email ? true : undefined}
-            aria-describedby={errors.email ? emailErrorId : undefined}
+            aria-describedby={`${leadRequiredGuidanceId}${errors.email ? ` ${emailErrorId}` : ""}`}
             className={inputClassName}
           />
           {errors.email ? (

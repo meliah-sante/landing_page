@@ -31,8 +31,15 @@ test("offers a focus-visible skip link targeting the main content", () => {
 
   const skipLink = screen.getByRole("link", { name: "Aller au contenu principal" });
   expect(skipLink).toHaveAttribute("href", "#contenu-principal");
-  expect(skipLink.className).toMatch(/focus:not-sr-only/);
-  expect(screen.getByRole("main")).toHaveAttribute("id", "contenu-principal");
+  expect(skipLink.className.split(" ")).toContain("fixed");
+  expect(skipLink.className).toContain("-translate-y-[200%]");
+  expect(skipLink.className).toContain("focus:translate-y-0");
+  expect(skipLink.className).not.toContain("focus:not-sr-only");
+  expect(skipLink.className.split(" ")).not.toContain("sr-only");
+
+  const main = screen.getByRole("main");
+  expect(main).toHaveAttribute("id", "contenu-principal");
+  expect(main).toHaveAttribute("tabindex", "-1");
 });
 
 test("renders section landmarks in the approved order", () => {

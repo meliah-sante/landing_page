@@ -16,12 +16,12 @@ export default function App() {
     <>
       <a
         href="#contenu-principal"
-        className="sr-only fixed left-4 top-4 z-[100] rounded-full bg-charcoal px-5 py-3 font-semibold text-white focus:not-sr-only focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white"
+        className="fixed left-4 top-4 z-[100] -translate-y-[200%] rounded-full bg-charcoal px-5 py-3 font-semibold text-white transition-transform focus:translate-y-0 focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white motion-reduce:transition-none"
       >
         Aller au contenu principal
       </a>
       <SiteHeader />
-      <main id="contenu-principal">
+      <main id="contenu-principal" tabIndex={-1}>
         <Hero />
         <OriginSection />
         <RealitiesCarousel />

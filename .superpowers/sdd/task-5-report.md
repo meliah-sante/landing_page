@@ -281,3 +281,87 @@ Exit code 0
 ```
 
 No Bun, Vitest, ESLint, TypeScript, React, or Vite warnings were emitted.
+
+---
+
+## Final Accessibility Review
+
+### Findings Resolved
+
+- Controlled the calculator's Radix Tabs mode and added one polite, atomic,
+  screen-reader-only summary. Valid staff-count and mode changes now update one
+  concise daily/monthly/yearly announcement; the detailed result and stale-preview
+  text no longer create competing status announcements.
+- Marked both lead fields with native `required`, `aria-required`, and the appropriate
+  `autocomplete` token. Added visible shared French required-field guidance without
+  changing either approved label. A previously reported field error now clears as
+  soon as that field becomes valid and remains while its value is still invalid.
+- Kept the skip link fixed while hidden and revealed by focus using translation, so
+  focus does not move it into document flow. The main fragment target now has
+  `tabIndex={-1}`.
+- Retained the approved local typography stack and added no remote font resources.
+
+### Strict Test-First Evidence
+
+Before production changes:
+
+```text
+bun test src/App.test.tsx src/features/calculator/LossCalculator.test.tsx
+12 pass
+5 fail
+67 expect() calls
+Ran 17 tests across 2 files.
+Exit code 1
+```
+
+The five expected failures covered fixed skip-link focus positioning, the focusable
+main target, staff and mode live-summary updates, required-field semantics and
+guidance, autocomplete, and immediate per-field error clearing.
+
+After implementation:
+
+```text
+bun test src/App.test.tsx src/features/calculator/LossCalculator.test.tsx
+17 pass
+0 fail
+95 expect() calls
+Ran 17 tests across 2 files.
+Exit code 0
+```
+
+### Exact Final Command Evidence
+
+```text
+bun test
+53 pass
+0 fail
+333 expect() calls
+Ran 53 tests across 6 files.
+Exit code 0
+```
+
+```text
+bun run test
+Test Files  6 passed (6)
+Tests  53 passed (53)
+Exit code 0
+```
+
+```text
+bun run lint
+eslint .
+Exit code 0
+```
+
+```text
+bun run build
+tsc -b && vite build
+2332 modules transformed.
+dist/index.html                   0.96 kB │ gzip:   0.49 kB
+dist/assets/index-BsdZTTF9.css   57.24 kB │ gzip:   9.96 kB
+dist/assets/index-CPPD10Hy.js   446.93 kB │ gzip: 141.43 kB
+✓ built in 248ms
+Exit code 0
+```
+
+No Bun, Vitest, ESLint, TypeScript, React, or Vite warnings were emitted.
