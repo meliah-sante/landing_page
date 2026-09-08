@@ -116,7 +116,6 @@ export function RealitiesCarousel() {
   return (
     <section
       id="realites"
-      aria-labelledby="realities-carousel-title"
       aria-label="Carrousel des réalités"
       tabIndex={0}
       data-reduced-motion={prefersReducedMotion ? "true" : "false"}

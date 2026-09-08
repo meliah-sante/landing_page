@@ -14,12 +14,12 @@ const expectedSectionIds = [
 
 test("renders the primary navigation and page landmarks", () => {
   render(<App />);
-  expect(screen.getByRole("banner")).toBeInTheDocument();
+  const header = screen.getByRole("banner");
+  expect(header).toBeInTheDocument();
   expect(screen.getByRole("main")).toBeInTheDocument();
-  expect(screen.getByRole("link", { name: /réserver ma place pilote/i })).toHaveAttribute(
-    "href",
-    "#pilote",
-  );
+  expect(
+    within(header).getByRole("link", { name: /réserver ma place pilote/i }),
+  ).toHaveAttribute("href", "#pilote");
 });
 
 test("renders section landmarks in the approved order", () => {

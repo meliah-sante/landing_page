@@ -19,7 +19,7 @@ test("closes mobile navigation after selecting a link", async () => {
 
   await user.click(screen.getByRole("button", { name: /ouvrir le menu/i }));
   const dialog = screen.getByRole("dialog", { name: /navigation/i });
-  await user.click(within(dialog).getByRole("link", { name: /^calculatrice$/i }));
+  await user.click(within(dialog).getByRole("link", { name: /^calculer ma perte$/i }));
   expect(screen.queryByRole("dialog", { name: /navigation/i })).not.toBeInTheDocument();
 });
 
