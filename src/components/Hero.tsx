@@ -1,5 +1,5 @@
 import { ArrowDownRight, AudioWaveform, ShieldCheck } from "lucide-react";
-import { hero, PILOT_BOOKING_URL } from "../content/siteContent";
+import { hero, PILOT_REQUEST_URL } from "../content/siteContent";
 import { Reveal } from "./Reveal";
 
 const voiceBars = [22, 38, 58, 34, 70, 48, 82, 40, 64, 30, 50, 24];
@@ -34,9 +34,7 @@ export function Hero() {
               />
             </a>
             <a
-              href={PILOT_BOOKING_URL}
-              target="_blank"
-              rel="noopener noreferrer"
+              href={PILOT_REQUEST_URL}
               className="cta-secondary"
             >
               Réserver ma place pilote
@@ -50,6 +48,10 @@ export function Hero() {
             <img
               src="/assets/phone-aura.png"
               alt="Interface AURA sur le terminal d'un soignant"
+              width={500}
+              height={1008}
+              loading="eager"
+              fetchPriority="high"
               className="hero-phone"
             />
             <div className="hero-signal-card" aria-hidden="true">

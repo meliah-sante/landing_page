@@ -49,6 +49,10 @@ export function DailyFeatures() {
             <img
               src="/assets/phone-aura.png"
               alt="Interface AURA sur le terminal d'un soignant"
+              width={500}
+              height={1008}
+              loading="lazy"
+              fetchPriority="low"
               className="relative z-10 mx-auto h-auto w-[68%] max-w-[24rem] drop-shadow-[0_28px_40px_rgba(28,28,28,0.22)]"
             />
             <div className="phone-caption">

@@ -1,8 +1,8 @@
 import { render, screen, waitFor, within } from "@testing-library/react";
 import App from "../App";
 
-const PILOT_BOOKING_URL =
-  "https://calendly.com/gestelpilotes/etablissement/15min";
+const PILOT_REQUEST_URL =
+  "mailto:contact@meliahsante.fr?subject=Candidature%20%C3%A9tablissement%20pilote%20AURA";
 
 test("renders the complete AURA conversion journey", () => {
   render(<App />);
@@ -66,20 +66,29 @@ test("renders the inspected source copy and connects every conversion link", () 
 
   screen.getAllByRole("img", { name: /interface aura/i }).forEach((image) => {
     expect(image).toHaveAttribute("src", "/assets/phone-aura.png");
+    expect(image).toHaveAttribute("width", "500");
+    expect(image).toHaveAttribute("height", "1008");
   });
   const hero = document.getElementById("hero");
   expect(hero).not.toBeNull();
-  expect(within(hero!).getByRole("img", { name: /interface aura/i })).toHaveAttribute(
-    "src",
-    "/assets/phone-aura.png",
+  const heroArtwork = within(hero!).getByRole("img", { name: /interface aura/i });
+  expect(heroArtwork).toHaveAttribute("src", "/assets/phone-aura.png");
+  expect(heroArtwork).toHaveAttribute("loading", "eager");
+  expect(heroArtwork).toHaveAttribute("fetchpriority", "high");
+
+  const dailyArtwork = within(document.getElementById("fonctionnalites")!).getByRole(
+    "img",
+    { name: /interface aura/i },
   );
+  expect(dailyArtwork).toHaveAttribute("loading", "lazy");
+  expect(dailyArtwork).toHaveAttribute("fetchpriority", "low");
   screen.getAllByRole("link", { name: /calculer mes pertes/i }).forEach((link) => {
     expect(link).toHaveAttribute("href", "#calculatrice");
   });
   screen.getAllByRole("link", { name: /réserver ma place pilote/i }).forEach((link) => {
-    expect(link).toHaveAttribute("href", PILOT_BOOKING_URL);
-    expect(link).toHaveAttribute("target", "_blank");
-    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+    expect(link).toHaveAttribute("href", PILOT_REQUEST_URL);
+    expect(link).not.toHaveAttribute("target");
+    expect(link).not.toHaveAttribute("rel");
   });
 });
 

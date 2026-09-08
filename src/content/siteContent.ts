@@ -23,8 +23,8 @@ export type Stat = {
   description: string;
 };
 
-export const PILOT_BOOKING_URL =
-  "https://calendly.com/gestelpilotes/etablissement/15min";
+export const PILOT_REQUEST_URL =
+  "mailto:contact@meliahsante.fr?subject=Candidature%20%C3%A9tablissement%20pilote%20AURA";
 
 export const navigation: readonly NavigationItem[] = [
   { href: "#origine", label: "À l'origine" },

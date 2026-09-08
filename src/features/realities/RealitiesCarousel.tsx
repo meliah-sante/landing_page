@@ -32,34 +32,13 @@ function usePrefersReducedMotion(): boolean {
   return prefersReducedMotion;
 }
 
-type SlidePosition = "previous" | "current" | "next";
+type SlidePosition = "before" | "previous" | "current" | "next" | "after";
 
-function getVisibleSlides(currentIndex: number) {
-  const slides: Array<{ reality: (typeof REALITIES)[number]; index: number; position: SlidePosition }> = [];
-
-  if (currentIndex > 0) {
-    slides.push({
-      reality: REALITIES[currentIndex - 1],
-      index: currentIndex - 1,
-      position: "previous",
-    });
-  }
-
-  slides.push({
-    reality: REALITIES[currentIndex],
-    index: currentIndex,
-    position: "current",
-  });
-
-  if (currentIndex < TOTAL_REALITIES - 1) {
-    slides.push({
-      reality: REALITIES[currentIndex + 1],
-      index: currentIndex + 1,
-      position: "next",
-    });
-  }
-
-  return slides;
+function getSlidePosition(index: number, currentIndex: number): SlidePosition {
+  if (index === currentIndex) return "current";
+  if (index === currentIndex - 1) return "previous";
+  if (index === currentIndex + 1) return "next";
+  return index < currentIndex ? "before" : "after";
 }
 
 export function RealitiesCarousel() {
@@ -110,7 +89,6 @@ export function RealitiesCarousel() {
     }
   };
 
-  const visibleSlides = getVisibleSlides(currentIndex);
   const currentReality = REALITIES[currentIndex];
 
   return (
@@ -137,73 +115,88 @@ export function RealitiesCarousel() {
 
         <div className="mt-12 rounded-[2rem] border border-charcoal/10 bg-white/70 p-4 shadow-soft sm:p-6">
           <div className="mb-6 flex items-center justify-between gap-4">
-          <Button
-            type="button"
-            variant="secondary"
-            aria-label="Réalité précédente"
-            className="h-11 w-11 shrink-0 rounded-full px-0"
-            onClick={goToPrevious}
-            disabled={currentIndex === 0}
-          >
-            <ChevronLeft className="h-5 w-5" aria-hidden="true" />
-          </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              aria-label="Réalité précédente"
+              className="h-11 w-11 shrink-0 rounded-full px-0"
+              onClick={goToPrevious}
+              disabled={currentIndex === 0}
+            >
+              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+            </Button>
 
-          <div
-            aria-live="polite"
-            aria-atomic="true"
-            className="min-w-[5.5rem] text-center"
-          >
-            <p className="text-sm font-semibold tracking-[0.2em] text-charcoal/70">
-              {formatProgress(currentIndex)}
-            </p>
-            <p className="sr-only">
-              {currentReality.title}. {currentReality.description}
-            </p>
-          </div>
+            <div
+              aria-live="polite"
+              aria-atomic="true"
+              className="min-w-[5.5rem] text-center"
+            >
+              <p className="text-sm font-semibold tracking-[0.2em] text-charcoal/70">
+                {formatProgress(currentIndex)}
+              </p>
+              <p className="sr-only">
+                {currentReality.title}. {currentReality.description}
+              </p>
+            </div>
 
-          <Button
-            type="button"
-            variant="secondary"
-            aria-label="Réalité suivante"
-            className="h-11 w-11 shrink-0 rounded-full px-0"
-            onClick={goToNext}
-            disabled={currentIndex === TOTAL_REALITIES - 1}
-          >
-            <ChevronRight className="h-5 w-5" aria-hidden="true" />
-          </Button>
+            <Button
+              type="button"
+              variant="secondary"
+              aria-label="Réalité suivante"
+              className="h-11 w-11 shrink-0 rounded-full px-0"
+              onClick={goToNext}
+              disabled={currentIndex === TOTAL_REALITIES - 1}
+            >
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </Button>
           </div>
 
           <div className="relative min-h-[14rem] overflow-hidden md:min-h-[18rem]">
-            <div className="flex items-stretch justify-center gap-4">
-              {visibleSlides.map(({ reality, position }) => (
-                <article
-                  key={reality.number}
-                  data-reality-key={reality.number}
-                  data-slide-position={position}
-                  aria-hidden={position !== "current"}
-                  className={cn(
-                    "overflow-hidden rounded-2xl border border-charcoal/10 bg-warm-white text-left shadow-sm",
-                    !prefersReducedMotion &&
-                      "transition-[transform,opacity] duration-300 ease-out",
-                    position === "current" &&
-                      "z-10 w-full max-w-2xl translate-x-0 scale-100 p-6 opacity-100",
-                    position === "previous" &&
-                      "pointer-events-none w-0 max-w-xs -translate-x-4 scale-95 p-0 opacity-0 md:w-1/4 md:p-6 md:opacity-60",
-                    position === "next" &&
-                      "pointer-events-none w-0 max-w-xs translate-x-4 scale-95 p-0 opacity-0 md:w-1/4 md:p-6 md:opacity-60",
-                  )}
-                >
-                  <p className="mb-3 text-sm font-semibold tracking-[0.25em] text-coral-accessible">{reality.number}</p>
-                  {position === "current" ? (
-                    <>
-                      <h3 className="mb-3 text-xl font-semibold text-charcoal sm:text-2xl">{reality.title}</h3>
-                      <p className="text-base leading-relaxed text-charcoal/75">{reality.description}</p>
-                    </>
-                  ) : (
-                    <p className="line-clamp-6 text-base leading-relaxed text-charcoal/75">{reality.description}</p>
-                  )}
-                </article>
-              ))}
+            <div className="flex items-stretch justify-center">
+              {REALITIES.map((reality, index) => {
+                const position = getSlidePosition(index, currentIndex);
+                return (
+                  <article
+                    key={reality.number}
+                    data-reality-key={reality.number}
+                    data-slide-position={position}
+                    aria-hidden={position !== "current"}
+                    className={cn(
+                      "shrink-0 overflow-hidden rounded-2xl border border-charcoal/10 bg-warm-white text-left shadow-sm",
+                      !prefersReducedMotion &&
+                        "transition-[transform,opacity] duration-300 ease-out",
+                      position === "current" &&
+                        "z-10 mx-2 w-full max-w-2xl translate-x-0 scale-100 p-6 opacity-100",
+                      position === "previous" &&
+                        "pointer-events-none w-0 max-w-xs -translate-x-4 scale-95 p-0 opacity-0 md:mr-2 md:w-1/4 md:p-6 md:opacity-60",
+                      position === "next" &&
+                        "pointer-events-none w-0 max-w-xs translate-x-4 scale-95 p-0 opacity-0 md:ml-2 md:w-1/4 md:p-6 md:opacity-60",
+                      position === "before" &&
+                        "pointer-events-none w-0 -translate-x-4 scale-95 p-0 opacity-0",
+                      position === "after" &&
+                        "pointer-events-none w-0 translate-x-4 scale-95 p-0 opacity-0",
+                    )}
+                  >
+                    <p className="mb-3 text-sm font-semibold tracking-[0.25em] text-coral-accessible">
+                      {reality.number}
+                    </p>
+                    {position === "current" ? (
+                      <>
+                        <h3 className="mb-3 text-xl font-semibold text-charcoal sm:text-2xl">
+                          {reality.title}
+                        </h3>
+                        <p className="text-base leading-relaxed text-charcoal/75">
+                          {reality.description}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="line-clamp-6 text-base leading-relaxed text-charcoal/75">
+                        {reality.description}
+                      </p>
+                    )}
+                  </article>
+                );
+              })}
             </div>
           </div>
 

@@ -2,8 +2,8 @@ import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { SiteHeader } from "./SiteHeader";
 
-const PILOT_BOOKING_URL =
-  "https://calendly.com/gestelpilotes/etablissement/15min";
+const PILOT_REQUEST_URL =
+  "mailto:contact@meliahsante.fr?subject=Candidature%20%C3%A9tablissement%20pilote%20AURA";
 
 test("opens and closes mobile navigation", async () => {
   const user = userEvent.setup();
@@ -32,9 +32,10 @@ test("keeps the pilot CTA visible outside the mobile menu with exact copy", () =
   const pilotLink = within(header).getByRole("link", {
     name: /^réserver ma place pilote$/i,
   });
-  expect(pilotLink).toHaveAttribute("href", PILOT_BOOKING_URL);
-  expect(pilotLink).toHaveAttribute("target", "_blank");
-  expect(pilotLink).toHaveAttribute("rel", "noopener noreferrer");
+  expect(pilotLink).toHaveAttribute("href", PILOT_REQUEST_URL);
+  expect(pilotLink).not.toHaveAttribute("target");
+  expect(pilotLink).not.toHaveAttribute("rel");
+  expect(pilotLink.className).toMatch(/\bmin-h-11\b/);
 });
 
 test("exposes the selected language to assistive technology", () => {
@@ -99,7 +100,26 @@ test("constrains and scrolls the mobile dialog within the dynamic viewport", asy
   const pilotLink = within(dialog).getByRole("link", {
     name: /^réserver ma place pilote$/i,
   });
-  expect(pilotLink).toHaveAttribute("href", PILOT_BOOKING_URL);
-  expect(pilotLink).toHaveAttribute("target", "_blank");
-  expect(pilotLink).toHaveAttribute("rel", "noopener noreferrer");
+  expect(pilotLink).toHaveAttribute("href", PILOT_REQUEST_URL);
+  expect(pilotLink).not.toHaveAttribute("target");
+  expect(pilotLink).not.toHaveAttribute("rel");
+});
+
+test("provides 44px mobile menu and navigation controls", async () => {
+  const user = userEvent.setup();
+  render(<SiteHeader />);
+
+  const menuButton = screen.getByRole("button", { name: /ouvrir le menu/i });
+  expect(menuButton.className).toMatch(/\bh-11\b/);
+  expect(menuButton.className).toMatch(/\bw-11\b/);
+
+  await user.click(menuButton);
+  const dialog = screen.getByRole("dialog", { name: /navigation/i });
+  const closeButton = within(dialog).getByRole("button", { name: /fermer le menu/i });
+  expect(closeButton.className).toMatch(/\bh-11\b/);
+  expect(closeButton.className).toMatch(/\bw-11\b/);
+
+  within(dialog)
+    .getAllByRole("link")
+    .forEach((link) => expect(link.className).toMatch(/\bmin-h-11\b/));
 });

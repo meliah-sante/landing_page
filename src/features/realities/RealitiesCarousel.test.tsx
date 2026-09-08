@@ -182,12 +182,12 @@ test("shows adjacent slide previews on wider viewports", () => {
   const region = screen.getByRole("region", { name: /carrousel des réalités/i });
   const slides = within(region).getAllByRole("article", { hidden: true });
 
-  expect(slides.length).toBeGreaterThan(1);
+  expect(slides).toHaveLength(7);
   expect(slides.some((slide) => slide.getAttribute("data-slide-position") === "current")).toBe(true);
   expect(slides.some((slide) => slide.getAttribute("data-slide-position") === "next")).toBe(true);
 });
 
-test("keeps stable reality nodes while visibly changing slide position", async () => {
+test("keeps all reality nodes mounted and stable through a non-adjacent dot jump", async () => {
   Object.defineProperty(window, "matchMedia", {
     configurable: true,
     writable: true,
@@ -206,24 +206,26 @@ test("keeps stable reality nodes while visibly changing slide position", async (
   const user = userEvent.setup();
   render(<RealitiesCarousel />);
 
-  const secondReality = document.querySelector<HTMLElement>(
-    '[data-reality-key="02"]',
+  const fourthReality = document.querySelector<HTMLElement>(
+    '[data-reality-key="04"]',
   );
-  expect(secondReality).not.toBeNull();
-  expect(secondReality).toHaveAttribute("data-slide-position", "next");
-  expect(secondReality?.className).toMatch(/translate-x-4/);
-  expect(secondReality?.className).toMatch(/opacity-60/);
+  expect(document.querySelectorAll("[data-reality-key]")).toHaveLength(7);
+  expect(fourthReality).not.toBeNull();
+  expect(fourthReality).toHaveAttribute("data-slide-position", "after");
+  expect(fourthReality?.className).toMatch(/translate-x-4/);
+  expect(fourthReality?.className).toMatch(/opacity-0/);
 
-  await user.click(screen.getByRole("button", { name: /réalité suivante/i }));
+  await user.click(screen.getByRole("button", { name: /réalité 4 sur 7/i }));
 
   const movedReality = document.querySelector<HTMLElement>(
-    '[data-reality-key="02"]',
+    '[data-reality-key="04"]',
   );
-  expect(movedReality).toBe(secondReality);
+  expect(movedReality).toBe(fourthReality);
   expect(movedReality).toHaveAttribute("data-slide-position", "current");
   expect(movedReality?.className).toMatch(/translate-x-0/);
   expect(movedReality?.className).toMatch(/opacity-100/);
   expect(movedReality?.className).toMatch(/transition-\[transform,opacity\]/);
+  expect(document.querySelectorAll("[data-reality-key]")).toHaveLength(7);
 });
 
 test("respects reduced motion preferences for slide transitions", () => {

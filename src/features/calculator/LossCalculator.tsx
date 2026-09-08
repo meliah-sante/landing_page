@@ -268,6 +268,11 @@ export function LossCalculator() {
         </Accordion.Item>
       </Accordion.Root>
 
+      <p className="mb-5 rounded-xl border border-charcoal/10 bg-warm-white px-4 py-3 text-sm font-medium leading-6 text-charcoal/80">
+        Vos données sont traitées localement dans votre navigateur. Elles ne sont ni
+        envoyées ni enregistrées.
+      </p>
+
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
         <div>
           <label htmlFor={nameInputId} className="mb-2 block text-sm font-medium text-charcoal">

@@ -43,6 +43,19 @@ test("reveals the detailed result only after valid local submission", async () =
   );
 });
 
+test("shows the local-processing disclosure before collecting lead details", () => {
+  render(<LossCalculator />);
+
+  const disclosure = screen.getByText(
+    "Vos données sont traitées localement dans votre navigateur. Elles ne sont ni envoyées ni enregistrées.",
+  );
+  const nameInput = screen.getByRole("textbox", { name: "Votre nom" });
+
+  expect(disclosure.compareDocumentPosition(nameInput)).toBe(
+    Node.DOCUMENT_POSITION_FOLLOWING,
+  );
+});
+
 test("hides detailed results and labels stale previews when staff input becomes invalid", async () => {
   const user = userEvent.setup();
   render(<LossCalculator />);

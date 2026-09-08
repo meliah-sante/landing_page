@@ -2,7 +2,7 @@ import * as Dialog from "@radix-ui/react-dialog";
 import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navLinks } from "../content/navLinks";
-import { PILOT_BOOKING_URL } from "../content/siteContent";
+import { PILOT_REQUEST_URL } from "../content/siteContent";
 import { cn } from "../lib/cn";
 import { Button } from "./ui/Button";
 
@@ -75,13 +75,11 @@ export function SiteHeader() {
           </span>
 
           <a
-            href={PILOT_BOOKING_URL}
-            target="_blank"
-            rel="noopener noreferrer"
+            href={PILOT_REQUEST_URL}
             className={cn(
-              "inline-flex items-center font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white",
+              "inline-flex min-h-11 items-center font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white",
               "rounded-full bg-coral-accessible px-3 py-2 text-[0.7rem] leading-tight text-white hover:bg-coral-accessible-dark sm:px-4 sm:text-sm",
-              "lg:rounded-none lg:bg-transparent lg:px-0 lg:py-0 lg:text-sm lg:text-coral-accessible lg:hover:text-coral-accessible-dark",
+              "lg:min-h-0 lg:rounded-none lg:bg-transparent lg:px-0 lg:py-0 lg:text-sm lg:text-coral-accessible lg:hover:text-coral-accessible-dark",
             )}
           >
             Réserver ma place pilote
@@ -90,7 +88,7 @@ export function SiteHeader() {
           <Dialog.Root open={menuOpen} onOpenChange={setMenuOpen}>
             <Dialog.Trigger asChild>
               <Button
-                className="lg:hidden"
+                className="h-11 w-11 px-0 lg:hidden"
                 variant="secondary"
                 aria-label="Ouvrir le menu"
               >
@@ -119,7 +117,11 @@ export function SiteHeader() {
                     Navigation
                   </Dialog.Title>
                   <Dialog.Close asChild>
-                    <Button variant="ghost" aria-label="Fermer le menu" className="px-3 py-2">
+                    <Button
+                      variant="ghost"
+                      aria-label="Fermer le menu"
+                      className="h-11 w-11 px-0"
+                    >
                       <X className="h-4 w-4" aria-hidden="true" />
                     </Button>
                   </Dialog.Close>
@@ -130,7 +132,7 @@ export function SiteHeader() {
                     <Dialog.Close asChild key={link.href}>
                       <a
                         href={link.href}
-                        className="rounded-lg px-3 py-3 text-base font-medium text-charcoal/80 transition-colors hover:bg-charcoal/5 hover:text-coral-accessible focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible"
+                        className="flex min-h-11 items-center rounded-lg px-3 py-3 text-base font-medium text-charcoal/80 transition-colors hover:bg-charcoal/5 hover:text-coral-accessible focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible"
                       >
                         {link.label}
                       </a>
@@ -140,10 +142,8 @@ export function SiteHeader() {
 
                 <Dialog.Close asChild>
                   <a
-                    href={PILOT_BOOKING_URL}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-coral-accessible px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-coral-accessible-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2"
+                    href={PILOT_REQUEST_URL}
+                    className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-coral-accessible px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-coral-accessible-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2"
                   >
                     Réserver ma place pilote
                   </a>

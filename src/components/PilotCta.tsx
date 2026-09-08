@@ -1,5 +1,5 @@
 import { ArrowUpRight, Clock3, Quote } from "lucide-react";
-import { pilot, PILOT_BOOKING_URL, testimonial } from "../content/siteContent";
+import { pilot, PILOT_REQUEST_URL, testimonial } from "../content/siteContent";
 import { Reveal } from "./Reveal";
 
 export function PilotCta() {
@@ -39,9 +39,7 @@ export function PilotCta() {
             <p className="mt-7 max-w-2xl text-lg leading-8 text-white/65">{pilot.body}</p>
             <div className="mt-9 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
               <a
-                href={PILOT_BOOKING_URL}
-                target="_blank"
-                rel="noopener noreferrer"
+                href={PILOT_REQUEST_URL}
                 className="cta-primary"
               >
                 {pilot.cta}

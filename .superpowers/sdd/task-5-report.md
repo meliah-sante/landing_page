@@ -182,4 +182,102 @@ No test, React, lint, TypeScript, or Vite warnings were emitted.
 
 ### Remaining Concern
 
-- Browser-level visual review remains assigned to the controller; no screenshots were attempted.
+- At the close of that review wave, browser-level visual review remained assigned to
+  the controller; the controller evidence completed afterward is appended below.
+
+---
+
+## Remaining Safe Final-Review Fixes
+
+### Controller Manual QA Evidence
+
+The controller completed browser QA against the development server at the verified
+address `http://localhost:5173/`.
+
+- Desktop viewport: `1440×900`
+- Mobile viewport: `390×844`
+- No horizontal overflow or broken assets were observed.
+- Desktop and mobile navigation, mobile menu, carousel arrows/keyboard/swipe/dots,
+  calculator tabs, methodology reveal, validation, and detailed-result interactions
+  all passed.
+- Screenshots:
+  - `/tmp/computer-use/99170.webp`
+  - `/tmp/computer-use/29b9b.webp`
+  - `/tmp/computer-use/f3e29.webp`
+- Verified walkthrough recording:
+  `/opt/cursor/artifacts/aura_navigation_carousel_calculator_walkthrough.mp4`
+
+This evidence is dev-server browser QA. The controller will run the production preview
+after this commit.
+
+### Scope Decision
+
+The explicit encoded mail requests for legal notices and the privacy policy remain in
+place. No approved legal content or URLs were supplied, and the reference uses inert
+`#` links, so preserving the actionable mail requests is the intentional safe scope
+decision rather than a code defect. No legal or privacy text or URL was fabricated.
+
+### Test-First Evidence
+
+Before implementation:
+
+```text
+bun test src/App.test.tsx src/components/MarketingSections.test.tsx src/components/SiteHeader.test.tsx src/features/calculator/LossCalculator.test.tsx src/features/realities/RealitiesCarousel.test.tsx
+33 pass
+10 fail
+225 expect() calls
+Ran 43 tests across 5 files.
+Exit code 1
+```
+
+The failures covered the pilot mail destination, skip link/main target, metadata,
+mobile control sizing, image loading dimensions and priority, pre-lead local-processing
+disclosure, and seven-node carousel mounting.
+
+After implementation:
+
+```text
+bun test src/App.test.tsx src/components/MarketingSections.test.tsx src/components/SiteHeader.test.tsx src/features/calculator/LossCalculator.test.tsx src/features/realities/RealitiesCarousel.test.tsx
+43 pass
+0 fail
+288 expect() calls
+Ran 43 tests across 5 files.
+Exit code 0
+```
+
+### Exact Final Command Evidence
+
+```text
+bun test
+49 pass
+0 fail
+302 expect() calls
+Ran 49 tests across 6 files.
+Exit code 0
+```
+
+```text
+bun run test
+Test Files  6 passed (6)
+Tests  49 passed (49)
+Exit code 0
+```
+
+```text
+bun run lint
+eslint .
+Exit code 0
+```
+
+```text
+bun run build
+tsc -b && vite build
+2332 modules transformed.
+dist/index.html                   0.96 kB │ gzip:   0.49 kB
+dist/assets/index-Db4HJqVD.css   57.03 kB │ gzip:   9.92 kB
+dist/assets/index--L05u9_o.js   446.17 kB │ gzip: 141.19 kB
+✓ built in 250ms
+Exit code 0
+```
+
+No Bun, Vitest, ESLint, TypeScript, React, or Vite warnings were emitted.
