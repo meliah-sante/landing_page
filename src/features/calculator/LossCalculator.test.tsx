@@ -10,6 +10,18 @@ test("switches between euro and hour results", async () => {
   expect(screen.getByText(/13 h 20/i)).toBeInTheDocument();
 });
 
+test("uses an accessible unfocused boundary on every form input", () => {
+  render(<LossCalculator />);
+
+  [
+    screen.getByRole("spinbutton", { name: "Nombre de soignants" }),
+    screen.getByRole("textbox", { name: "Votre nom" }),
+    screen.getByRole("textbox", { name: "Email professionnel" }),
+  ].forEach((input) => {
+    expect(input.className.split(" ")).toContain("border-charcoal/50");
+  });
+});
+
 test("reveals the detailed result only after valid local submission", async () => {
   const user = userEvent.setup();
   render(<LossCalculator />);

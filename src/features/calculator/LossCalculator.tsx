@@ -31,6 +31,9 @@ const resultCards = [
   { key: "yearly", label: "Par an" },
 ] as const;
 
+const inputClassName =
+  "w-full rounded-xl border border-charcoal/50 bg-warm-white px-4 py-3 text-base text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-white";
+
 type ResultPeriod = (typeof resultCards)[number]["key"];
 
 function ResultCards({
@@ -126,7 +129,7 @@ export function LossCalculator() {
           onChange={(event) => handleStaffChange(event.target.value)}
           aria-invalid={staffError ? true : undefined}
           aria-describedby={staffError ? staffErrorId : undefined}
-          className="w-full max-w-xs rounded-xl border border-charcoal/15 bg-warm-white px-4 py-3 text-base text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+          className={cn(inputClassName, "max-w-xs")}
         />
         {staffError ? (
           <p id={staffErrorId} className="mt-2 text-sm text-coral-accessible" role="alert">
@@ -201,7 +204,7 @@ export function LossCalculator() {
             onChange={(event) => setName(event.target.value)}
             aria-invalid={errors.name ? true : undefined}
             aria-describedby={errors.name ? nameErrorId : undefined}
-            className="w-full rounded-xl border border-charcoal/15 bg-warm-white px-4 py-3 text-base text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            className={inputClassName}
           />
           {errors.name ? (
             <p id={nameErrorId} className="mt-2 text-sm text-coral-accessible" role="alert">
@@ -221,7 +224,7 @@ export function LossCalculator() {
             onChange={(event) => setEmail(event.target.value)}
             aria-invalid={errors.email ? true : undefined}
             aria-describedby={errors.email ? emailErrorId : undefined}
-            className="w-full rounded-xl border border-charcoal/15 bg-warm-white px-4 py-3 text-base text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-white"
+            className={inputClassName}
           />
           {errors.email ? (
             <p id={emailErrorId} className="mt-2 text-sm text-coral-accessible" role="alert">
