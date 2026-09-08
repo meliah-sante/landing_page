@@ -32,7 +32,7 @@ export function PilotCta() {
             <span />
           </div>
           <div className="relative z-10 max-w-4xl">
-            <p className="eyebrow eyebrow-on-dark">PROGRAMME PILOTE</p>
+            <div className="h-1 w-16 rounded-full bg-coral" aria-hidden="true" />
             <h2 id="pilot-title" className="mt-6 text-4xl font-semibold tracking-[-0.045em] text-white sm:text-6xl lg:text-7xl">
               {pilot.heading}
             </h2>

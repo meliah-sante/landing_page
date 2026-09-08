@@ -116,10 +116,12 @@ export function RealitiesCarousel() {
   return (
     <section
       id="realites"
+      role="region"
       aria-label="Carrousel des réalités"
+      aria-roledescription="carrousel"
       tabIndex={0}
       data-reduced-motion={prefersReducedMotion ? "true" : "false"}
-      className="section-pad bg-warm-white outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-coral/50"
+      className="section-pad bg-warm-white outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-coral-accessible"
       onKeyDown={handleKeyDown}
       onTouchStart={(event) => handleTouchStart(event.touches[0]?.clientX ?? 0)}
       onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
@@ -133,10 +135,7 @@ export function RealitiesCarousel() {
           <p className="text-lg text-charcoal/70">{realitiesIntro.subheading}</p>
         </div>
 
-        <div
-          aria-roledescription="carrousel"
-          className="mt-12 rounded-[2rem] border border-charcoal/10 bg-white/70 p-4 shadow-soft sm:p-6"
-        >
+        <div className="mt-12 rounded-[2rem] border border-charcoal/10 bg-white/70 p-4 shadow-soft sm:p-6">
           <div className="mb-6 flex items-center justify-between gap-4">
           <Button
             type="button"
@@ -217,7 +216,7 @@ export function RealitiesCarousel() {
                 type="button"
                 aria-label={`Réalité ${index + 1} sur ${TOTAL_REALITIES}`}
                 aria-current={index === currentIndex ? "true" : undefined}
-                className="inline-flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white"
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white"
                 onClick={() => goToIndex(index)}
               >
                 <span
@@ -225,7 +224,9 @@ export function RealitiesCarousel() {
                   aria-hidden="true"
                   className={cn(
                     "h-3 w-3 rounded-full transition-colors",
-                    index === currentIndex ? "bg-coral" : "bg-charcoal/20 hover:bg-charcoal/35",
+                    index === currentIndex
+                      ? "bg-coral-accessible"
+                      : "bg-charcoal/50 hover:bg-charcoal/70",
                   )}
                 />
               </button>

@@ -17,6 +17,18 @@ test("renders the complete AURA conversion journey", () => {
   ).toBeInTheDocument();
 });
 
+test("does not render copy outside the inspected source", () => {
+  render(<App />);
+
+  [
+    "AURA ÉCOUTE",
+    "Transmission structurée et sécurisée",
+    "PROGRAMME PILOTE",
+  ].forEach((unapprovedCopy) => {
+    expect(screen.queryByText(unapprovedCopy, { exact: true }) === null).toBe(true);
+  });
+});
+
 test("renders the inspected source copy and connects every conversion link", () => {
   render(<App />);
 

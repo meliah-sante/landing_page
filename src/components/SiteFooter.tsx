@@ -9,7 +9,7 @@ export function SiteFooter() {
           <div>
             <a
               href="#hero"
-              className="inline-flex rounded-md focus-visible:ring-2 focus-visible:ring-coral/60 focus-visible:ring-offset-4 focus-visible:ring-offset-charcoal"
+              className="inline-flex rounded-md focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-4 focus-visible:ring-offset-charcoal"
             >
               <img
                 src="/assets/meliah-logo.png"
@@ -34,7 +34,7 @@ export function SiteFooter() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="rounded-sm transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-coral/60 motion-reduce:transition-none"
+                    className="rounded-sm transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-coral motion-reduce:transition-none"
                   >
                     {link.label}
                   </a>

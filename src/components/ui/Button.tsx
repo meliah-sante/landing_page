@@ -7,10 +7,10 @@ type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement> & {
 
 const variantStyles: Record<NonNullable<ButtonProps["variant"]>, string> = {
   primary:
-    "bg-coral-accessible text-white hover:bg-coral-accessible-dark focus-visible:ring-coral/50 shadow-sm",
+    "bg-coral-accessible text-white hover:bg-coral-accessible-dark focus-visible:ring-coral-accessible shadow-sm",
   secondary:
-    "border border-charcoal/15 bg-white text-charcoal hover:bg-warm-white focus-visible:ring-charcoal/20",
-  ghost: "text-charcoal hover:bg-charcoal/5 focus-visible:ring-charcoal/20",
+    "border border-charcoal/15 bg-white text-charcoal hover:bg-warm-white focus-visible:ring-charcoal",
+  ghost: "text-charcoal hover:bg-charcoal/5 focus-visible:ring-charcoal",
 };
 
 export function Button({

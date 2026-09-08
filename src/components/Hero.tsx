@@ -43,9 +43,13 @@ export function Hero() {
         <Reveal delay={0.12} className="relative mx-auto w-full max-w-[30rem]">
           <div className="hero-visual" aria-hidden="true">
             <div className="hero-signal-card">
-              <div className="flex items-center gap-2 text-coral-accessible">
-                <AudioWaveform className="h-5 w-5" />
-                <span className="text-xs font-bold tracking-[0.22em]">AURA ÉCOUTE</span>
+              <div className="flex items-center justify-between text-coral-accessible">
+                <span className="grid h-10 w-10 place-items-center rounded-full bg-coral-soft">
+                  <AudioWaveform className="h-5 w-5" />
+                </span>
+                <span className="grid h-10 w-10 place-items-center rounded-full border border-charcoal/10 bg-white">
+                  <ShieldCheck className="h-4 w-4" />
+                </span>
               </div>
               <div className="mt-5 flex h-16 items-center gap-1.5">
                 {voiceBars.map((height, index) => (
@@ -56,9 +60,9 @@ export function Hero() {
                   />
                 ))}
               </div>
-              <div className="mt-5 flex items-center gap-2 text-xs font-medium text-charcoal/70">
-                <ShieldCheck className="h-4 w-4 text-coral-accessible" />
-                Transmission structurée et sécurisée
+              <div className="mt-6 space-y-2 border-t border-charcoal/10 pt-5">
+                <span className="block h-2 w-4/5 rounded-full bg-charcoal/10" />
+                <span className="block h-2 w-3/5 rounded-full bg-coral/20" />
               </div>
             </div>
             <div className="hero-ring hero-ring-one" />

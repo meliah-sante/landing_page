@@ -67,6 +67,15 @@ test("moves through realities and announces progress", async () => {
   expect(screen.getByText("01 / 07")).toBeInTheDocument();
 });
 
+test("applies the carousel role description to its explicit named region", () => {
+  render(<RealitiesCarousel />);
+
+  const region = screen.getByRole("region", { name: "Carrousel des réalités" });
+  expect(region.getAttribute("role")).toBe("region");
+  expect(region.getAttribute("aria-roledescription")).toBe("carrousel");
+  expect(document.querySelectorAll("[aria-roledescription]")).toHaveLength(1);
+});
+
 test("ignores arrow keys when the carousel is not focused", async () => {
   const user = userEvent.setup();
   render(

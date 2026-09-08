@@ -82,7 +82,7 @@
   .cta-primary,
   .cta-secondary,
   .cta-dark {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-coral/60 focus-visible:ring-offset-2 motion-reduce:transition-none;
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 motion-reduce:transition-none;
   }
 
   .cta-primary {
@@ -90,11 +90,11 @@
   }
 
   .cta-secondary {
-    @apply border border-charcoal/15 bg-white/60 text-charcoal hover:border-charcoal/30 hover:bg-white focus-visible:ring-offset-warm-white;
+    @apply border border-charcoal/15 bg-white/60 text-charcoal hover:border-charcoal/30 hover:bg-white focus-visible:ring-coral-accessible focus-visible:ring-offset-warm-white;
   }
 
   .cta-dark {
-    @apply bg-charcoal text-white hover:-translate-y-0.5 hover:bg-charcoal/90 focus-visible:ring-offset-coral-soft motion-reduce:hover:translate-y-0;
+    @apply bg-charcoal text-white hover:-translate-y-0.5 hover:bg-charcoal/90 focus-visible:ring-coral-accessible focus-visible:ring-offset-coral-soft motion-reduce:hover:translate-y-0;
   }
 
   .hero-orb {
