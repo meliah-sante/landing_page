@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
 import { Button } from "../../components/ui/Button";
 import { cn } from "../../lib/cn";
 import { REALITIES } from "./realities";
@@ -79,21 +79,14 @@ export function RealitiesCarousel() {
     goToIndex(currentIndex + 1);
   }, [currentIndex, goToIndex]);
 
-  useEffect(() => {
-    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        goToPrevious();
-      }
-      if (event.key === "ArrowRight") {
-        event.preventDefault();
-        goToNext();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [goToNext, goToPrevious]);
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "ArrowLeft") {
+      goToPrevious();
+    }
+    if (event.key === "ArrowRight") {
+      goToNext();
+    }
+  };
 
   const handleTouchStart = (clientX: number) => {
     touchStartX.current = clientX;
@@ -136,6 +129,7 @@ export function RealitiesCarousel() {
         tabIndex={0}
         data-reduced-motion={prefersReducedMotion ? "true" : "false"}
         className="rounded-3xl border border-charcoal/10 bg-white/70 p-4 shadow-soft outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white sm:p-6"
+        onKeyDown={handleKeyDown}
         onTouchStart={(event) => handleTouchStart(event.touches[0]?.clientX ?? 0)}
         onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
       >
@@ -151,9 +145,18 @@ export function RealitiesCarousel() {
             <ChevronLeft className="h-5 w-5" aria-hidden="true" />
           </Button>
 
-          <p className="text-sm font-semibold tracking-[0.2em] text-charcoal/70" aria-live="polite" aria-atomic="true">
-            {formatProgress(currentIndex)}
-          </p>
+          <div
+            aria-live="polite"
+            aria-atomic="true"
+            className="min-w-[5.5rem] text-center"
+          >
+            <p className="text-sm font-semibold tracking-[0.2em] text-charcoal/70">
+              {formatProgress(currentIndex)}
+            </p>
+            <p className="sr-only">
+              {currentReality.title}. {currentReality.description}
+            </p>
+          </div>
 
           <Button
             type="button"
@@ -190,10 +193,14 @@ export function RealitiesCarousel() {
                 )}
               >
                 <p className="mb-3 text-sm font-semibold tracking-[0.25em] text-coral">{reality.number}</p>
-                <h3 className="mb-3 text-xl font-semibold text-charcoal sm:text-2xl">{reality.title}</h3>
-                <p className="text-base leading-relaxed text-charcoal/75">
-                  {position === "current" ? reality.description : reality.title}
-                </p>
+                {position === "current" ? (
+                  <>
+                    <h3 className="mb-3 text-xl font-semibold text-charcoal sm:text-2xl">{reality.title}</h3>
+                    <p className="text-base leading-relaxed text-charcoal/75">{reality.description}</p>
+                  </>
+                ) : (
+                  <p className="line-clamp-6 text-base leading-relaxed text-charcoal/75">{reality.description}</p>
+                )}
               </article>
             ))}
           </div>
@@ -206,18 +213,20 @@ export function RealitiesCarousel() {
               type="button"
               aria-label={`Réalité ${index + 1} sur ${TOTAL_REALITIES}`}
               aria-current={index === currentIndex ? "true" : undefined}
-              className={cn(
-                "h-3 w-3 rounded-full transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white",
-                index === currentIndex ? "bg-coral" : "bg-charcoal/20 hover:bg-charcoal/35",
-              )}
+              className="inline-flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white"
               onClick={() => goToIndex(index)}
-            />
+            >
+              <span
+                role="presentation"
+                aria-hidden="true"
+                className={cn(
+                  "h-3 w-3 rounded-full transition-colors",
+                  index === currentIndex ? "bg-coral" : "bg-charcoal/20 hover:bg-charcoal/35",
+                )}
+              />
+            </button>
           ))}
         </div>
-
-        <p className="sr-only" aria-live="polite">
-          {currentReality.title}. {currentReality.description}
-        </p>
       </div>
     </section>
   );

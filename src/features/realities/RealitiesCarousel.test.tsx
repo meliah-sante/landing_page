@@ -1,36 +1,105 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { RealitiesCarousel } from "./RealitiesCarousel";
-import { REALITIES } from "./realities";
 
-test("renders the inspected source copy for the active reality", () => {
+const SOURCE_COPY = [
+  {
+    title: "Quand l'effectif est réduit, chaque acte compte double.",
+    description:
+      "Moins de bras, même charge. Les transmissions s'allègent par manque de temps — pas par négligence. Par nécessité.",
+  },
+  {
+    title: "Un lit fermé, c'est un patient refusé. Et une perte que vous payez cash.",
+    description:
+      "Le manque de soignants force la fermeture. Chaque lit vide a un coût direct. Immédiat. Que personne ne calcule vraiment.",
+  },
+  {
+    title: "L'épuisement ne prévient pas.",
+    description:
+      "La charge administrative vide vos soignants de ce qui les a fait choisir ce métier. Et transforme vos meilleurs éléments en candidats au départ.",
+  },
+  {
+    title: "Vos experts ne sont pas des secrétaires.",
+    description: "Le temps a une valeur. Et elle disparaît dans l'administratif.",
+  },
+  {
+    title: "L'intérimaire coûte cher. Et il ne règle rien.",
+    description:
+      "Vos soignants s'épuisent, vous faites appel à l'intérim. L'intérim arrive, vos permanents s'épuisent davantage — car on ne construit pas une équipe avec des personnes qui ne connaissent ni le service, ni ses patients, ni ses protocoles.",
+  },
+  {
+    title: "La traçabilité existe. Au clavier, elle peut être écrite dans l'urgence.",
+    description:
+      "On trace ce qu'on peut, quand on peut. Parfois après. Parfois de mémoire. En cas de litige, c'est cette trace-là qu'on lit. Et elle dit moins que ce qui s'est vraiment passé.",
+  },
+  {
+    title: "Vos outils ont été conçus pour une autre époque.",
+    description:
+      "Le soin a évolué. Les contraintes ont explosé. Les outils, eux, n'ont pas suivi. Et c'est votre équipe qui compense.",
+  },
+] as const;
+
+test("locks exact source copy for every reality", async () => {
+  const user = userEvent.setup();
   render(<RealitiesCarousel />);
 
-  expect(
-    screen.getByRole("heading", { level: 3, name: REALITIES[0].title }),
-  ).toBeInTheDocument();
-  expect(screen.getByText(REALITIES[0].description)).toBeInTheDocument();
+  for (const [index, copy] of SOURCE_COPY.entries()) {
+    if (index > 0) {
+      await user.click(screen.getByRole("button", { name: /réalité suivante/i }));
+    }
+
+    expect(screen.getByRole("heading", { level: 3, name: copy.title })).toBeInTheDocument();
+    expect(screen.getByText(copy.description)).toBeInTheDocument();
+  }
 });
 
 test("moves through realities and announces progress", async () => {
   const user = userEvent.setup();
   render(<RealitiesCarousel />);
+  const region = screen.getByRole("region", { name: /carrousel des réalités/i });
+
   expect(screen.getByText("01 / 07")).toBeInTheDocument();
   await user.click(screen.getByRole("button", { name: /réalité suivante/i }));
   expect(screen.getByText("02 / 07")).toBeInTheDocument();
+
+  region.focus();
   await user.keyboard("{ArrowLeft}");
   expect(screen.getByText("01 / 07")).toBeInTheDocument();
 });
 
-test("announces slide progress with aria-live", async () => {
+test("ignores arrow keys when the carousel is not focused", async () => {
+  const user = userEvent.setup();
+  render(
+    <>
+      <button type="button">Hors carrousel</button>
+      <RealitiesCarousel />
+    </>,
+  );
+
+  await user.click(screen.getByRole("button", { name: /réalité suivante/i }));
+  expect(screen.getByText("02 / 07")).toBeInTheDocument();
+
+  await user.click(screen.getByRole("button", { name: /^hors carrousel$/i }));
+  await user.keyboard("{ArrowLeft}");
+  expect(screen.getByText("02 / 07")).toBeInTheDocument();
+});
+
+test("uses a single polite live region for slide announcements", async () => {
   const user = userEvent.setup();
   render(<RealitiesCarousel />);
 
-  const progress = screen.getByText("01 / 07");
-  expect(progress).toHaveAttribute("aria-live", "polite");
+  const liveRegions = document.querySelectorAll('[aria-live="polite"]');
+  expect(liveRegions).toHaveLength(1);
+
+  const announcement = liveRegions[0];
+  expect(announcement).toHaveAttribute("aria-atomic", "true");
+  expect(announcement).toHaveTextContent("01 / 07");
+  expect(announcement).toHaveTextContent(SOURCE_COPY[0].title);
+  expect(announcement).toHaveTextContent(SOURCE_COPY[0].description);
 
   await user.click(screen.getByRole("button", { name: /réalité suivante/i }));
-  expect(progress).toHaveTextContent("02 / 07");
+  expect(announcement).toHaveTextContent("02 / 07");
+  expect(announcement).toHaveTextContent(SOURCE_COPY[1].title);
 });
 
 test("navigates with dot buttons and disables boundary controls", async () => {
@@ -46,13 +115,35 @@ test("navigates with dot buttons and disables boundary controls", async () => {
   await user.click(screen.getByRole("button", { name: /réalité 4 sur 7/i }));
   expect(screen.getByText("04 / 07")).toBeInTheDocument();
 
-  for (let index = 0; index < REALITIES.length - 1; index += 1) {
+  for (let index = 0; index < SOURCE_COPY.length - 1; index += 1) {
     await user.click(nextButton);
   }
 
   expect(screen.getByText("07 / 07")).toBeInTheDocument();
   expect(nextButton).toBeDisabled();
   expect(prevButton).toBeEnabled();
+});
+
+test("provides at least 44px touch targets for dot controls", () => {
+  render(<RealitiesCarousel />);
+
+  screen.getAllByRole("button", { name: /réalité \d+ sur 7/i }).forEach((dot) => {
+    expect(dot.className).toMatch(/\bh-11\b/);
+    expect(dot.className).toMatch(/\bw-11\b/);
+    expect(within(dot).getByRole("presentation", { hidden: true })).toBeInTheDocument();
+  });
+});
+
+test("shows description text in adjacent slide previews", () => {
+  render(<RealitiesCarousel />);
+  const region = screen.getByRole("region", { name: /carrousel des réalités/i });
+  const nextSlide = within(region)
+    .getAllByRole("article", { hidden: true })
+    .find((slide) => slide.getAttribute("data-slide-position") === "next");
+
+  expect(nextSlide).toBeDefined();
+  expect(within(nextSlide!).getByText(SOURCE_COPY[1].description)).toBeInTheDocument();
+  expect(within(nextSlide!).queryByText(SOURCE_COPY[1].title)).not.toBeInTheDocument();
 });
 
 test("responds to touch swipes above the 40px threshold", async () => {

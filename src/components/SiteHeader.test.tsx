@@ -42,3 +42,18 @@ test("applies visible keyboard focus styling to the logo link", () => {
   expect(logoLink.className).toMatch(/focus-visible:ring/);
   expect(logoLink.className).toMatch(/focus-visible:ring-offset/);
 });
+
+test("applies reduced-motion classes to the mobile dialog overlay and content", async () => {
+  const user = userEvent.setup();
+  render(<SiteHeader />);
+
+  await user.click(screen.getByRole("button", { name: /ouvrir le menu/i }));
+
+  const dialog = screen.getByRole("dialog", { name: /navigation/i });
+  const overlay = dialog.previousElementSibling;
+
+  expect(dialog.className).toMatch(/motion-reduce:animate-none/);
+  expect(dialog.className).toMatch(/motion-reduce:transition-none/);
+  expect(overlay?.className).toMatch(/motion-reduce:animate-none/);
+  expect(overlay?.className).toMatch(/motion-reduce:transition-none/);
+});

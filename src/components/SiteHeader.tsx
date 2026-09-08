@@ -8,6 +8,9 @@ import { Button } from "./ui/Button";
 const linkClassName =
   "text-sm font-medium text-charcoal/80 transition-colors hover:text-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white";
 
+const dialogMotionClasses =
+  "motion-reduce:animate-none motion-reduce:transition-none motion-reduce:zoom-in-95 motion-reduce:zoom-out-95";
+
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -69,12 +72,18 @@ export function SiteHeader() {
             </Dialog.Trigger>
 
             <Dialog.Portal>
-              <Dialog.Overlay className="fixed inset-0 z-50 bg-charcoal/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0" />
+              <Dialog.Overlay
+                className={cn(
+                  "fixed inset-0 z-50 bg-charcoal/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+                  dialogMotionClasses,
+                )}
+              />
               <Dialog.Content
                 aria-describedby={undefined}
                 className={cn(
                   "fixed inset-x-4 top-20 z-50 rounded-2xl border border-charcoal/10 bg-warm-white p-6 shadow-soft outline-none",
                   "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
+                  dialogMotionClasses,
                 )}
               >
                 <div className="mb-6 flex items-center justify-between gap-4">
