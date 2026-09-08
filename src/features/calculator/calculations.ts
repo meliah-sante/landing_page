@@ -20,6 +20,9 @@ export type LeadErrors = {
   email?: string;
 };
 
+export const STAFF_COUNT_ERROR =
+  "Indiquez un nombre de soignants entre 1 et 1000.";
+
 function clampStaffCount(staffCount: number): number {
   return Math.min(MAX_STAFF, Math.max(MIN_STAFF, Math.round(staffCount)));
 }
@@ -32,17 +35,43 @@ function roundEuros(value: number): number {
   return Math.round(value);
 }
 
+export function validateStaffCount(raw: string): string | undefined {
+  const trimmed = raw.trim();
+
+  if (!trimmed) {
+    return STAFF_COUNT_ERROR;
+  }
+
+  const parsed = Number.parseInt(trimmed, 10);
+
+  if (
+    !Number.isInteger(parsed) ||
+    String(parsed) !== trimmed ||
+    parsed < MIN_STAFF ||
+    parsed > MAX_STAFF
+  ) {
+    return STAFF_COUNT_ERROR;
+  }
+
+  return undefined;
+}
+
 export function calculateLoss(staffCount: number): LossResults {
   const count = clampStaffCount(staffCount);
   const scale = count / BASELINE_STAFF;
 
-  const yearlyEuros = roundEuros(YEARLY_EUROS_FOR_40 * scale);
-  const dailyEuros = roundEuros(yearlyEuros / WORK_DAYS_PER_YEAR);
-  const monthlyEuros = roundEuros(yearlyEuros / MONTHS_PER_YEAR);
+  const unroundedYearlyEuros = YEARLY_EUROS_FOR_40 * scale;
+  const unroundedDailyHours = DAILY_HOURS_FOR_40 * scale;
 
-  const dailyHours = roundHours(DAILY_HOURS_FOR_40 * scale);
-  const yearlyHours = roundHours(dailyHours * WORK_DAYS_PER_YEAR);
-  const monthlyHours = roundHours(yearlyHours / MONTHS_PER_YEAR);
+  const yearlyEuros = roundEuros(unroundedYearlyEuros);
+  const dailyEuros = roundEuros(unroundedYearlyEuros / WORK_DAYS_PER_YEAR);
+  const monthlyEuros = roundEuros(unroundedYearlyEuros / MONTHS_PER_YEAR);
+
+  const dailyHours = roundHours(unroundedDailyHours);
+  const yearlyHours = roundHours(unroundedDailyHours * WORK_DAYS_PER_YEAR);
+  const monthlyHours = roundHours(
+    (unroundedDailyHours * WORK_DAYS_PER_YEAR) / MONTHS_PER_YEAR,
+  );
 
   return {
     dailyEuros,
