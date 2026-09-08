@@ -30,7 +30,36 @@ test("reveals the detailed result only after valid local submission", async () =
   await user.type(screen.getByLabelText("Votre nom"), "Camille");
   await user.type(screen.getByLabelText("Email professionnel"), "camille@clinique.fr");
   await user.click(screen.getByRole("button", { name: /voir ma perte réelle/i }));
-  expect(screen.getByRole("status")).toHaveTextContent(/résultat détaillé/i);
+  const detail = screen.getByRole("status");
+  expect(detail).toHaveTextContent(/résultat détaillé/i);
+  expect(detail).toHaveTextContent("334 €");
+  expect(detail).toHaveTextContent("6 397 €");
+  expect(detail).toHaveTextContent("76 766 €");
+  expect(detail).toHaveTextContent("13 h 20");
+  expect(detail).toHaveTextContent("255 h 34");
+  expect(detail).toHaveTextContent("3 066 h 40");
+  expect(detail).toHaveTextContent(
+    "Vos données sont traitées localement dans votre navigateur. Elles ne sont ni envoyées ni enregistrées.",
+  );
+});
+
+test("hides detailed results and labels stale previews when staff input becomes invalid", async () => {
+  const user = userEvent.setup();
+  render(<LossCalculator />);
+
+  await user.type(screen.getByLabelText("Votre nom"), "Camille");
+  await user.type(screen.getByLabelText("Email professionnel"), "camille@clinique.fr");
+  await user.click(screen.getByRole("button", { name: /voir ma perte réelle/i }));
+  expect(screen.getByText(/votre résultat détaillé/i)).toBeInTheDocument();
+
+  await user.clear(screen.getByLabelText(/nombre de soignants/i));
+
+  expect(screen.queryByText(/votre résultat détaillé/i)).not.toBeInTheDocument();
+  expect(
+    screen.getByText(
+      "Aperçu calculé pour le dernier effectif valide : 40 soignants.",
+    ),
+  ).toBeInTheDocument();
 });
 
 test("uses Radix tabs with keyboard navigation and panel relationships", async () => {

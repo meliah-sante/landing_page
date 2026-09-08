@@ -1,5 +1,9 @@
 import { render, screen, within } from "@testing-library/react";
+import { readFileSync } from "node:fs";
 import App from "./App";
+
+const PILOT_BOOKING_URL =
+  "https://calendly.com/gestelpilotes/etablissement/15min";
 
 const expectedSectionIds = [
   "hero",
@@ -19,7 +23,7 @@ test("renders the primary navigation and page landmarks", () => {
   expect(screen.getByRole("main")).toBeInTheDocument();
   expect(
     within(header).getByRole("link", { name: /réserver ma place pilote/i }),
-  ).toHaveAttribute("href", "#pilote");
+  ).toHaveAttribute("href", PILOT_BOOKING_URL);
 });
 
 test("renders section landmarks in the approved order", () => {
@@ -31,4 +35,12 @@ test("renders section landmarks in the approved order", () => {
   sections.forEach((section, index) => {
     expect(section).toHaveAttribute("id", expectedSectionIds[index]);
   });
+});
+
+test("does not load unused Google font or preconnect resources", () => {
+  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
+
+  expect(html).not.toContain("fonts.googleapis.com");
+  expect(html).not.toContain("fonts.gstatic.com");
+  expect(html).not.toMatch(/rel=["']preconnect["']/);
 });

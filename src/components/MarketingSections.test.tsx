@@ -1,5 +1,8 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import App from "../App";
+
+const PILOT_BOOKING_URL =
+  "https://calendly.com/gestelpilotes/etablissement/15min";
 
 test("renders the complete AURA conversion journey", () => {
   render(<App />);
@@ -65,11 +68,19 @@ test("renders the inspected source copy and connects every conversion link", () 
     "src",
     "/assets/phone-aura.png",
   );
+  const hero = document.getElementById("hero");
+  expect(hero).not.toBeNull();
+  expect(within(hero!).getByRole("img", { name: /interface aura/i })).toHaveAttribute(
+    "src",
+    "/assets/phone-aura.png",
+  );
   screen.getAllByRole("link", { name: /calculer mes pertes/i }).forEach((link) => {
     expect(link).toHaveAttribute("href", "#calculatrice");
   });
   screen.getAllByRole("link", { name: /réserver ma place pilote/i }).forEach((link) => {
-    expect(link).toHaveAttribute("href", "#pilote");
+    expect(link).toHaveAttribute("href", PILOT_BOOKING_URL);
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
   });
 });
 
@@ -165,21 +176,29 @@ test("uses meaningful literal destinations for conversion and legal links", () =
     ["Calculer mes pertes", "#calculatrice"],
     ["Prendre rendez-vous", "#pilote"],
     ["Découvrir tous les modules", "#pilote"],
-    ["Réserver ma place pilote", "#pilote"],
   ].forEach(([name, href]) => {
     screen.getAllByRole("link", { name }).forEach((link) => {
       expect(link.getAttribute("href")).toBe(href);
     });
   });
 
-  expect(
-    screen.getByRole("link", { name: "Mentions légales" }).getAttribute("href"),
-  ).toBe("/mentions-legales");
-  expect(
-    screen
-      .getByRole("link", { name: "Politique de confidentialité" })
-      .getAttribute("href"),
-  ).toBe("/politique-de-confidentialite");
+  const legalHref = screen
+    .getByRole("link", { name: "Mentions légales" })
+    .getAttribute("href");
+  expect(legalHref).toBe(
+    "mailto:contact@meliahsante.fr?subject=Demande%20de%20mentions%20l%C3%A9gales",
+  );
+  expect(decodeURIComponent(legalHref!)).toContain("Demande de mentions légales");
+
+  const privacyHref = screen
+    .getByRole("link", { name: "Politique de confidentialité" })
+    .getAttribute("href");
+  expect(privacyHref).toBe(
+    "mailto:contact@meliahsante.fr?subject=Demande%20de%20politique%20de%20confidentialit%C3%A9",
+  );
+  expect(decodeURIComponent(privacyHref!)).toContain(
+    "Demande de politique de confidentialité",
+  );
   expect(
     screen.getByRole("link", { name: "contact@meliahsante.fr" }).getAttribute("href"),
   ).toBe("mailto:contact@meliahsante.fr");

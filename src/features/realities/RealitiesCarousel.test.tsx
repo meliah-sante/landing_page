@@ -187,6 +187,30 @@ test("shows adjacent slide previews on wider viewports", () => {
   expect(slides.some((slide) => slide.getAttribute("data-slide-position") === "next")).toBe(true);
 });
 
+test("keeps stable reality nodes while visibly changing slide position", async () => {
+  const user = userEvent.setup();
+  render(<RealitiesCarousel />);
+
+  const secondReality = document.querySelector<HTMLElement>(
+    '[data-reality-key="02"]',
+  );
+  expect(secondReality).not.toBeNull();
+  expect(secondReality).toHaveAttribute("data-slide-position", "next");
+  expect(secondReality?.className).toMatch(/translate-x-4/);
+  expect(secondReality?.className).toMatch(/opacity-60/);
+
+  await user.click(screen.getByRole("button", { name: /réalité suivante/i }));
+
+  const movedReality = document.querySelector<HTMLElement>(
+    '[data-reality-key="02"]',
+  );
+  expect(movedReality).toBe(secondReality);
+  expect(movedReality).toHaveAttribute("data-slide-position", "current");
+  expect(movedReality?.className).toMatch(/translate-x-0/);
+  expect(movedReality?.className).toMatch(/opacity-100/);
+  expect(movedReality?.className).toMatch(/transition-\[transform,opacity\]/);
+});
+
 test("respects reduced motion preferences for slide transitions", () => {
   Object.defineProperty(window, "matchMedia", {
     configurable: true,
@@ -206,4 +230,7 @@ test("respects reduced motion preferences for slide transitions", () => {
   render(<RealitiesCarousel />);
   const region = screen.getByRole("region", { name: /carrousel des réalités/i });
   expect(region.dataset.reducedMotion).toBe("true");
+  document.querySelectorAll("[data-reality-key]").forEach((slide) => {
+    expect(slide.className).not.toMatch(/transition-\[transform,opacity\]/);
+  });
 });
