@@ -14,7 +14,13 @@ export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-charcoal/10 bg-warm-white/95 backdrop-blur">
       <div className="container flex items-center justify-between gap-4 py-4 sm:gap-6">
-        <a href="#hero" className="flex shrink-0 items-center gap-3">
+        <a
+          href="#hero"
+          className={cn(
+            "flex shrink-0 items-center gap-3 rounded-md",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white",
+          )}
+        >
           <img
             src="/assets/meliah-logo.png"
             alt="Méliah Santé"
@@ -32,22 +38,20 @@ export function SiteHeader() {
 
         <div className="flex items-center gap-2 sm:gap-4">
           <span
+            lang="fr"
+            aria-label="Langue sélectionnée : Français"
             className="hidden text-sm font-medium uppercase tracking-wide text-charcoal/60 md:inline"
-            aria-label="Langue"
           >
             FR
           </span>
 
           <a
             href="#pilote"
-            className="inline-flex items-center rounded-full bg-coral px-3 py-2 text-xs font-semibold text-white transition-colors hover:bg-coral-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white sm:px-4 sm:text-sm lg:hidden"
-          >
-            Réserver pilote
-          </a>
-
-          <a
-            href="#pilote"
-            className="hidden text-sm font-semibold text-coral transition-colors hover:text-coral-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white lg:inline"
+            className={cn(
+              "inline-flex items-center font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white",
+              "rounded-full bg-coral px-3 py-2 text-[0.7rem] leading-tight text-white hover:bg-coral-dark sm:px-4 sm:text-sm",
+              "lg:rounded-none lg:bg-transparent lg:px-0 lg:py-0 lg:text-sm lg:text-coral lg:hover:text-coral-dark",
+            )}
           >
             Réserver ma place pilote
           </a>

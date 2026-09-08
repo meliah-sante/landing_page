@@ -23,10 +23,22 @@ test("closes mobile navigation after selecting a link", async () => {
   expect(screen.queryByRole("dialog", { name: /navigation/i })).not.toBeInTheDocument();
 });
 
-test("keeps the pilot CTA visible outside the mobile menu", () => {
+test("keeps the pilot CTA visible outside the mobile menu with exact copy", () => {
   render(<SiteHeader />);
   const header = screen.getByRole("banner");
   expect(
-    within(header).getByRole("link", { name: /réserver pilote/i }),
+    within(header).getByRole("link", { name: /^réserver ma place pilote$/i }),
   ).toHaveAttribute("href", "#pilote");
+});
+
+test("exposes the selected language to assistive technology", () => {
+  render(<SiteHeader />);
+  expect(screen.getByLabelText(/langue sélectionnée\s*:\s*français/i)).toBeInTheDocument();
+});
+
+test("applies visible keyboard focus styling to the logo link", () => {
+  render(<SiteHeader />);
+  const logoLink = screen.getByRole("link", { name: /méliah santé/i });
+  expect(logoLink.className).toMatch(/focus-visible:ring/);
+  expect(logoLink.className).toMatch(/focus-visible:ring-offset/);
 });
