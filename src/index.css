@@ -158,9 +158,16 @@
   }
 
   .hero-signal-card {
-    width: min(26rem, 90%);
-    @apply relative z-10 rounded-[2.25rem] border border-white/70 bg-white/80 p-8 shadow-soft backdrop-blur-xl sm:p-10;
-    transform: rotate(-3deg);
+    width: min(13.5rem, 46%);
+    bottom: 12%;
+    right: 1%;
+    @apply absolute z-20 rounded-[1.5rem] border border-white/70 bg-white/85 p-4 shadow-soft backdrop-blur-xl;
+    transform: rotate(4deg);
+  }
+
+  .hero-phone {
+    width: min(17rem, 58%);
+    @apply relative z-10 h-auto drop-shadow-[0_30px_44px_rgba(28,28,28,0.24)];
   }
 
   .voice-bar {
@@ -384,6 +391,17 @@
   .hero-visual::before {
     width: 27rem;
     height: 27rem;
+  }
+
+  .hero-signal-card {
+    bottom: 8%;
+    right: 2%;
+    width: min(11rem, 44%);
+    @apply p-3;
+  }
+
+  .hero-waveform {
+    @apply h-10;
   }
 }
 

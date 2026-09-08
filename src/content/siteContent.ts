@@ -23,6 +23,9 @@ export type Stat = {
   description: string;
 };
 
+export const PILOT_BOOKING_URL =
+  "https://calendly.com/gestelpilotes/etablissement/15min";
+
 export const navigation: readonly NavigationItem[] = [
   { href: "#origine", label: "À l'origine" },
   { href: "#realites", label: "Les réalités" },
@@ -184,8 +187,14 @@ export const pilot = {
 export const footer = {
   tagline: "Réclamer au soin le temps qui lui appartient.",
   links: [
-    { href: "/mentions-legales", label: "Mentions légales" },
-    { href: "/politique-de-confidentialite", label: "Politique de confidentialité" },
+    {
+      href: "mailto:contact@meliahsante.fr?subject=Demande%20de%20mentions%20l%C3%A9gales",
+      label: "Mentions légales",
+    },
+    {
+      href: "mailto:contact@meliahsante.fr?subject=Demande%20de%20politique%20de%20confidentialit%C3%A9",
+      label: "Politique de confidentialité",
+    },
     { href: "mailto:contact@meliahsante.fr", label: "contact@meliahsante.fr" },
   ],
   copyright: "© 2026 Méliah Santé — Tous droits réservés",

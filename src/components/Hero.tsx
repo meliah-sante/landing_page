@@ -1,5 +1,5 @@
 import { ArrowDownRight, AudioWaveform, ShieldCheck } from "lucide-react";
-import { hero } from "../content/siteContent";
+import { hero, PILOT_BOOKING_URL } from "../content/siteContent";
 import { Reveal } from "./Reveal";
 
 const voiceBars = [22, 38, 58, 34, 70, 48, 82, 40, 64, 30, 50, 24];
@@ -33,7 +33,12 @@ export function Hero() {
                 aria-hidden="true"
               />
             </a>
-            <a href="#pilote" className="cta-secondary">
+            <a
+              href={PILOT_BOOKING_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="cta-secondary"
+            >
               Réserver ma place pilote
             </a>
           </div>
@@ -41,8 +46,13 @@ export function Hero() {
         </Reveal>
 
         <Reveal delay={0.12} className="relative mx-auto w-full max-w-[30rem]">
-          <div className="hero-visual" aria-hidden="true">
-            <div className="hero-signal-card">
+          <div className="hero-visual">
+            <img
+              src="/assets/phone-aura.png"
+              alt="Interface AURA sur le terminal d'un soignant"
+              className="hero-phone"
+            />
+            <div className="hero-signal-card" aria-hidden="true">
               <div className="flex items-center justify-between text-coral-accessible">
                 <span className="grid h-10 w-10 place-items-center rounded-full bg-coral-soft">
                   <AudioWaveform className="h-5 w-5" />
@@ -51,7 +61,7 @@ export function Hero() {
                   <ShieldCheck className="h-4 w-4" />
                 </span>
               </div>
-              <div className="mt-5 flex h-16 items-center gap-1.5">
+              <div className="hero-waveform mt-4 flex h-12 items-center gap-1">
                 {voiceBars.map((height, index) => (
                   <span
                     key={`${height}-${index}`}
@@ -60,13 +70,9 @@ export function Hero() {
                   />
                 ))}
               </div>
-              <div className="mt-6 space-y-2 border-t border-charcoal/10 pt-5">
-                <span className="block h-2 w-4/5 rounded-full bg-charcoal/10" />
-                <span className="block h-2 w-3/5 rounded-full bg-coral/20" />
-              </div>
             </div>
-            <div className="hero-ring hero-ring-one" />
-            <div className="hero-ring hero-ring-two" />
+            <div className="hero-ring hero-ring-one" aria-hidden="true" />
+            <div className="hero-ring hero-ring-two" aria-hidden="true" />
           </div>
         </Reveal>
       </div>

@@ -1,7 +1,8 @@
 import * as Dialog from "@radix-ui/react-dialog";
 import { Menu, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { navLinks } from "../content/navLinks";
+import { PILOT_BOOKING_URL } from "../content/siteContent";
 import { cn } from "../lib/cn";
 import { Button } from "./ui/Button";
 
@@ -13,10 +14,32 @@ const dialogMotionClasses =
 
 export function SiteHeader() {
   const [menuOpen, setMenuOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const updateScrolledState = () => setIsScrolled(window.scrollY > 24);
+
+    updateScrolledState();
+    window.addEventListener("scroll", updateScrolledState, { passive: true });
+    return () => window.removeEventListener("scroll", updateScrolledState);
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-charcoal/10 bg-warm-white/95 backdrop-blur">
-      <div className="container flex items-center justify-between gap-4 py-4 sm:gap-6">
+    <header
+      data-scrolled={isScrolled ? "true" : "false"}
+      className={cn(
+        "sticky top-0 z-50 border-b backdrop-blur-md transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 motion-reduce:transition-none",
+        isScrolled
+          ? "border-charcoal/15 bg-warm-white/[0.98] shadow-[0_8px_30px_rgba(32,32,31,0.12)] backdrop-blur-xl"
+          : "border-charcoal/10 bg-warm-white/90",
+      )}
+    >
+      <div
+        className={cn(
+          "container flex items-center justify-between gap-4 transition-[padding] duration-300 motion-reduce:transition-none sm:gap-6",
+          isScrolled ? "py-2.5" : "py-4",
+        )}
+      >
         <a
           href="#hero"
           className={cn(
@@ -27,7 +50,10 @@ export function SiteHeader() {
           <img
             src="/assets/meliah-logo.png"
             alt="Méliah Santé"
-            className="h-8 w-auto"
+            className={cn(
+              "w-auto transition-[height] duration-300 motion-reduce:transition-none",
+              isScrolled ? "h-7" : "h-8",
+            )}
           />
         </a>
 
@@ -49,7 +75,9 @@ export function SiteHeader() {
           </span>
 
           <a
-            href="#pilote"
+            href={PILOT_BOOKING_URL}
+            target="_blank"
+            rel="noopener noreferrer"
             className={cn(
               "inline-flex items-center font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white",
               "rounded-full bg-coral-accessible px-3 py-2 text-[0.7rem] leading-tight text-white hover:bg-coral-accessible-dark sm:px-4 sm:text-sm",
@@ -81,7 +109,7 @@ export function SiteHeader() {
               <Dialog.Content
                 aria-describedby={undefined}
                 className={cn(
-                  "fixed inset-x-4 top-20 z-50 rounded-2xl border border-charcoal/10 bg-warm-white p-6 shadow-soft outline-none",
+                  "fixed inset-x-4 top-20 z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain rounded-2xl border border-charcoal/10 bg-warm-white p-6 shadow-soft outline-none",
                   "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
                   dialogMotionClasses,
                 )}
@@ -112,7 +140,9 @@ export function SiteHeader() {
 
                 <Dialog.Close asChild>
                   <a
-                    href="#pilote"
+                    href={PILOT_BOOKING_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
                     className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-coral-accessible px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-coral-accessible-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2"
                   >
                     Réserver ma place pilote

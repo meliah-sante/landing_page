@@ -174,25 +174,23 @@ export function RealitiesCarousel() {
           </div>
 
           <div className="relative min-h-[14rem] overflow-hidden md:min-h-[18rem]">
-            <div
-              className={cn(
-                "flex items-stretch justify-center gap-4",
-                !prefersReducedMotion && "transition-transform duration-300 ease-out",
-              )}
-            >
+            <div className="flex items-stretch justify-center gap-4">
               {visibleSlides.map(({ reality, position }) => (
                 <article
-                  key={`${reality.number}-${position}`}
+                  key={reality.number}
+                  data-reality-key={reality.number}
                   data-slide-position={position}
                   aria-hidden={position !== "current"}
                   className={cn(
-                    "rounded-2xl border border-charcoal/10 bg-warm-white p-6 text-left shadow-sm",
-                    position === "current" && "z-10 w-full max-w-2xl",
+                    "overflow-hidden rounded-2xl border border-charcoal/10 bg-warm-white text-left shadow-sm",
+                    !prefersReducedMotion &&
+                      "transition-[transform,opacity] duration-300 ease-out",
+                    position === "current" &&
+                      "z-10 w-full max-w-2xl translate-x-0 scale-100 p-6 opacity-100",
                     position === "previous" &&
-                      "hidden w-1/4 max-w-xs scale-95 opacity-60 md:block",
+                      "pointer-events-none w-0 max-w-xs -translate-x-4 scale-95 p-0 opacity-0 md:w-1/4 md:p-6 md:opacity-60",
                     position === "next" &&
-                      "hidden w-1/4 max-w-xs scale-95 opacity-60 md:block",
-                    !prefersReducedMotion && position === "current" && "transition-all duration-300",
+                      "pointer-events-none w-0 max-w-xs translate-x-4 scale-95 p-0 opacity-0 md:w-1/4 md:p-6 md:opacity-60",
                   )}
                 >
                   <p className="mb-3 text-sm font-semibold tracking-[0.25em] text-coral-accessible">{reality.number}</p>

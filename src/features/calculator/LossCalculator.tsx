@@ -36,6 +36,28 @@ const inputClassName =
 
 type ResultPeriod = (typeof resultCards)[number]["key"];
 
+function getPeriodValue(
+  mode: "euros" | "heures",
+  loss: ReturnType<typeof calculateLoss>,
+  period: ResultPeriod,
+) {
+  if (mode === "euros") {
+    const values = {
+      daily: loss.dailyEuros,
+      monthly: loss.monthlyEuros,
+      yearly: loss.yearlyEuros,
+    };
+    return formatEuros(values[period]);
+  }
+
+  const values = {
+    daily: loss.dailyHours,
+    monthly: loss.monthlyHours,
+    yearly: loss.yearlyHours,
+  };
+  return formatHours(values[period]);
+}
+
 function ResultCards({
   mode,
   loss,
@@ -43,24 +65,6 @@ function ResultCards({
   mode: "euros" | "heures";
   loss: ReturnType<typeof calculateLoss>;
 }) {
-  const getCardValue = (period: ResultPeriod) => {
-    if (mode === "euros") {
-      const values = {
-        daily: loss.dailyEuros,
-        monthly: loss.monthlyEuros,
-        yearly: loss.yearlyEuros,
-      };
-      return formatEuros(values[period]);
-    }
-
-    const values = {
-      daily: loss.dailyHours,
-      monthly: loss.monthlyHours,
-      yearly: loss.yearlyHours,
-    };
-    return formatHours(values[period]);
-  };
-
   return (
     <div className="grid gap-4 sm:grid-cols-3">
       {resultCards.map((card) => (
@@ -69,9 +73,59 @@ function ResultCards({
           className="rounded-2xl border border-charcoal/10 bg-warm-white p-5 text-center"
         >
           <p className="mb-2 text-sm font-medium text-charcoal/70">{card.label}</p>
-          <p className="text-2xl font-semibold text-charcoal">{getCardValue(card.key)}</p>
+          <p className="text-2xl font-semibold text-charcoal">
+            {getPeriodValue(mode, loss, card.key)}
+          </p>
         </article>
       ))}
+    </div>
+  );
+}
+
+function DetailedBreakdown({
+  loss,
+  staffCount,
+}: {
+  loss: ReturnType<typeof calculateLoss>;
+  staffCount: number;
+}) {
+  return (
+    <div
+      role="status"
+      className="mt-6 rounded-2xl border border-coral/20 bg-coral/5 p-5 text-sm text-charcoal"
+    >
+      <h3 className="font-semibold">Votre résultat détaillé</h3>
+      <p className="mt-2 text-charcoal/80">
+        Pour {staffCount} soignant{staffCount > 1 ? "s" : ""}, voici l&apos;ensemble
+        de votre perte estimée.
+      </p>
+
+      <div className="mt-5 grid gap-4 sm:grid-cols-2">
+        {(["euros", "heures"] as const).map((mode) => (
+          <section
+            key={mode}
+            aria-label={mode === "euros" ? "Perte en euros" : "Perte en heures"}
+            className="rounded-xl border border-charcoal/10 bg-white/75 p-4"
+          >
+            <h4 className="font-semibold">{mode === "euros" ? "Euros" : "Heures"}</h4>
+            <dl className="mt-3 space-y-2">
+              {resultCards.map((period) => (
+                <div key={period.key} className="flex items-baseline justify-between gap-4">
+                  <dt className="text-charcoal/70">{period.label}</dt>
+                  <dd className="font-semibold">
+                    {getPeriodValue(mode, loss, period.key)}
+                  </dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        ))}
+      </div>
+
+      <p className="mt-5 border-t border-charcoal/10 pt-4 font-medium text-charcoal/80">
+        Vos données sont traitées localement dans votre navigateur. Elles ne sont ni
+        envoyées ni enregistrées.
+      </p>
     </div>
   );
 }
@@ -79,6 +133,7 @@ function ResultCards({
 export function LossCalculator() {
   const staffInputId = useId();
   const staffErrorId = useId();
+  const previewStatusId = useId();
   const nameInputId = useId();
   const nameErrorId = useId();
   const emailInputId = useId();
@@ -96,6 +151,7 @@ export function LossCalculator() {
 
   const handleStaffChange = (rawValue: string) => {
     setStaffInput(rawValue);
+    setDetailedResultVisible(false);
 
     if (!validateStaffCount(rawValue)) {
       setLastValidStaff(Number.parseInt(rawValue.trim(), 10));
@@ -138,40 +194,59 @@ export function LossCalculator() {
         ) : null}
       </div>
 
-      <Tabs.Root defaultValue="euros" className="mb-8">
-        <Tabs.List
-          aria-label="Mode d'affichage des résultats"
-          className="mb-6 inline-flex rounded-full border border-charcoal/10 bg-warm-white p-1"
+      {staffError ? (
+        <p
+          id={previewStatusId}
+          role="status"
+          className="mb-4 rounded-xl border border-coral-accessible/25 bg-coral-soft px-4 py-3 text-sm font-medium text-charcoal"
         >
-          <Tabs.Trigger
-            value="euros"
-            className={cn(
-              "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2",
-              "text-charcoal/70 hover:text-charcoal",
-              "data-[state=active]:bg-coral-accessible data-[state=active]:text-white",
-            )}
-          >
-            Euros
-          </Tabs.Trigger>
-          <Tabs.Trigger
-            value="heures"
-            className={cn(
-              "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2",
-              "text-charcoal/70 hover:text-charcoal",
-              "data-[state=active]:bg-coral-accessible data-[state=active]:text-white",
-            )}
-          >
-            Heures
-          </Tabs.Trigger>
-        </Tabs.List>
+          Aperçu calculé pour le dernier effectif valide : {lastValidStaff} soignant
+          {lastValidStaff > 1 ? "s" : ""}.
+        </p>
+      ) : null}
 
-        <Tabs.Content value="euros" className="outline-none">
-          <ResultCards mode="euros" loss={loss} />
-        </Tabs.Content>
-        <Tabs.Content value="heures" className="outline-none">
-          <ResultCards mode="heures" loss={loss} />
-        </Tabs.Content>
-      </Tabs.Root>
+      <div
+        aria-describedby={staffError ? previewStatusId : undefined}
+        className={cn(
+          "mb-8 transition-opacity motion-reduce:transition-none",
+          staffError && "opacity-60",
+        )}
+      >
+        <Tabs.Root defaultValue="euros">
+          <Tabs.List
+            aria-label="Mode d'affichage des résultats"
+            className="mb-6 inline-flex rounded-full border border-charcoal/10 bg-warm-white p-1"
+          >
+            <Tabs.Trigger
+              value="euros"
+              className={cn(
+                "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2",
+                "text-charcoal/70 hover:text-charcoal",
+                "data-[state=active]:bg-coral-accessible data-[state=active]:text-white",
+              )}
+            >
+              Euros
+            </Tabs.Trigger>
+            <Tabs.Trigger
+              value="heures"
+              className={cn(
+                "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2",
+                "text-charcoal/70 hover:text-charcoal",
+                "data-[state=active]:bg-coral-accessible data-[state=active]:text-white",
+              )}
+            >
+              Heures
+            </Tabs.Trigger>
+          </Tabs.List>
+
+          <Tabs.Content value="euros" className="outline-none">
+            <ResultCards mode="euros" loss={loss} />
+          </Tabs.Content>
+          <Tabs.Content value="heures" className="outline-none">
+            <ResultCards mode="heures" loss={loss} />
+          </Tabs.Content>
+        </Tabs.Root>
+      </div>
 
       <Accordion.Root type="single" collapsible className="mb-8">
         <Accordion.Item value="methodology" className="rounded-2xl border border-charcoal/10">
@@ -239,17 +314,7 @@ export function LossCalculator() {
       </form>
 
       {detailedResultVisible ? (
-        <div
-          role="status"
-          className="mt-6 rounded-2xl border border-coral/20 bg-coral/5 p-5 text-sm text-charcoal"
-        >
-          <p className="font-semibold">Votre résultat détaillé</p>
-          <p className="mt-2 text-charcoal/80">
-            Pour {lastValidStaff} soignant{lastValidStaff > 1 ? "s" : ""}, la perte estimée
-            s&apos;élève à {formatEuros(loss.yearlyEuros)} par an, soit{" "}
-            {formatHours(loss.dailyHours)} par jour ouvré.
-          </p>
-        </div>
+        <DetailedBreakdown loss={loss} staffCount={lastValidStaff} />
       ) : null}
     </div>
   );
