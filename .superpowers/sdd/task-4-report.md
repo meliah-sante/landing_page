@@ -100,3 +100,81 @@ The final test output contains no React warnings.
 ## Concerns
 
 None.
+
+---
+
+## Task 4 Review Follow-up
+
+### Findings Resolved
+
+- Added `coral-accessible` (`#a83b32`) and its darker hover color for small coral text, active controls, and CTA backgrounds.
+- Retained the brighter brand coral for decorative artwork and dark-surface pairings where its contrast passes.
+- Raised low-opacity light-surface copy to at least 65% charcoal and fixed the hero note, calculator framing, card descriptions, testimonial attribution, footer legal links, and copyright.
+- Raised dark-surface copy where needed, including the comparison label and footer/legal row.
+- Changed the highlighted voice comparison card to the accessible coral so its white small text passes.
+- Replaced self-referential legal fragments with `/mentions-legales` and `/politique-de-confidentialite`; retained `mailto:contact@meliahsante.fr`.
+- Expanded marketing coverage with literal assertions for every comparison, statistic, daily feature, module, conversion destination, legal destination, named landmark, and reduced-motion hook.
+
+### Contrast Validation
+
+Calculated WCAG contrast for the revised core combinations:
+
+- Accessible coral on white: `6.29:1`
+- Accessible coral on warm white: `5.74:1`
+- Accessible coral on coral-soft: `5.24:1`
+- White on accessible coral: `6.29:1`
+- 65% charcoal on coral-soft: `4.73:1`
+- Bright coral on charcoal: `4.80:1`
+
+These pairings meet WCAG AA for normal text. Decorative bright-coral treatments remain visually consistent with the brand.
+
+### Review TDD Evidence
+
+Added the expanded tests first and ran:
+
+```text
+bun test src/components/MarketingSections.test.tsx
+```
+
+Observed RED:
+
+```text
+6 pass
+1 fail
+Expected: "/mentions-legales"
+Received: "#mentions-legales"
+```
+
+After implementing meaningful legal destinations:
+
+```text
+7 pass
+0 fail
+88 expect() calls
+```
+
+### Final Review Verification
+
+```text
+bun test
+37 pass
+0 fail
+212 expect() calls
+Ran 37 tests across 6 files.
+```
+
+```text
+bun run lint
+eslint .
+Exit code 0
+```
+
+```text
+bun run build
+tsc -b && vite build
+2332 modules transformed
+Build completed successfully
+Exit code 0
+```
+
+The test, lint, and build output is warning-free.
