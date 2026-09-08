@@ -3,6 +3,15 @@ import userEvent from "@testing-library/user-event";
 import { RealitiesCarousel } from "./RealitiesCarousel";
 import { REALITIES } from "./realities";
 
+test("renders the inspected source copy for the active reality", () => {
+  render(<RealitiesCarousel />);
+
+  expect(
+    screen.getByRole("heading", { level: 3, name: REALITIES[0].title }),
+  ).toBeInTheDocument();
+  expect(screen.getByText(REALITIES[0].description)).toBeInTheDocument();
+});
+
 test("moves through realities and announces progress", async () => {
   const user = userEvent.setup();
   render(<RealitiesCarousel />);

@@ -7,44 +7,43 @@ export type Reality = {
 export const REALITIES: Reality[] = [
   {
     number: "01",
-    title: "On ne soigne pas avec un clavier",
+    title: "Quand l'effectif est réduit, chaque acte compte double.",
     description:
-      "Les soignants passent des heures à taper des observations au lieu d'être au chevet. La saisie manuelle détourne l'attention du geste médical.",
+      "Moins de bras, même charge. Les transmissions s'allègent par manque de temps — pas par négligence. Par nécessité.",
   },
   {
     number: "02",
-    title: "L'administratif monopolise le quotidien",
+    title: "Un lit fermé, c'est un patient refusé. Et une perte que vous payez cash.",
     description:
-      "Entre transmissions, bilans et comptes-rendus, la paperasse s'accumule plus vite que le temps disponible. Le soin devient une activité secondaire.",
+      "Le manque de soignants force la fermeture. Chaque lit vide a un coût direct. Immédiat. Que personne ne calcule vraiment.",
   },
   {
     number: "03",
-    title: "La paperasse éloigne du patient",
+    title: "L'épuisement ne prévient pas.",
     description:
-      "Chaque minute passée devant un écran est une minute moins passée auprès des résidents. Le vrai gâchis, c'est de voir les équipes s'éloigner du lit.",
+      "La charge administrative vide vos soignants de ce qui les a fait choisir ce métier. Et transforme vos meilleurs éléments en candidats au départ.",
   },
   {
     number: "04",
-    title: "La traçabilité souffre du retard",
-    description:
-      "Quand la saisie est reportée en fin de service, les informations se perdent ou se déforment. La continuité des soins en paie le prix.",
+    title: "Vos experts ne sont pas des secrétaires.",
+    description: "Le temps a une valeur. Et elle disparaît dans l'administratif.",
   },
   {
     number: "05",
-    title: "Le temps médical part en fumée",
+    title: "L'intérimaire coûte cher. Et il ne règle rien.",
     description:
-      "13 h 20 par jour pour 40 soignants : c'est du soin réel qui disparaît au profit de tâches répétitives. Une hémorragie silencieuse de temps médical.",
+      "Vos soignants s'épuisent, vous faites appel à l'intérim. L'intérim arrive, vos permanents s'épuisent davantage — car on ne construit pas une équipe avec des personnes qui ne connaissent ni le service, ni ses patients, ni ses protocoles.",
   },
   {
     number: "06",
-    title: "Les équipes s'épuisent dans les couloirs",
+    title: "La traçabilité existe. Au clavier, elle peut être écrite dans l'urgence.",
     description:
-      "La charge administrative alimente le stress et l'épuisement professionnel. Les soignants compensent en heures supplémentaires, loin des patients.",
+      "On trace ce qu'on peut, quand on peut. Parfois après. Parfois de mémoire. En cas de litige, c'est cette trace-là qu'on lit. Et elle dit moins que ce qui s'est vraiment passé.",
   },
   {
     number: "07",
-    title: "L'établissement finance la saisie",
+    title: "Vos outils ont été conçus pour une autre époque.",
     description:
-      "76 766 € par an pour 40 soignants : c'est la valeur du temps médical absorbée par l'administratif. Un coût mesurable, évitable et récupérable.",
+      "Le soin a évolué. Les contraintes ont explosé. Les outils, eux, n'ont pas suivi. Et c'est votre équipe qui compense.",
   },
 ];
