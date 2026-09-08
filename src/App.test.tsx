@@ -1,5 +1,5 @@
 import { render, screen, within } from "@testing-library/react";
-import { readFileSync } from "node:fs";
+import indexHtml from "../index.html?raw";
 import App from "./App";
 
 const PILOT_BOOKING_URL =
@@ -38,9 +38,7 @@ test("renders section landmarks in the approved order", () => {
 });
 
 test("does not load unused Google font or preconnect resources", () => {
-  const html = readFileSync(new URL("../index.html", import.meta.url), "utf8");
-
-  expect(html).not.toContain("fonts.googleapis.com");
-  expect(html).not.toContain("fonts.gstatic.com");
-  expect(html).not.toMatch(/rel=["']preconnect["']/);
+  expect(indexHtml).not.toContain("fonts.googleapis.com");
+  expect(indexHtml).not.toContain("fonts.gstatic.com");
+  expect(indexHtml).not.toMatch(/rel=["']preconnect["']/);
 });
