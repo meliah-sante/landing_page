@@ -178,3 +178,66 @@ Exit code 0
 ```
 
 The test, lint, and build output is warning-free.
+
+---
+
+## Final Task 4 Review Follow-up
+
+### Findings Resolved
+
+- Removed the three unapproved visible strings: `AURA ÉCOUTE`, `Transmission structurée et sécurisée`, and `PROGRAMME PILOTE`.
+- Preserved the hero visual with icon medallions, voice bars, and abstract interface lines; preserved the pilot treatment with a coral graphic rule.
+- Moved `aria-roledescription="carrousel"` onto the named carousel region and added its explicit `role="region"`.
+- Raised inactive carousel indicators to 50% charcoal and active indicators to accessible coral, producing at least `3.1:1` and `5.7:1` contrast respectively on the light carousel surface.
+- Replaced every translucent coral/charcoal focus ring in the source:
+  - Light interfaces use accessible coral, with at least `5.24:1` contrast against the light brand surfaces.
+  - Dark footer and dark conversion areas use full bright coral, with `4.80:1` contrast against charcoal.
+  - Neutral shared buttons use full charcoal against white/warm-white surfaces.
+- Audited links, buttons, form fields, tabs, accordion trigger, mobile dialog controls, carousel controls, and the focusable carousel region.
+
+### Final Review TDD Evidence
+
+Added tests before implementation for the unapproved-copy removal and carousel role-description placement.
+
+Observed RED:
+
+```text
+18 pass
+2 fail
+Expected unapproved copy query to be null; received an element.
+Expected explicit role "region"; received null.
+```
+
+After implementation:
+
+```text
+20 pass
+0 fail
+157 expect() calls
+```
+
+### Final Verification
+
+```text
+bun test
+39 pass
+0 fail
+218 expect() calls
+Ran 39 tests across 6 files.
+```
+
+```text
+bun run lint
+eslint .
+Exit code 0
+```
+
+```text
+bun run build
+tsc -b && vite build
+2332 modules transformed
+Build completed successfully
+Exit code 0
+```
+
+All final verification output is warning-free.
