@@ -6,7 +6,7 @@ import { cn } from "../lib/cn";
 import { Button } from "./ui/Button";
 
 const linkClassName =
-  "text-sm font-medium text-charcoal/80 transition-colors hover:text-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white";
+  "text-sm font-medium text-charcoal/80 transition-colors hover:text-coral-accessible focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white";
 
 const dialogMotionClasses =
   "motion-reduce:animate-none motion-reduce:transition-none motion-reduce:zoom-in-95 motion-reduce:zoom-out-95";
@@ -43,7 +43,7 @@ export function SiteHeader() {
           <span
             lang="fr"
             aria-label="Langue sélectionnée : Français"
-            className="hidden text-sm font-medium uppercase tracking-wide text-charcoal/60 md:inline"
+            className="hidden text-sm font-medium uppercase tracking-wide text-charcoal/70 md:inline"
           >
             FR
           </span>
@@ -52,8 +52,8 @@ export function SiteHeader() {
             href="#pilote"
             className={cn(
               "inline-flex items-center font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white",
-              "rounded-full bg-coral px-3 py-2 text-[0.7rem] leading-tight text-white hover:bg-coral-dark sm:px-4 sm:text-sm",
-              "lg:rounded-none lg:bg-transparent lg:px-0 lg:py-0 lg:text-sm lg:text-coral lg:hover:text-coral-dark",
+              "rounded-full bg-coral-accessible px-3 py-2 text-[0.7rem] leading-tight text-white hover:bg-coral-accessible-dark sm:px-4 sm:text-sm",
+              "lg:rounded-none lg:bg-transparent lg:px-0 lg:py-0 lg:text-sm lg:text-coral-accessible lg:hover:text-coral-accessible-dark",
             )}
           >
             Réserver ma place pilote
@@ -102,7 +102,7 @@ export function SiteHeader() {
                     <Dialog.Close asChild key={link.href}>
                       <a
                         href={link.href}
-                        className="rounded-lg px-3 py-3 text-base font-medium text-charcoal/80 transition-colors hover:bg-charcoal/5 hover:text-coral focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
+                        className="rounded-lg px-3 py-3 text-base font-medium text-charcoal/80 transition-colors hover:bg-charcoal/5 hover:text-coral-accessible focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50"
                       >
                         {link.label}
                       </a>
@@ -113,7 +113,7 @@ export function SiteHeader() {
                 <Dialog.Close asChild>
                   <a
                     href="#pilote"
-                    className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-coral px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-coral-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2"
+                    className="mt-6 inline-flex w-full items-center justify-center rounded-full bg-coral-accessible px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-coral-accessible-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2"
                   >
                     Réserver ma place pilote
                   </a>

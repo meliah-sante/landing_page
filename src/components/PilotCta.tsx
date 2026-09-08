@@ -17,7 +17,7 @@ export function PilotCta() {
             <blockquote className="mx-auto mt-6 max-w-3xl text-2xl leading-10 tracking-[-0.025em] text-charcoal sm:text-4xl sm:leading-[1.25]">
               {testimonial.quote}
             </blockquote>
-            <figcaption className="mt-7 text-sm font-semibold text-charcoal/50">
+            <figcaption className="mt-7 text-sm font-semibold text-charcoal/70">
               {testimonial.attribution}
             </figcaption>
           </figure>

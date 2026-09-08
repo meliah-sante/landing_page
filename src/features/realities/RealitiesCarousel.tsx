@@ -130,7 +130,7 @@ export function RealitiesCarousel() {
           <h2 id="realities-carousel-title" className="section-title">
             {realitiesIntro.heading}
           </h2>
-          <p className="text-lg text-charcoal/55">{realitiesIntro.subheading}</p>
+          <p className="text-lg text-charcoal/70">{realitiesIntro.subheading}</p>
         </div>
 
         <div
@@ -196,7 +196,7 @@ export function RealitiesCarousel() {
                     !prefersReducedMotion && position === "current" && "transition-all duration-300",
                   )}
                 >
-                  <p className="mb-3 text-sm font-semibold tracking-[0.25em] text-coral">{reality.number}</p>
+                  <p className="mb-3 text-sm font-semibold tracking-[0.25em] text-coral-accessible">{reality.number}</p>
                   {position === "current" ? (
                     <>
                       <h3 className="mb-3 text-xl font-semibold text-charcoal sm:text-2xl">{reality.title}</h3>
@@ -234,7 +234,7 @@ export function RealitiesCarousel() {
         </div>
 
         <div className="mt-9 flex flex-col items-center justify-center gap-4 text-center">
-          <p className="text-sm text-charcoal/50">{realitiesIntro.supportingText}</p>
+          <p className="text-sm text-charcoal/70">{realitiesIntro.supportingText}</p>
           <a href="#calculatrice" className="cta-primary">
             {realitiesIntro.cta}
           </a>

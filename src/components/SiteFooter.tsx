@@ -27,13 +27,12 @@ export function SiteFooter() {
           </div>
         </div>
 
-        <div className="mt-12 flex flex-col gap-6 border-t border-white/10 pt-7 text-sm text-white/45 sm:flex-row sm:items-center sm:justify-between">
+        <div className="mt-12 flex flex-col gap-6 border-t border-white/10 pt-7 text-sm text-white/70 sm:flex-row sm:items-center sm:justify-between">
           <nav aria-label="Liens légaux">
             <ul className="flex flex-col gap-3 sm:flex-row sm:flex-wrap sm:gap-x-6">
               {footer.links.map((link) => (
                 <li key={link.label}>
                   <a
-                    id={link.href.startsWith("#") ? link.href.slice(1) : undefined}
                     href={link.href}
                     className="rounded-sm transition-colors hover:text-white focus-visible:ring-2 focus-visible:ring-coral/60 motion-reduce:transition-none"
                   >

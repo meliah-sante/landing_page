@@ -32,7 +32,7 @@ export function ModulesSection() {
               {modulesIntro.heading}
             </h2>
           </div>
-          <p className="max-w-xl text-lg leading-8 text-charcoal/60">{modulesIntro.subheading}</p>
+          <p className="max-w-xl text-lg leading-8 text-charcoal/70">{modulesIntro.subheading}</p>
         </Reveal>
 
         <div className="mt-14 grid overflow-hidden rounded-[2rem] border border-charcoal/10 md:grid-cols-2">
@@ -49,17 +49,17 @@ export function ModulesSection() {
                     <span className="module-icon">
                       <Icon className="h-6 w-6" strokeWidth={1.7} aria-hidden="true" />
                     </span>
-                    <span className="text-xs font-semibold tracking-[0.22em] text-charcoal/30">
+                    <span className="text-xs font-semibold tracking-[0.22em] text-charcoal/65">
                       / {String(index + 1).padStart(2, "0")}
                     </span>
                   </div>
                   <h3 className="mt-10 text-4xl font-bold tracking-[-0.05em] text-charcoal">
                     {module.name}
                   </h3>
-                  <p className="mt-2 text-sm font-bold uppercase tracking-[0.15em] text-coral">
+                  <p className="mt-2 text-sm font-bold uppercase tracking-[0.15em] text-coral-accessible">
                     {module.subtitle}
                   </p>
-                  <p className="mt-6 max-w-xl text-base leading-7 text-charcoal/60">
+                  <p className="mt-6 max-w-xl text-base leading-7 text-charcoal/70">
                     {module.description}
                   </p>
                 </article>

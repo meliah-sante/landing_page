@@ -65,7 +65,7 @@ function ResultCards({
           key={card.key}
           className="rounded-2xl border border-charcoal/10 bg-warm-white p-5 text-center"
         >
-          <p className="mb-2 text-sm font-medium text-charcoal/60">{card.label}</p>
+          <p className="mb-2 text-sm font-medium text-charcoal/70">{card.label}</p>
           <p className="text-2xl font-semibold text-charcoal">{getCardValue(card.key)}</p>
         </article>
       ))}
@@ -129,7 +129,7 @@ export function LossCalculator() {
           className="w-full max-w-xs rounded-xl border border-charcoal/15 bg-warm-white px-4 py-3 text-base text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
         />
         {staffError ? (
-          <p id={staffErrorId} className="mt-2 text-sm text-coral" role="alert">
+          <p id={staffErrorId} className="mt-2 text-sm text-coral-accessible" role="alert">
             {STAFF_COUNT_ERROR}
           </p>
         ) : null}
@@ -145,7 +145,7 @@ export function LossCalculator() {
             className={cn(
               "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2",
               "text-charcoal/70 hover:text-charcoal",
-              "data-[state=active]:bg-coral data-[state=active]:text-white",
+              "data-[state=active]:bg-coral-accessible data-[state=active]:text-white",
             )}
           >
             Euros
@@ -155,7 +155,7 @@ export function LossCalculator() {
             className={cn(
               "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2",
               "text-charcoal/70 hover:text-charcoal",
-              "data-[state=active]:bg-coral data-[state=active]:text-white",
+              "data-[state=active]:bg-coral-accessible data-[state=active]:text-white",
             )}
           >
             Heures
@@ -176,7 +176,7 @@ export function LossCalculator() {
             <Accordion.Trigger className="group flex min-h-11 w-full items-center justify-between gap-3 px-5 py-4 text-left text-sm font-semibold text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-inset">
               Comment ces chiffres sont calculés
               <ChevronDown
-                className="h-4 w-4 shrink-0 text-charcoal/50 transition-transform motion-reduce:transition-none group-data-[state=open]:rotate-180 motion-reduce:group-data-[state=open]:rotate-0"
+                className="h-4 w-4 shrink-0 text-charcoal/65 transition-transform motion-reduce:transition-none group-data-[state=open]:rotate-180 motion-reduce:group-data-[state=open]:rotate-0"
                 aria-hidden="true"
               />
             </Accordion.Trigger>
@@ -204,7 +204,7 @@ export function LossCalculator() {
             className="w-full rounded-xl border border-charcoal/15 bg-warm-white px-4 py-3 text-base text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           />
           {errors.name ? (
-            <p id={nameErrorId} className="mt-2 text-sm text-coral" role="alert">
+            <p id={nameErrorId} className="mt-2 text-sm text-coral-accessible" role="alert">
               {errors.name}
             </p>
           ) : null}
@@ -224,7 +224,7 @@ export function LossCalculator() {
             className="w-full rounded-xl border border-charcoal/15 bg-warm-white px-4 py-3 text-base text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral/50 focus-visible:ring-offset-2 focus-visible:ring-offset-white"
           />
           {errors.email ? (
-            <p id={emailErrorId} className="mt-2 text-sm text-coral" role="alert">
+            <p id={emailErrorId} className="mt-2 text-sm text-coral-accessible" role="alert">
               {errors.email}
             </p>
           ) : null}

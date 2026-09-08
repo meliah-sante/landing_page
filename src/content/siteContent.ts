@@ -184,8 +184,8 @@ export const pilot = {
 export const footer = {
   tagline: "Réclamer au soin le temps qui lui appartient.",
   links: [
-    { href: "#mentions-legales", label: "Mentions légales" },
-    { href: "#confidentialite", label: "Politique de confidentialité" },
+    { href: "/mentions-legales", label: "Mentions légales" },
+    { href: "/politique-de-confidentialite", label: "Politique de confidentialité" },
     { href: "mailto:contact@meliahsante.fr", label: "contact@meliahsante.fr" },
   ],
   copyright: "© 2026 Méliah Santé — Tous droits réservés",

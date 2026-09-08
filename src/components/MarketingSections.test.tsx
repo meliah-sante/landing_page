@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import App from "../App";
 
 test("renders the complete AURA conversion journey", () => {
@@ -59,4 +59,147 @@ test("renders the inspected source copy and connects every conversion link", () 
   screen.getAllByRole("link", { name: /réserver ma place pilote/i }).forEach((link) => {
     expect(link).toHaveAttribute("href", "#pilote");
   });
+});
+
+test("renders every comparison and statistic literally", () => {
+  render(<App />);
+
+  [
+    ["AU CLAVIER", "40 mots/min"],
+    ["À LA VOIX", "150 mots/min"],
+  ].forEach(([label, value]) => {
+    expect(screen.getByText(label, { exact: true })).toBeInTheDocument();
+    expect(screen.getByText(value, { exact: true })).toBeInTheDocument();
+  });
+
+  [
+    ["13h20", "minimum récupérées chaque jour sans embaucher."],
+    ["76 766€", "réinjectés dans le soin réel."],
+    ["1.1 ETP", "récupéré par jour sans un seul recrutement."],
+    ["4x", "plus rapide que l'écrit traçabilité vocale vs clavier."],
+  ].forEach(([value, description]) => {
+    expect(screen.getByText(value, { exact: true })).toBeInTheDocument();
+    expect(screen.getByText(description, { exact: true })).toBeInTheDocument();
+  });
+});
+
+test("renders all daily features literally", () => {
+  render(<App />);
+
+  [
+    [
+      "Charge de travail maîtrisée",
+      "La journée s'organise. Les priorités sont claires dès la prise de poste.",
+    ],
+    [
+      "Alertes visibles et segmentées",
+      "Chaque signal au bon endroit. Rien ne se note dans les dossiers.",
+    ],
+    [
+      "Réduction des risques d'incident",
+      "Tout est à portée de main. Chaque décision s'appuie sur des données fiables.",
+    ],
+    [
+      "Filet de sécurité",
+      "Chaque information tracée, horodatée. Rien ne se perd. Jamais.",
+    ],
+    ["Interrogation vocale", "Une question ? AURA répond immédiatement."],
+    [
+      "Transmission automatisée",
+      "AURA génère la synthèse au poste. La relève est complète, priorisée, adaptée et prête rapidement.",
+    ],
+  ].forEach(([title, description]) => {
+    expect(screen.getByRole("heading", { level: 3, name: title })).toBeInTheDocument();
+    expect(screen.getByText(description, { exact: true })).toBeInTheDocument();
+  });
+});
+
+test("renders all modules literally", () => {
+  render(<App />);
+
+  [
+    [
+      "AURA",
+      "Traçabilité vocale",
+      "AURA est invisible. Le soignant parle. AURA structure, horodate et sécurise chaque transmission en quelques secondes.",
+    ],
+    [
+      "FOCUS",
+      "Fin de poste",
+      "La relève structurée, complète, adaptée à chaque service. Zéro oubli. Zéro papier. La continuité du soin garantie à chaque passage de main.",
+    ],
+    [
+      "DÔME",
+      "Protection des appels",
+      "Plus de coupures en plein soin. Vos soignants restent concentrés là où ça compte. Moins d'interruptions, moins de risques d'erreurs.",
+    ],
+    [
+      "PRIORIS",
+      "Alertes & Priorisation",
+      "L'urgence au bon endroit, au bon moment. Sans aller-retour.",
+    ],
+  ].forEach(([name, subtitle, description]) => {
+    expect(screen.getByRole("heading", { level: 3, name })).toBeInTheDocument();
+    expect(screen.getByText(subtitle, { exact: true })).toBeInTheDocument();
+    expect(screen.getByText(description, { exact: true })).toBeInTheDocument();
+  });
+});
+
+test("uses meaningful literal destinations for conversion and legal links", () => {
+  render(<App />);
+
+  [
+    ["Calculer ma perte", "#calculatrice"],
+    ["Calculer mes pertes", "#calculatrice"],
+    ["Prendre rendez-vous", "#pilote"],
+    ["Découvrir tous les modules", "#pilote"],
+    ["Réserver ma place pilote", "#pilote"],
+  ].forEach(([name, href]) => {
+    screen.getAllByRole("link", { name }).forEach((link) => {
+      expect(link.getAttribute("href")).toBe(href);
+    });
+  });
+
+  expect(
+    screen.getByRole("link", { name: "Mentions légales" }).getAttribute("href"),
+  ).toBe("/mentions-legales");
+  expect(
+    screen
+      .getByRole("link", { name: "Politique de confidentialité" })
+      .getAttribute("href"),
+  ).toBe("/politique-de-confidentialite");
+  expect(
+    screen.getByRole("link", { name: "contact@meliahsante.fr" }).getAttribute("href"),
+  ).toBe("mailto:contact@meliahsante.fr");
+});
+
+test("exposes named landmarks and reduced-motion state", async () => {
+  Object.defineProperty(window, "matchMedia", {
+    configurable: true,
+    writable: true,
+    value: (query: string) => ({
+      matches: query === "(prefers-reduced-motion: reduce)",
+      media: query,
+      onchange: null,
+      addListener: () => undefined,
+      removeListener: () => undefined,
+      addEventListener: () => undefined,
+      removeEventListener: () => undefined,
+      dispatchEvent: () => false,
+    }),
+  });
+
+  render(<App />);
+
+  screen.getAllByRole("region").forEach((region) => {
+    expect(region).toHaveAccessibleName();
+  });
+  expect(screen.getByRole("navigation", { name: "Liens légaux" })).toBeInTheDocument();
+
+  await waitFor(() => {
+    expect(
+      screen.getByRole("region", { name: "Carrousel des réalités" }),
+    ).toHaveAttribute("data-reduced-motion", "true");
+  });
+  expect(document.querySelectorAll("[data-reduced-motion]").length).toBeGreaterThan(1);
 });

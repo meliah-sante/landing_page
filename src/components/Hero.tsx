@@ -37,13 +37,13 @@ export function Hero() {
               Réserver ma place pilote
             </a>
           </div>
-          <p className="mt-6 max-w-xl text-xs leading-5 text-charcoal/45">{hero.note}</p>
+          <p className="mt-6 max-w-xl text-xs leading-5 text-charcoal/70">{hero.note}</p>
         </Reveal>
 
         <Reveal delay={0.12} className="relative mx-auto w-full max-w-[30rem]">
           <div className="hero-visual" aria-hidden="true">
             <div className="hero-signal-card">
-              <div className="flex items-center gap-2 text-coral">
+              <div className="flex items-center gap-2 text-coral-accessible">
                 <AudioWaveform className="h-5 w-5" />
                 <span className="text-xs font-bold tracking-[0.22em]">AURA ÉCOUTE</span>
               </div>
@@ -56,8 +56,8 @@ export function Hero() {
                   />
                 ))}
               </div>
-              <div className="mt-5 flex items-center gap-2 text-xs font-medium text-charcoal/55">
-                <ShieldCheck className="h-4 w-4 text-coral" />
+              <div className="mt-5 flex items-center gap-2 text-xs font-medium text-charcoal/70">
+                <ShieldCheck className="h-4 w-4 text-coral-accessible" />
                 Transmission structurée et sécurisée
               </div>
             </div>

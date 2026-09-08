@@ -31,7 +31,7 @@ export function DailyFeatures() {
         <Reveal className="grid items-end gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="eyebrow">{daily.eyebrow}</p>
-            <p className="mt-5 text-6xl font-bold tracking-[-0.06em] text-coral sm:text-8xl">
+            <p className="mt-5 text-6xl font-bold tracking-[-0.06em] text-coral-accessible sm:text-8xl">
               {daily.brand}
             </p>
           </div>
@@ -70,7 +70,7 @@ export function DailyFeatures() {
                       <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
                     </div>
                     <h3 className="mt-8 text-xl font-semibold tracking-tight">{feature.title}</h3>
-                    <p className="mt-3 text-sm leading-6 text-charcoal/60">
+                    <p className="mt-3 text-sm leading-6 text-charcoal/70">
                       {feature.description}
                     </p>
                   </article>

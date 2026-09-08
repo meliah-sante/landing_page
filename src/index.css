@@ -7,6 +7,8 @@
   --color-charcoal: #20201f;
   --color-coral: #e85f50;
   --color-coral-dark: #c94c40;
+  --color-coral-accessible: #a83b32;
+  --color-coral-accessible-dark: #8f2f28;
   --color-coral-soft: #f4e8e1;
 
   --shadow-soft: 0 22px 70px rgba(32, 32, 31, 0.09);
@@ -33,7 +35,7 @@
   }
 
   ::selection {
-    @apply bg-coral text-white;
+    @apply bg-coral-accessible text-white;
   }
 
   section[id] {
@@ -56,7 +58,7 @@
   }
 
   .eyebrow {
-    @apply text-xs font-bold uppercase tracking-[0.22em] text-coral;
+    @apply text-xs font-bold uppercase tracking-[0.22em] text-coral-accessible;
   }
 
   .eyebrow-on-dark {
@@ -84,7 +86,7 @@
   }
 
   .cta-primary {
-    @apply bg-coral text-white shadow-[0_12px_28px_rgba(232,95,80,0.24)] hover:-translate-y-0.5 hover:bg-coral-dark focus-visible:ring-offset-warm-white motion-reduce:hover:translate-y-0;
+    @apply bg-coral-accessible text-white shadow-[0_12px_28px_rgba(168,59,50,0.24)] hover:-translate-y-0.5 hover:bg-coral-accessible-dark focus-visible:ring-offset-warm-white motion-reduce:hover:translate-y-0;
   }
 
   .cta-secondary {
@@ -170,7 +172,7 @@
   }
 
   .phone-caption {
-    @apply absolute bottom-6 left-6 right-6 z-20 flex items-center justify-center gap-2 rounded-full border border-white/15 bg-charcoal/80 px-4 py-3 text-center text-xs font-semibold text-white/75 backdrop-blur;
+    @apply absolute bottom-6 left-6 right-6 z-20 flex items-center justify-center gap-2 rounded-full border border-white/15 bg-charcoal/90 px-4 py-3 text-center text-xs font-semibold text-white backdrop-blur;
   }
 
   .feature-card {
@@ -178,7 +180,7 @@
   }
 
   .feature-number {
-    @apply absolute right-6 top-5 text-xs font-bold tracking-[0.2em] text-charcoal/25;
+    @apply absolute right-6 top-5 text-xs font-bold tracking-[0.2em] text-charcoal/65;
   }
 
   .module-card {
@@ -186,7 +188,7 @@
   }
 
   .module-icon {
-    @apply grid h-14 w-14 place-items-center rounded-full border border-coral/30 bg-coral-soft text-coral transition-colors duration-300 group-hover:bg-coral group-hover:text-white motion-reduce:transition-none;
+    @apply grid h-14 w-14 place-items-center rounded-full border border-coral/30 bg-coral-soft text-coral-accessible transition-colors duration-300 group-hover:bg-coral-accessible group-hover:text-white motion-reduce:transition-none;
   }
 
   .pilot-card {

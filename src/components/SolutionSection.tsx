@@ -40,12 +40,12 @@ export function SolutionSection() {
                 className={
                   index === 0
                     ? "comparison-card border-white/10 bg-white/[0.04]"
-                    : "comparison-card border-coral/40 bg-coral"
+                    : "comparison-card border-coral-accessible bg-coral-accessible"
                 }
               >
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className={index === 0 ? "eyebrow text-white/45" : "eyebrow text-white/75"}>
+                    <p className={index === 0 ? "eyebrow text-white/60" : "eyebrow text-white"}>
                       {item.label}
                     </p>
                     <p className="mt-3 text-3xl font-semibold tracking-tight">{item.value}</p>
