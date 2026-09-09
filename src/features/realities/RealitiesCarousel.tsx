@@ -1,0 +1,237 @@
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCallback, useEffect, useRef, useState, type KeyboardEvent } from "react";
+import { Button } from "../../components/ui/Button";
+import { realities as REALITIES, realitiesIntro } from "../../content/siteContent";
+import { cn } from "../../lib/cn";
+
+const SWIPE_THRESHOLD = 40;
+const TOTAL_REALITIES = REALITIES.length;
+
+function formatProgress(index: number): string {
+  const current = String(index + 1).padStart(2, "0");
+  const total = String(TOTAL_REALITIES).padStart(2, "0");
+  return `${current} / ${total}`;
+}
+
+function usePrefersReducedMotion(): boolean {
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
+  useEffect(() => {
+    if (typeof window.matchMedia !== "function") {
+      return;
+    }
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
+
+    updatePreference();
+    mediaQuery.addEventListener("change", updatePreference);
+    return () => mediaQuery.removeEventListener("change", updatePreference);
+  }, []);
+
+  return prefersReducedMotion;
+}
+
+type SlidePosition = "before" | "previous" | "current" | "next" | "after";
+
+function getSlidePosition(index: number, currentIndex: number): SlidePosition {
+  if (index === currentIndex) return "current";
+  if (index === currentIndex - 1) return "previous";
+  if (index === currentIndex + 1) return "next";
+  return index < currentIndex ? "before" : "after";
+}
+
+export function RealitiesCarousel() {
+  const [currentIndex, setCurrentIndex] = useState(0);
+  const touchStartX = useRef<number | null>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
+
+  const goToIndex = useCallback((index: number) => {
+    setCurrentIndex(Math.max(0, Math.min(index, TOTAL_REALITIES - 1)));
+  }, []);
+
+  const goToPrevious = useCallback(() => {
+    goToIndex(currentIndex - 1);
+  }, [currentIndex, goToIndex]);
+
+  const goToNext = useCallback(() => {
+    goToIndex(currentIndex + 1);
+  }, [currentIndex, goToIndex]);
+
+  const handleKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
+    if (event.key === "ArrowLeft") {
+      goToPrevious();
+    }
+    if (event.key === "ArrowRight") {
+      goToNext();
+    }
+  };
+
+  const handleTouchStart = (clientX: number) => {
+    touchStartX.current = clientX;
+  };
+
+  const handleTouchEnd = (clientX: number) => {
+    if (touchStartX.current === null) {
+      return;
+    }
+
+    const delta = clientX - touchStartX.current;
+    touchStartX.current = null;
+
+    if (delta <= -SWIPE_THRESHOLD) {
+      goToNext();
+      return;
+    }
+
+    if (delta >= SWIPE_THRESHOLD) {
+      goToPrevious();
+    }
+  };
+
+  const currentReality = REALITIES[currentIndex];
+
+  return (
+    <section
+      id="realites"
+      role="region"
+      aria-label="Carrousel des réalités"
+      aria-roledescription="carrousel"
+      tabIndex={0}
+      data-reduced-motion={prefersReducedMotion ? "true" : "false"}
+      className="section-pad bg-warm-white outline-none focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-coral-accessible"
+      onKeyDown={handleKeyDown}
+      onTouchStart={(event) => handleTouchStart(event.touches[0]?.clientX ?? 0)}
+      onTouchEnd={(event) => handleTouchEnd(event.changedTouches[0]?.clientX ?? 0)}
+    >
+      <div className="container">
+        <div className="mx-auto max-w-3xl space-y-4 text-center">
+          <p className="eyebrow">{realitiesIntro.eyebrow}</p>
+          <h2 id="realities-carousel-title" className="section-title">
+            {realitiesIntro.heading}
+          </h2>
+          <p className="text-lg text-charcoal/70">{realitiesIntro.subheading}</p>
+        </div>
+
+        <div className="mt-12 rounded-[2rem] border border-charcoal/10 bg-white/70 p-4 shadow-soft sm:p-6">
+          <div className="mb-6 flex items-center justify-between gap-4">
+            <Button
+              type="button"
+              variant="secondary"
+              aria-label="Réalité précédente"
+              className="h-11 w-11 shrink-0 rounded-full px-0"
+              onClick={goToPrevious}
+              disabled={currentIndex === 0}
+            >
+              <ChevronLeft className="h-5 w-5" aria-hidden="true" />
+            </Button>
+
+            <div
+              aria-live="polite"
+              aria-atomic="true"
+              className="min-w-[5.5rem] text-center"
+            >
+              <p className="text-sm font-semibold tracking-[0.2em] text-charcoal/70">
+                {formatProgress(currentIndex)}
+              </p>
+              <p className="sr-only">
+                {currentReality.title}. {currentReality.description}
+              </p>
+            </div>
+
+            <Button
+              type="button"
+              variant="secondary"
+              aria-label="Réalité suivante"
+              className="h-11 w-11 shrink-0 rounded-full px-0"
+              onClick={goToNext}
+              disabled={currentIndex === TOTAL_REALITIES - 1}
+            >
+              <ChevronRight className="h-5 w-5" aria-hidden="true" />
+            </Button>
+          </div>
+
+          <div className="relative min-h-[14rem] overflow-hidden md:min-h-[18rem]">
+            <div className="flex items-stretch justify-center">
+              {REALITIES.map((reality, index) => {
+                const position = getSlidePosition(index, currentIndex);
+                return (
+                  <article
+                    key={reality.number}
+                    data-reality-key={reality.number}
+                    data-slide-position={position}
+                    aria-hidden={position !== "current"}
+                    className={cn(
+                      "shrink-0 overflow-hidden rounded-2xl border border-charcoal/10 bg-warm-white text-left shadow-sm",
+                      !prefersReducedMotion &&
+                        "transition-[transform,opacity] duration-300 ease-out",
+                      position === "current" &&
+                        "z-10 mx-2 w-full max-w-2xl translate-x-0 scale-100 p-6 opacity-100",
+                      position === "previous" &&
+                        "pointer-events-none w-0 max-w-xs -translate-x-4 scale-95 p-0 opacity-0 md:mr-2 md:w-1/4 md:p-6 md:opacity-60",
+                      position === "next" &&
+                        "pointer-events-none w-0 max-w-xs translate-x-4 scale-95 p-0 opacity-0 md:ml-2 md:w-1/4 md:p-6 md:opacity-60",
+                      position === "before" &&
+                        "pointer-events-none w-0 -translate-x-4 scale-95 p-0 opacity-0",
+                      position === "after" &&
+                        "pointer-events-none w-0 translate-x-4 scale-95 p-0 opacity-0",
+                    )}
+                  >
+                    <p className="mb-3 text-sm font-semibold tracking-[0.25em] text-coral-accessible">
+                      {reality.number}
+                    </p>
+                    {position === "current" ? (
+                      <>
+                        <h3 className="mb-3 text-xl font-semibold text-charcoal sm:text-2xl">
+                          {reality.title}
+                        </h3>
+                        <p className="text-base leading-relaxed text-charcoal/75">
+                          {reality.description}
+                        </p>
+                      </>
+                    ) : (
+                      <p className="line-clamp-6 text-base leading-relaxed text-charcoal/75">
+                        {reality.description}
+                      </p>
+                    )}
+                  </article>
+                );
+              })}
+            </div>
+          </div>
+
+          <div className="mt-6 flex flex-wrap items-center justify-center gap-2">
+            {REALITIES.map((reality, index) => (
+              <button
+                key={reality.number}
+                type="button"
+                aria-label={`Réalité ${index + 1} sur ${TOTAL_REALITIES}`}
+                aria-current={index === currentIndex ? "true" : undefined}
+                className="inline-flex h-11 w-11 items-center justify-center rounded-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white"
+                onClick={() => goToIndex(index)}
+              >
+                <span
+                  role="presentation"
+                  aria-hidden="true"
+                  className={cn(
+                    "h-3 w-3 rounded-full transition-colors",
+                    index === currentIndex
+                      ? "bg-coral-accessible"
+                      : "bg-charcoal/50 hover:bg-charcoal/70",
+                  )}
+                />
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-9 flex flex-col items-center justify-center gap-4 text-center">
+          <p className="text-sm text-charcoal/70">{realitiesIntro.supportingText}</p>
+          <a href="#calculatrice" className="cta-primary">
+            {realitiesIntro.cta}
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+}
