@@ -3,6 +3,7 @@ import { Menu, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import { navLinks } from "../content/navLinks";
 import { PILOT_REQUEST_URL } from "../content/siteContent";
+import { assetUrl } from "../lib/assetUrl";
 import { cn } from "../lib/cn";
 import { Button } from "./ui/Button";
 
@@ -48,7 +49,7 @@ export function SiteHeader() {
           )}
         >
           <img
-            src="/assets/meliah-logo.png"
+            src={assetUrl("assets/meliah-logo.png")}
             alt="Méliah Santé"
             className={cn(
               "w-auto transition-[height] duration-300 motion-reduce:transition-none",
