@@ -1,5 +1,6 @@
 import { AudioWaveform } from "lucide-react";
 import { footer } from "../content/siteContent";
+import { assetUrl } from "../lib/assetUrl";
 
 export function SiteFooter() {
   return (
@@ -12,7 +13,7 @@ export function SiteFooter() {
               className="inline-flex rounded-md focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-4 focus-visible:ring-offset-charcoal"
             >
               <img
-                src="/assets/meliah-logo.png"
+                src={assetUrl("assets/meliah-logo.png")}
                 alt="Méliah Santé"
                 className="h-10 w-auto brightness-0 invert"
               />

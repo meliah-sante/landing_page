@@ -1,5 +1,6 @@
 import { ArrowDownRight, AudioWaveform, ShieldCheck } from "lucide-react";
 import { hero, PILOT_REQUEST_URL } from "../content/siteContent";
+import { assetUrl } from "../lib/assetUrl";
 import { Reveal } from "./Reveal";
 
 const voiceBars = [22, 38, 58, 34, 70, 48, 82, 40, 64, 30, 50, 24];
@@ -46,7 +47,7 @@ export function Hero() {
         <Reveal delay={0.12} className="relative mx-auto w-full max-w-[30rem]">
           <div className="hero-visual">
             <img
-              src="/assets/phone-aura.png"
+              src={assetUrl("assets/phone-aura.png")}
               alt="Interface AURA sur le terminal d'un soignant"
               width={500}
               height={1008}

@@ -8,6 +8,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { daily, dailyFeatures, type DailyFeature } from "../content/siteContent";
+import { assetUrl } from "../lib/assetUrl";
 import { Reveal } from "./Reveal";
 
 const featureIcons: Record<DailyFeature["icon"], LucideIcon> = {
@@ -47,7 +48,7 @@ export function DailyFeatures() {
           <Reveal className="phone-stage">
             <div className="phone-glow" aria-hidden="true" />
             <img
-              src="/assets/phone-aura.png"
+              src={assetUrl("assets/phone-aura.png")}
               alt="Interface AURA sur le terminal d'un soignant"
               width={500}
               height={1008}
