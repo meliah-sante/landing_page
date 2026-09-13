@@ -87,15 +87,6 @@ export function SolutionSection() {
           })}
         </Reveal>
 
-        <Reveal className="mt-5 grid gap-px overflow-hidden rounded-[1.75rem] bg-white/10 md:grid-cols-2">
-          {solution.capabilities.map((capability) => (
-            <div key={capability.title} className="bg-charcoal/90 p-6 sm:p-7">
-              <h3 className="text-lg font-semibold text-white">{capability.title}</h3>
-              <p className="mt-2 text-sm leading-6 text-white/60">{capability.description}</p>
-            </div>
-          ))}
-        </Reveal>
-
         <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {solutionBenefits.map((benefit, index) => {
             const Icon = benefitIcons[benefit.icon];
@@ -103,9 +94,16 @@ export function SolutionSection() {
             return (
               <Reveal key={benefit.title} delay={index * 0.05} className="h-full">
                 <article className="solution-benefit-card">
-                  <span className="grid h-11 w-11 place-items-center rounded-full border border-coral/30 bg-coral/10 text-coral">
-                    <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
-                  </span>
+                  <div className="flex min-h-11 items-center justify-between gap-3">
+                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-coral/30 bg-coral/10 text-coral">
+                      <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
+                    </span>
+                    {benefit.capability ? (
+                      <span className="text-right text-xs font-semibold leading-5 text-white/60">
+                        {benefit.capability}
+                      </span>
+                    ) : null}
+                  </div>
                   <p className="mt-7 text-4xl font-semibold tracking-[-0.04em] text-coral">
                     {benefit.stat}
                   </p>

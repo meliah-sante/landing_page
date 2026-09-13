@@ -172,8 +172,16 @@ test("pairs financial and staffing statistics with capacity benefits", () => {
   expect(staffingCard).not.toBeNull();
   expect(within(budgetCard!).getByText("76 766€", { exact: true })).toBeInTheDocument();
   expect(within(staffingCard!).getByText("1.1 ETP", { exact: true })).toBeInTheDocument();
-  expect(solution.getByText("Traçabilité structurée", { exact: true })).toBeInTheDocument();
-  expect(solution.getByText("Priorités et transmissions", { exact: true })).toBeInTheDocument();
+  expect(
+    solution
+      .getByText("Traçabilité structurée", { exact: true })
+      .closest(".solution-benefit-card"),
+  ).not.toBeNull();
+  expect(
+    solution
+      .getByText("Priorités et transmissions", { exact: true })
+      .closest(".solution-benefit-card"),
+  ).not.toBeNull();
 });
 
 test("uses meaningful literal destinations for conversion and legal links", () => {

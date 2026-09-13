@@ -28,6 +28,7 @@ export type SolutionBenefit = {
   description: string;
   stat: string;
   statDescription: string;
+  capability?: string;
   icon: "mic" | "clock" | "shield" | "handover";
 };
 
@@ -81,16 +82,6 @@ export const solution = {
     { label: "À LA VOIX", value: "150 mots/min" },
   ],
   finePrint: "CONÇU PAR UNE SOIGNANTE, POUR ÊTRE CONFORME HDS & RGPD.",
-  capabilities: [
-    {
-      title: "Traçabilité structurée",
-      description: "Chaque information est structurée, horodatée et sécurisée.",
-    },
-    {
-      title: "Priorités et transmissions",
-      description: "Les alertes et la relève restent claires, complètes et actionnables.",
-    },
-  ],
 } as const;
 
 export const stats: readonly Stat[] = [
@@ -120,6 +111,7 @@ export const solutionBenefits: readonly SolutionBenefit[] = [
     description: "La capacité libérée revient directement au soin et à vos équipes.",
     stat: "76 766€",
     statDescription: "réinjectés dans le soin réel.",
+    capability: "Traçabilité structurée",
     icon: "shield",
   },
   {
@@ -127,6 +119,7 @@ export const solutionBenefits: readonly SolutionBenefit[] = [
     description: "Un équivalent temps plein récupéré sans ajouter un recrutement.",
     stat: "1.1 ETP",
     statDescription: "de capacité récupérée sans un seul recrutement.",
+    capability: "Priorités et transmissions",
     icon: "handover",
   },
 ] as const;
