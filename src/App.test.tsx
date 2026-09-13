@@ -8,10 +8,7 @@ const PILOT_REQUEST_URL =
 const expectedSectionIds = [
   "hero",
   "origine",
-  "realites",
   "solution",
-  "fonctionnalites",
-  "modules",
   "calculatrice",
   "pilote",
 ];
@@ -24,6 +21,8 @@ test("renders the primary navigation and page landmarks", () => {
   expect(
     within(header).getByRole("link", { name: /réserver ma place pilote/i }),
   ).toHaveAttribute("href", PILOT_REQUEST_URL);
+  expect(within(header).queryByRole("link", { name: "Les réalités" })).not.toBeInTheDocument();
+  expect(within(header).queryByRole("link", { name: "Modules" })).not.toBeInTheDocument();
 });
 
 test("offers a focus-visible skip link targeting the main content", () => {

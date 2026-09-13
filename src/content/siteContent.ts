@@ -28,10 +28,9 @@ export const PILOT_REQUEST_URL =
 
 export const navigation: readonly NavigationItem[] = [
   { href: "#origine", label: "À l'origine" },
-  { href: "#realites", label: "Les réalités" },
   { href: "#solution", label: "Solution" },
-  { href: "#modules", label: "Modules" },
   { href: "#calculatrice", label: "Calculer ma perte" },
+  { href: "#pilote", label: "Pilote" },
 ];
 
 export const hero = {

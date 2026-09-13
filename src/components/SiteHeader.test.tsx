@@ -38,6 +38,22 @@ test("keeps the pilot CTA visible outside the mobile menu with exact copy", () =
   expect(pilotLink.className).toMatch(/\bmin-h-11\b/);
 });
 
+test("shows only anchors for the simplified journey", () => {
+  render(<SiteHeader />);
+  const header = screen.getByRole("banner");
+
+  expect(within(header).queryByRole("link", { name: "Les réalités" })).not.toBeInTheDocument();
+  expect(within(header).queryByRole("link", { name: "Modules" })).not.toBeInTheDocument();
+  expect(within(header).getByRole("link", { name: "Solution" })).toHaveAttribute(
+    "href",
+    "#solution",
+  );
+  expect(within(header).getByRole("link", { name: "Calculer ma perte" })).toHaveAttribute(
+    "href",
+    "#calculatrice",
+  );
+});
+
 test("exposes the selected language to assistive technology", () => {
   render(<SiteHeader />);
   expect(screen.getByLabelText(/langue sélectionnée\s*:\s*français/i)).toBeInTheDocument();

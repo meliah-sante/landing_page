@@ -1,6 +1,4 @@
-import { DailyFeatures } from "./components/DailyFeatures";
 import { Hero } from "./components/Hero";
-import { ModulesSection } from "./components/ModulesSection";
 import { OriginSection } from "./components/OriginSection";
 import { PilotCta } from "./components/PilotCta";
 import { Reveal } from "./components/Reveal";
@@ -9,7 +7,6 @@ import { SiteFooter } from "./components/SiteFooter";
 import { SolutionSection } from "./components/SolutionSection";
 import { calculator } from "./content/siteContent";
 import { LossCalculator } from "./features/calculator/LossCalculator";
-import { RealitiesCarousel } from "./features/realities/RealitiesCarousel";
 
 export default function App() {
   return (
@@ -24,10 +21,7 @@ export default function App() {
       <main id="contenu-principal" tabIndex={-1}>
         <Hero />
         <OriginSection />
-        <RealitiesCarousel />
         <SolutionSection />
-        <DailyFeatures />
-        <ModulesSection />
         <section
           id="calculatrice"
           role="region"
