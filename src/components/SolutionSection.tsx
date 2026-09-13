@@ -87,6 +87,15 @@ export function SolutionSection() {
           })}
         </Reveal>
 
+        <Reveal className="mt-5 grid gap-px overflow-hidden rounded-[1.75rem] bg-white/10 md:grid-cols-2">
+          {solution.capabilities.map((capability) => (
+            <div key={capability.title} className="bg-charcoal/90 p-6 sm:p-7">
+              <h3 className="text-lg font-semibold text-white">{capability.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-white/60">{capability.description}</p>
+            </div>
+          ))}
+        </Reveal>
+
         <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
           {solutionBenefits.map((benefit, index) => {
             const Icon = benefitIcons[benefit.icon];

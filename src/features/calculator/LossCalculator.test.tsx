@@ -96,6 +96,9 @@ test("reveals the detailed result only after valid local submission", async () =
   expect(
     within(detail).getByRole("link", { name: /réserver ma place pilote/i }),
   ).toHaveAttribute("href", PILOT_REQUEST_URL);
+  expect(
+    screen.getByRole("region", { name: "Votre résultat détaillé" }),
+  ).toHaveFocus();
 });
 
 test("identifies required lead fields before validation without changing labels", () => {

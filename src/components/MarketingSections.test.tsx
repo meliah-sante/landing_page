@@ -7,7 +7,11 @@ const PILOT_REQUEST_URL =
 test("renders the complete AURA conversion journey", () => {
   render(<App />);
 
-  expect(screen.getByRole("heading", { name: /réinjectez 76.?766/i })).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", {
+      name: /réinjectez 76 766€ minimum\* par an dans le soin réel\./i,
+    }),
+  ).toBeInTheDocument();
   expect(
     screen.getByRole("heading", { name: /vos soignants, eux, sont au niveau/i }),
   ).toBeInTheDocument();
@@ -124,7 +128,7 @@ test("renders every comparison and statistic literally", () => {
   [
     ["13h20", "minimum récupérées chaque jour sans embaucher."],
     ["76 766€", "réinjectés dans le soin réel."],
-    ["1.1 ETP", "récupéré par jour sans un seul recrutement."],
+    ["1.1 ETP", "de capacité récupérée sans un seul recrutement."],
     ["4x", "plus rapide que l'écrit traçabilité vocale vs clavier."],
   ].forEach(([value, description]) => {
     expect(screen.getAllByText(value, { exact: true }).length).toBeGreaterThan(0);
@@ -152,6 +156,24 @@ test("merges the strongest proof into one scannable solution section", () => {
     within(solution!).queryByRole("link", { name: "Prendre rendez-vous" }),
   ).not.toBeInTheDocument();
   expect(screen.queryByRole("heading", { name: /une suite complète/i })).not.toBeInTheDocument();
+});
+
+test("pairs financial and staffing statistics with capacity benefits", () => {
+  render(<App />);
+  const solution = within(document.getElementById("solution")!);
+  const budgetCard = solution
+    .getByRole("heading", { name: "Budget réinjecté" })
+    .closest("article");
+  const staffingCard = solution
+    .getByRole("heading", { name: "Capacité retrouvée" })
+    .closest("article");
+
+  expect(budgetCard).not.toBeNull();
+  expect(staffingCard).not.toBeNull();
+  expect(within(budgetCard!).getByText("76 766€", { exact: true })).toBeInTheDocument();
+  expect(within(staffingCard!).getByText("1.1 ETP", { exact: true })).toBeInTheDocument();
+  expect(solution.getByText("Traçabilité structurée", { exact: true })).toBeInTheDocument();
+  expect(solution.getByText("Priorités et transmissions", { exact: true })).toBeInTheDocument();
 });
 
 test("uses meaningful literal destinations for conversion and legal links", () => {

@@ -43,7 +43,7 @@ export const navigation: readonly NavigationItem[] = [
 
 export const hero = {
   eyebrow: "SOLUTION DE TRAÇABILITÉ VOCALE",
-  heading: "Réinjectez 76766€ minimum* par an dans le soin réel.",
+  heading: "Réinjectez 76 766€ minimum* par an dans le soin réel.",
   body: "Chaque jour, 13h20 minimum* de présence soignante s'évaporent dans l'administratif. Ce temps vous appartient. Méliah Santé vous le rend.",
   note: "*Calcul basé sur un établissement de 40 soignants - Détail disponible sur demande",
 } as const;
@@ -81,7 +81,16 @@ export const solution = {
     { label: "À LA VOIX", value: "150 mots/min" },
   ],
   finePrint: "CONÇU PAR UNE SOIGNANTE, POUR ÊTRE CONFORME HDS & RGPD.",
-  cta: "Prendre rendez-vous",
+  capabilities: [
+    {
+      title: "Traçabilité structurée",
+      description: "Chaque information est structurée, horodatée et sécurisée.",
+    },
+    {
+      title: "Priorités et transmissions",
+      description: "Les alertes et la relève restent claires, complètes et actionnables.",
+    },
+  ],
 } as const;
 
 export const stats: readonly Stat[] = [
@@ -107,17 +116,17 @@ export const solutionBenefits: readonly SolutionBenefit[] = [
     icon: "clock",
   },
   {
-    title: "Traçabilité structurée",
-    description: "Chaque information est structurée, horodatée et sécurisée.",
+    title: "Budget réinjecté",
+    description: "La capacité libérée revient directement au soin et à vos équipes.",
     stat: "76 766€",
     statDescription: "réinjectés dans le soin réel.",
     icon: "shield",
   },
   {
-    title: "Priorités et transmissions",
-    description: "Les alertes et la relève restent claires, complètes et actionnables.",
+    title: "Capacité retrouvée",
+    description: "Un équivalent temps plein récupéré sans ajouter un recrutement.",
     stat: "1.1 ETP",
-    statDescription: "récupéré par jour sans un seul recrutement.",
+    statDescription: "de capacité récupérée sans un seul recrutement.",
     icon: "handover",
   },
 ] as const;

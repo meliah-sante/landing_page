@@ -80,7 +80,6 @@ export function SiteHeader() {
             className={cn(
               "inline-flex min-h-11 items-center font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white",
               "rounded-full bg-coral-accessible px-3 py-2 text-[0.7rem] leading-tight text-white hover:bg-coral-accessible-dark sm:px-4 sm:text-sm",
-              "lg:min-h-0 lg:rounded-none lg:bg-transparent lg:px-0 lg:py-0 lg:text-sm lg:text-coral-accessible lg:hover:text-coral-accessible-dark",
             )}
           >
             Réserver ma place pilote
