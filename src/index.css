@@ -188,6 +188,19 @@
     box-shadow: 0 0 0 2px var(--color-coral);
   }
 
+  .solution-benefit-card {
+    transition:
+      transform 300ms ease,
+      border-color 300ms ease,
+      background-color 300ms ease;
+    @apply h-full rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6 motion-reduce:transition-none;
+  }
+
+  .solution-benefit-card:hover {
+    transform: translateY(-0.2rem);
+    @apply border-coral/30 bg-white/[0.06];
+  }
+
   .feature-card {
     transition:
       transform 300ms ease,
@@ -344,6 +357,7 @@
 
 @media (hover: hover) {
   .comparison-card:hover,
+  .solution-benefit-card:hover,
   .feature-card:hover {
     will-change: transform;
   }
@@ -364,6 +378,7 @@
   }
 
   .comparison-card:hover,
+  .solution-benefit-card:hover,
   .feature-card:hover {
     transform: none;
   }

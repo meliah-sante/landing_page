@@ -23,6 +23,14 @@ export type Stat = {
   description: string;
 };
 
+export type SolutionBenefit = {
+  title: string;
+  description: string;
+  stat: string;
+  statDescription: string;
+  icon: "mic" | "clock" | "shield" | "handover";
+};
+
 export const PILOT_REQUEST_URL =
   "mailto:contact@meliahsante.fr?subject=Candidature%20%C3%A9tablissement%20pilote%20AURA";
 
@@ -83,6 +91,40 @@ export const stats: readonly Stat[] = [
   { value: "1.1 ETP", description: "récupéré par jour sans un seul recrutement." },
   { value: "4x", description: "plus rapide que l'écrit traçabilité vocale vs clavier." },
 ];
+
+export const solutionBenefits: readonly SolutionBenefit[] = [
+  {
+    title: "Traçabilité vocale",
+    description: "150 mots/min à la voix, contre 40 mots/min au clavier.",
+    stat: "4x",
+    statDescription: "plus rapide que l'écrit traçabilité vocale vs clavier.",
+    icon: "mic",
+  },
+  {
+    title: "Temps rendu au soin",
+    description: "La saisie recule. La présence auprès des patients reprend sa place.",
+    stat: "13h20",
+    statDescription: "minimum récupérées chaque jour sans embaucher.",
+    icon: "clock",
+  },
+  {
+    title: "Traçabilité structurée",
+    description: "Chaque information est structurée, horodatée et sécurisée.",
+    stat: "76 766€",
+    statDescription: "réinjectés dans le soin réel.",
+    icon: "shield",
+  },
+  {
+    title: "Priorités et transmissions",
+    description: "Les alertes et la relève restent claires, complètes et actionnables.",
+    stat: "1.1 ETP",
+    statDescription: "récupéré par jour sans un seul recrutement.",
+    icon: "handover",
+  },
+] as const;
+
+export const suiteNote =
+  "AURA travaille avec FOCUS, DÔME et PRIORIS pour prolonger la traçabilité, protéger le soin et rendre les priorités visibles.";
 
 export const daily = {
   eyebrow: "AURA AU QUOTIDIEN",

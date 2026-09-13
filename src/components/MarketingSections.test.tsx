@@ -109,13 +109,34 @@ test("renders every comparison and statistic literally", () => {
   });
 });
 
+test("merges the strongest proof into one scannable solution section", () => {
+  render(<App />);
+  const solution = document.getElementById("solution");
+
+  expect(solution).not.toBeNull();
+  [
+    "150 mots/min",
+    "13h20",
+    "76 766€",
+    "1.1 ETP",
+    "4x",
+    "Traçabilité structurée",
+    "Priorités et transmissions",
+  ].forEach((text) => {
+    expect(within(solution!).getByText(text, { exact: true })).toBeInTheDocument();
+  });
+  expect(
+    within(solution!).queryByRole("link", { name: "Prendre rendez-vous" }),
+  ).not.toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: /une suite complète/i })).not.toBeInTheDocument();
+});
+
 test("uses meaningful literal destinations for conversion and legal links", () => {
   render(<App />);
 
   [
     ["Calculer ma perte", "#calculatrice"],
     ["Calculer mes pertes", "#calculatrice"],
-    ["Prendre rendez-vous", "#pilote"],
   ].forEach(([name, href]) => {
     screen.getAllByRole("link", { name }).forEach((link) => {
       expect(link.getAttribute("href")).toBe(href);
