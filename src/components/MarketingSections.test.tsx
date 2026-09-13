@@ -66,10 +66,17 @@ test("renders the inspected source copy and connects every conversion link", () 
 
   const hero = document.getElementById("hero");
   expect(hero).not.toBeNull();
-  const heroArtwork = within(hero!).getByRole("img", { name: /interface aura/i });
-  expect(heroArtwork).toHaveAttribute("src", "/assets/phone-aura.png");
-  expect(heroArtwork).toHaveAttribute("loading", "eager");
-  expect(heroArtwork).toHaveAttribute("fetchpriority", "high");
+  expect(within(hero!).queryByRole("img", { name: /interface aura/i })).not.toBeInTheDocument();
+  expect(document.querySelector('img[src*="phone-aura.png"]')).not.toBeInTheDocument();
+  expect(
+    within(hero!).getByRole("link", { name: /réserver ma place pilote/i }),
+  ).toHaveAttribute("href", PILOT_REQUEST_URL);
+  expect(within(hero!).getByRole("link", { name: /calculer mes pertes/i })).toHaveAttribute(
+    "href",
+    "#calculatrice",
+  );
+  expect(within(hero!).getByText("150 mots/min", { exact: true })).toBeInTheDocument();
+  expect(within(hero!).getByText("4x plus rapide", { exact: true })).toBeInTheDocument();
   screen.getAllByRole("link", { name: /calculer mes pertes/i }).forEach((link) => {
     expect(link).toHaveAttribute("href", "#calculatrice");
   });
@@ -88,7 +95,7 @@ test("renders every comparison and statistic literally", () => {
     ["À LA VOIX", "150 mots/min"],
   ].forEach(([label, value]) => {
     expect(screen.getByText(label, { exact: true })).toBeInTheDocument();
-    expect(screen.getByText(value, { exact: true })).toBeInTheDocument();
+    expect(screen.getAllByText(value, { exact: true }).length).toBeGreaterThan(0);
   });
 
   [
@@ -97,7 +104,7 @@ test("renders every comparison and statistic literally", () => {
     ["1.1 ETP", "récupéré par jour sans un seul recrutement."],
     ["4x", "plus rapide que l'écrit traçabilité vocale vs clavier."],
   ].forEach(([value, description]) => {
-    expect(screen.getByText(value, { exact: true })).toBeInTheDocument();
+    expect(screen.getAllByText(value, { exact: true }).length).toBeGreaterThan(0);
     expect(screen.getByText(description, { exact: true })).toBeInTheDocument();
   });
 });
