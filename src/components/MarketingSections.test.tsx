@@ -158,30 +158,33 @@ test("merges the strongest proof into one scannable solution section", () => {
   expect(screen.queryByRole("heading", { name: /une suite complète/i })).not.toBeInTheDocument();
 });
 
-test("pairs financial and staffing statistics with capacity benefits", () => {
+test("presents four coherent benefit and proof narratives", () => {
   render(<App />);
-  const solution = within(document.getElementById("solution")!);
-  const budgetCard = solution
-    .getByRole("heading", { name: "Budget réinjecté" })
+  const solutionElement = document.getElementById("solution")!;
+  const solution = within(solutionElement);
+  const capacityCard = solution
+    .getByRole("heading", { name: "Temps et capacité retrouvés" })
     .closest("article");
-  const staffingCard = solution
-    .getByRole("heading", { name: "Capacité retrouvée" })
+  const traceabilityCard = solution
+    .getByRole("heading", { name: "Traçabilité structurée" })
+    .closest("article");
+  const handoverCard = solution
+    .getByRole("heading", { name: "Priorités et transmissions" })
     .closest("article");
 
-  expect(budgetCard).not.toBeNull();
-  expect(staffingCard).not.toBeNull();
-  expect(within(budgetCard!).getByText("76 766€", { exact: true })).toBeInTheDocument();
-  expect(within(staffingCard!).getByText("1.1 ETP", { exact: true })).toBeInTheDocument();
-  expect(
-    solution
-      .getByText("Traçabilité structurée", { exact: true })
-      .closest(".solution-benefit-card"),
-  ).not.toBeNull();
-  expect(
-    solution
-      .getByText("Priorités et transmissions", { exact: true })
-      .closest(".solution-benefit-card"),
-  ).not.toBeNull();
+  expect(solutionElement.querySelectorAll(".solution-benefit-card")).toHaveLength(4);
+  expect(capacityCard).not.toBeNull();
+  expect(traceabilityCard).not.toBeNull();
+  expect(handoverCard).not.toBeNull();
+  ["13h20", "76 766€", "1.1 ETP"].forEach((metric) => {
+    expect(within(capacityCard!).getByText(metric, { exact: true })).toBeInTheDocument();
+  });
+  expect(traceabilityCard).toHaveTextContent(
+    "Chaque information est structurée, horodatée et sécurisée.",
+  );
+  expect(handoverCard).toHaveTextContent(
+    "Les alertes et la relève restent claires, complètes et actionnables.",
+  );
 });
 
 test("uses meaningful literal destinations for conversion and legal links", () => {

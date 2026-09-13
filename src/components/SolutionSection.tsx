@@ -87,33 +87,40 @@ export function SolutionSection() {
           })}
         </Reveal>
 
-        <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+        <div className="mt-5 grid gap-4 lg:grid-cols-2">
           {solutionBenefits.map((benefit, index) => {
             const Icon = benefitIcons[benefit.icon];
 
             return (
               <Reveal key={benefit.title} delay={index * 0.05} className="h-full">
                 <article className="solution-benefit-card">
-                  <div className="flex min-h-11 items-center justify-between gap-3">
-                    <span className="grid h-11 w-11 shrink-0 place-items-center rounded-full border border-coral/30 bg-coral/10 text-coral">
-                      <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
-                    </span>
-                    {benefit.capability ? (
-                      <span className="text-right text-xs font-semibold leading-5 text-white/60">
-                        {benefit.capability}
-                      </span>
-                    ) : null}
-                  </div>
-                  <p className="mt-7 text-4xl font-semibold tracking-[-0.04em] text-coral">
-                    {benefit.stat}
-                  </p>
-                  <p className="mt-2 text-sm leading-6 text-white/55">
-                    {benefit.statDescription}
-                  </p>
+                  <span className="grid h-11 w-11 place-items-center rounded-full border border-coral/30 bg-coral/10 text-coral">
+                    <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
+                  </span>
                   <h3 className="mt-7 text-xl font-semibold tracking-tight text-white">
                     {benefit.title}
                   </h3>
                   <p className="mt-3 text-sm leading-6 text-white/60">{benefit.description}</p>
+                  {benefit.metrics.length > 0 ? (
+                    <div
+                      className={
+                        benefit.metrics.length > 1
+                          ? "mt-7 grid gap-3 sm:grid-cols-3"
+                          : "mt-7"
+                      }
+                    >
+                      {benefit.metrics.map((metric) => (
+                        <div key={metric.value} className="rounded-2xl bg-white/[0.05] p-4">
+                          <p className="text-3xl font-semibold tracking-[-0.04em] text-coral">
+                            {metric.value}
+                          </p>
+                          <p className="mt-2 text-xs leading-5 text-white/55">
+                            {metric.description}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
                 </article>
               </Reveal>
             );

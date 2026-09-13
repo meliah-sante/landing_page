@@ -18,7 +18,7 @@ export type Module = {
   icon: "wave" | "focus" | "dome" | "priority";
 };
 
-export type Stat = {
+export type SolutionMetric = {
   value: string;
   description: string;
 };
@@ -26,9 +26,7 @@ export type Stat = {
 export type SolutionBenefit = {
   title: string;
   description: string;
-  stat: string;
-  statDescription: string;
-  capability?: string;
+  metrics: readonly SolutionMetric[];
   icon: "mic" | "clock" | "shield" | "handover";
 };
 
@@ -84,42 +82,38 @@ export const solution = {
   finePrint: "CONÇU PAR UNE SOIGNANTE, POUR ÊTRE CONFORME HDS & RGPD.",
 } as const;
 
-export const stats: readonly Stat[] = [
-  { value: "13h20", description: "minimum récupérées chaque jour sans embaucher." },
-  { value: "76 766€", description: "réinjectés dans le soin réel." },
-  { value: "1.1 ETP", description: "récupéré par jour sans un seul recrutement." },
-  { value: "4x", description: "plus rapide que l'écrit traçabilité vocale vs clavier." },
-];
-
 export const solutionBenefits: readonly SolutionBenefit[] = [
   {
     title: "Traçabilité vocale",
     description: "150 mots/min à la voix, contre 40 mots/min au clavier.",
-    stat: "4x",
-    statDescription: "plus rapide que l'écrit traçabilité vocale vs clavier.",
+    metrics: [
+      {
+        value: "4x",
+        description: "plus rapide que l'écrit traçabilité vocale vs clavier.",
+      },
+    ],
     icon: "mic",
   },
   {
-    title: "Temps rendu au soin",
-    description: "La saisie recule. La présence auprès des patients reprend sa place.",
-    stat: "13h20",
-    statDescription: "minimum récupérées chaque jour sans embaucher.",
+    title: "Temps et capacité retrouvés",
+    description: "Le temps, le budget et la présence soignante reviennent au soin.",
+    metrics: [
+      { value: "13h20", description: "minimum récupérées chaque jour sans embaucher." },
+      { value: "76 766€", description: "réinjectés dans le soin réel." },
+      { value: "1.1 ETP", description: "de capacité récupérée sans un seul recrutement." },
+    ],
     icon: "clock",
   },
   {
-    title: "Budget réinjecté",
-    description: "La capacité libérée revient directement au soin et à vos équipes.",
-    stat: "76 766€",
-    statDescription: "réinjectés dans le soin réel.",
-    capability: "Traçabilité structurée",
+    title: "Traçabilité structurée",
+    description: "Chaque information est structurée, horodatée et sécurisée.",
+    metrics: [],
     icon: "shield",
   },
   {
-    title: "Capacité retrouvée",
-    description: "Un équivalent temps plein récupéré sans ajouter un recrutement.",
-    stat: "1.1 ETP",
-    statDescription: "de capacité récupérée sans un seul recrutement.",
-    capability: "Priorités et transmissions",
+    title: "Priorités et transmissions",
+    description: "Les alertes et la relève restent claires, complètes et actionnables.",
+    metrics: [],
     icon: "handover",
   },
 ] as const;
