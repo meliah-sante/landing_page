@@ -36,6 +36,24 @@ test("keeps the pilot CTA visible outside the mobile menu with exact copy", () =
   expect(pilotLink).not.toHaveAttribute("target");
   expect(pilotLink).not.toHaveAttribute("rel");
   expect(pilotLink.className).toMatch(/\bmin-h-11\b/);
+  expect(pilotLink.className).toMatch(/\bbg-coral-accessible\b/);
+  expect(pilotLink.className).not.toMatch(/\blg:bg-transparent\b/);
+});
+
+test("shows only anchors for the simplified journey", () => {
+  render(<SiteHeader />);
+  const header = screen.getByRole("banner");
+
+  expect(within(header).queryByRole("link", { name: "Les réalités" })).not.toBeInTheDocument();
+  expect(within(header).queryByRole("link", { name: "Modules" })).not.toBeInTheDocument();
+  expect(within(header).getByRole("link", { name: "Solution" })).toHaveAttribute(
+    "href",
+    "#solution",
+  );
+  expect(within(header).getByRole("link", { name: "Calculer ma perte" })).toHaveAttribute(
+    "href",
+    "#calculatrice",
+  );
 });
 
 test("exposes the selected language to assistive technology", () => {

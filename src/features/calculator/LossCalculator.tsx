@@ -1,8 +1,9 @@
 import * as Accordion from "@radix-ui/react-accordion";
 import * as Tabs from "@radix-ui/react-tabs";
 import { ChevronDown } from "lucide-react";
-import { useId, useState, type FormEvent } from "react";
+import { useEffect, useId, useRef, useState, type FormEvent, type RefObject } from "react";
 import { Button } from "../../components/ui/Button";
+import { PILOT_REQUEST_URL } from "../../content/siteContent";
 import { cn } from "../../lib/cn";
 import {
   calculateLoss,
@@ -96,13 +97,23 @@ function ResultCards({
 function DetailedBreakdown({
   loss,
   staffCount,
+  headingId,
+  resultRef,
 }: {
   loss: ReturnType<typeof calculateLoss>;
   staffCount: number;
+  headingId: string;
+  resultRef: RefObject<HTMLDivElement | null>;
 }) {
   return (
-    <div className="mt-6 rounded-2xl border border-coral/20 bg-coral/5 p-5 text-sm text-charcoal">
-      <h3 className="font-semibold">Votre résultat détaillé</h3>
+    <div
+      ref={resultRef}
+      role="region"
+      aria-labelledby={headingId}
+      tabIndex={-1}
+      className="mt-6 rounded-2xl border border-coral/20 bg-coral/5 p-5 text-sm text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2"
+    >
+      <h3 id={headingId} className="font-semibold">Votre résultat détaillé</h3>
       <p className="mt-2 text-charcoal/80">
         Pour {staffCount} soignant{staffCount > 1 ? "s" : ""}, voici l&apos;ensemble
         de votre perte estimée.
@@ -134,6 +145,9 @@ function DetailedBreakdown({
         Vos données sont traitées localement dans votre navigateur. Elles ne sont ni
         envoyées ni enregistrées.
       </p>
+      <a href={PILOT_REQUEST_URL} className="cta-primary mt-5">
+        Réserver ma place pilote
+      </a>
     </div>
   );
 }
@@ -147,6 +161,8 @@ export function LossCalculator() {
   const emailInputId = useId();
   const emailErrorId = useId();
   const leadRequiredGuidanceId = useId();
+  const detailedResultTitleId = useId();
+  const detailedResultRef = useRef<HTMLDivElement>(null);
 
   const [staffInput, setStaffInput] = useState("40");
   const [lastValidStaff, setLastValidStaff] = useState(40);
@@ -158,6 +174,12 @@ export function LossCalculator() {
 
   const staffError = validateStaffCount(staffInput);
   const loss = calculateLoss(lastValidStaff);
+
+  useEffect(() => {
+    if (detailedResultVisible) {
+      detailedResultRef.current?.focus();
+    }
+  }, [detailedResultVisible]);
 
   const handleStaffChange = (rawValue: string) => {
     setStaffInput(rawValue);
@@ -363,7 +385,12 @@ export function LossCalculator() {
       </form>
 
       {detailedResultVisible ? (
-        <DetailedBreakdown loss={loss} staffCount={lastValidStaff} />
+        <DetailedBreakdown
+          loss={loss}
+          staffCount={lastValidStaff}
+          headingId={detailedResultTitleId}
+          resultRef={detailedResultRef}
+        />
       ) : null}
     </div>
   );

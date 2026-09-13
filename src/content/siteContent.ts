@@ -18,9 +18,16 @@ export type Module = {
   icon: "wave" | "focus" | "dome" | "priority";
 };
 
-export type Stat = {
+export type SolutionMetric = {
   value: string;
   description: string;
+};
+
+export type SolutionBenefit = {
+  title: string;
+  description: string;
+  metrics: readonly SolutionMetric[];
+  icon: "mic" | "clock" | "shield" | "handover";
 };
 
 export const PILOT_REQUEST_URL =
@@ -28,15 +35,14 @@ export const PILOT_REQUEST_URL =
 
 export const navigation: readonly NavigationItem[] = [
   { href: "#origine", label: "À l'origine" },
-  { href: "#realites", label: "Les réalités" },
   { href: "#solution", label: "Solution" },
-  { href: "#modules", label: "Modules" },
   { href: "#calculatrice", label: "Calculer ma perte" },
+  { href: "#pilote", label: "Pilote" },
 ];
 
 export const hero = {
   eyebrow: "SOLUTION DE TRAÇABILITÉ VOCALE",
-  heading: "Réinjectez 76766€ minimum* par an dans le soin réel.",
+  heading: "Réinjectez 76 766€ minimum* par an dans le soin réel.",
   body: "Chaque jour, 13h20 minimum* de présence soignante s'évaporent dans l'administratif. Ce temps vous appartient. Méliah Santé vous le rend.",
   note: "*Calcul basé sur un établissement de 40 soignants - Détail disponible sur demande",
 } as const;
@@ -46,7 +52,6 @@ export const origin = {
   heading: "Vos soignants, eux, sont au niveau.",
   paragraphs: [
     "Pendant 10 ans, j'ai vu des soignants excellents perdre la bataille contre le temps.",
-    "Pas par manque de compétence. Par manque d'outils adaptés.",
     "Cette innovation ne vient pas d'une tendance, elle vient du terrain.",
   ],
   quote:
@@ -75,15 +80,46 @@ export const solution = {
     { label: "À LA VOIX", value: "150 mots/min" },
   ],
   finePrint: "CONÇU PAR UNE SOIGNANTE, POUR ÊTRE CONFORME HDS & RGPD.",
-  cta: "Prendre rendez-vous",
 } as const;
 
-export const stats: readonly Stat[] = [
-  { value: "13h20", description: "minimum récupérées chaque jour sans embaucher." },
-  { value: "76 766€", description: "réinjectés dans le soin réel." },
-  { value: "1.1 ETP", description: "récupéré par jour sans un seul recrutement." },
-  { value: "4x", description: "plus rapide que l'écrit traçabilité vocale vs clavier." },
-];
+export const solutionBenefits: readonly SolutionBenefit[] = [
+  {
+    title: "Traçabilité vocale",
+    description: "150 mots/min à la voix, contre 40 mots/min au clavier.",
+    metrics: [
+      {
+        value: "4x",
+        description: "plus rapide que l'écrit traçabilité vocale vs clavier.",
+      },
+    ],
+    icon: "mic",
+  },
+  {
+    title: "Temps et capacité retrouvés",
+    description: "Le temps, le budget et la présence soignante reviennent au soin.",
+    metrics: [
+      { value: "13h20", description: "minimum récupérées chaque jour sans embaucher." },
+      { value: "76 766€", description: "réinjectés dans le soin réel." },
+      { value: "1.1 ETP", description: "de capacité récupérée sans un seul recrutement." },
+    ],
+    icon: "clock",
+  },
+  {
+    title: "Traçabilité structurée",
+    description: "Chaque information est structurée, horodatée et sécurisée.",
+    metrics: [],
+    icon: "shield",
+  },
+  {
+    title: "Priorités et transmissions",
+    description: "Les alertes et la relève restent claires, complètes et actionnables.",
+    metrics: [],
+    icon: "handover",
+  },
+] as const;
+
+export const suiteNote =
+  "AURA travaille avec FOCUS, DÔME et PRIORIS pour prolonger la traçabilité, protéger le soin et rendre les priorités visibles.";
 
 export const daily = {
   eyebrow: "AURA AU QUOTIDIEN",

@@ -1,9 +1,28 @@
-import { ArrowUpRight, Check, Keyboard, Mic2 } from "lucide-react";
-import { solution, stats } from "../content/siteContent";
+import {
+  ArrowRightLeft,
+  Check,
+  Clock3,
+  Keyboard,
+  Mic2,
+  ShieldCheck,
+  type LucideIcon,
+} from "lucide-react";
+import {
+  solution,
+  solutionBenefits,
+  suiteNote,
+  type SolutionBenefit,
+} from "../content/siteContent";
 import { Reveal } from "./Reveal";
 
 const keyboardBars = [20, 28, 18, 34, 24, 30, 16, 26];
 const voiceBars = [26, 52, 34, 76, 48, 92, 38, 68, 30, 54, 22];
+const benefitIcons: Record<SolutionBenefit["icon"], LucideIcon> = {
+  mic: Mic2,
+  clock: Clock3,
+  shield: ShieldCheck,
+  handover: ArrowRightLeft,
+};
 
 export function SolutionSection() {
   return (
@@ -68,30 +87,52 @@ export function SolutionSection() {
           })}
         </Reveal>
 
-        <div className="mt-5 grid gap-px overflow-hidden rounded-[2rem] bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
-          {stats.map((stat, index) => (
-            <Reveal
-              key={stat.value}
-              delay={index * 0.05}
-              className="h-full bg-charcoal p-7 sm:p-8"
-            >
-              <p className="text-4xl font-semibold tracking-[-0.04em] text-coral sm:text-5xl">
-                {stat.value}
-              </p>
-              <p className="mt-4 text-sm leading-6 text-white/55">{stat.description}</p>
-            </Reveal>
-          ))}
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
+          {solutionBenefits.map((benefit, index) => {
+            const Icon = benefitIcons[benefit.icon];
+
+            return (
+              <Reveal key={benefit.title} delay={index * 0.05} className="h-full">
+                <article className="solution-benefit-card">
+                  <span className="grid h-11 w-11 place-items-center rounded-full border border-coral/30 bg-coral/10 text-coral">
+                    <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
+                  </span>
+                  <h3 className="mt-7 text-xl font-semibold tracking-tight text-white">
+                    {benefit.title}
+                  </h3>
+                  <p className="mt-3 text-sm leading-6 text-white/60">{benefit.description}</p>
+                  {benefit.metrics.length > 0 ? (
+                    <div
+                      className={
+                        benefit.metrics.length > 1
+                          ? "mt-7 grid gap-3 sm:grid-cols-3"
+                          : "mt-7"
+                      }
+                    >
+                      {benefit.metrics.map((metric) => (
+                        <div key={metric.value} className="rounded-2xl bg-white/[0.05] p-4">
+                          <p className="text-3xl font-semibold tracking-[-0.04em] text-coral">
+                            {metric.value}
+                          </p>
+                          <p className="mt-2 text-xs leading-5 text-white/55">
+                            {metric.description}
+                          </p>
+                        </div>
+                      ))}
+                    </div>
+                  ) : null}
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
 
-        <Reveal className="mt-9 flex flex-col items-start justify-between gap-6 border-t border-white/10 pt-8 sm:flex-row sm:items-center">
+        <Reveal className="mt-9 grid gap-5 border-t border-white/10 pt-8 md:grid-cols-[0.8fr_1.2fr]">
           <p className="flex max-w-xl items-center gap-3 text-xs font-semibold tracking-[0.12em] text-white/55">
             <Check className="h-4 w-4 shrink-0 text-coral" aria-hidden="true" />
             {solution.finePrint}
           </p>
-          <a href="#pilote" className="cta-primary shrink-0">
-            {solution.cta}
-            <ArrowUpRight className="h-4 w-4" aria-hidden="true" />
-          </a>
+          <p className="text-sm leading-6 text-white/55">{suiteNote}</p>
         </Reveal>
       </div>
     </section>

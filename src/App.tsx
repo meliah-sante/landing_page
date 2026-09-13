@@ -1,6 +1,4 @@
-import { DailyFeatures } from "./components/DailyFeatures";
 import { Hero } from "./components/Hero";
-import { ModulesSection } from "./components/ModulesSection";
 import { OriginSection } from "./components/OriginSection";
 import { PilotCta } from "./components/PilotCta";
 import { Reveal } from "./components/Reveal";
@@ -9,7 +7,6 @@ import { SiteFooter } from "./components/SiteFooter";
 import { SolutionSection } from "./components/SolutionSection";
 import { calculator } from "./content/siteContent";
 import { LossCalculator } from "./features/calculator/LossCalculator";
-import { RealitiesCarousel } from "./features/realities/RealitiesCarousel";
 
 export default function App() {
   return (
@@ -24,20 +21,17 @@ export default function App() {
       <main id="contenu-principal" tabIndex={-1}>
         <Hero />
         <OriginSection />
-        <RealitiesCarousel />
         <SolutionSection />
-        <DailyFeatures />
-        <ModulesSection />
         <section
           id="calculatrice"
           role="region"
           aria-labelledby="calculator-title"
-          className="section-pad bg-coral-soft"
+          className="bg-coral-soft py-16 sm:py-20 lg:py-24"
         >
           <div className="container">
-            <Reveal className="mx-auto mb-12 max-w-3xl text-center">
+            <Reveal className="mx-auto mb-10 max-w-3xl text-center">
               <p className="eyebrow">{calculator.eyebrow}</p>
-              <h2 id="calculator-title" className="section-title mt-5">
+              <h2 id="calculator-title" className="section-title mx-auto mt-5 max-w-[16ch]">
                 {calculator.heading}
               </h2>
               <p className="mt-5 text-lg text-charcoal/70">{calculator.subheading}</p>

@@ -1,4 +1,4 @@
-import { render, screen, waitFor, within } from "@testing-library/react";
+import { render, screen, within } from "@testing-library/react";
 import App from "../App";
 
 const PILOT_REQUEST_URL =
@@ -7,17 +7,28 @@ const PILOT_REQUEST_URL =
 test("renders the complete AURA conversion journey", () => {
   render(<App />);
 
-  expect(screen.getByRole("heading", { name: /réinjectez 76.?766/i })).toBeInTheDocument();
+  expect(
+    screen.getByRole("heading", {
+      name: /réinjectez 76 766€ minimum\* par an dans le soin réel\./i,
+    }),
+  ).toBeInTheDocument();
   expect(
     screen.getByRole("heading", { name: /vos soignants, eux, sont au niveau/i }),
   ).toBeInTheDocument();
-  expect(screen.getByRole("heading", { name: /une suite complète/i })).toBeInTheDocument();
   expect(
     screen.getByRole("heading", { name: /combien perdez-vous exactement/i }),
   ).toBeInTheDocument();
   expect(
     screen.getByRole("heading", { name: /1 seul établissement pilote/i }),
   ).toBeInTheDocument();
+});
+
+test("uses the approved five-section journey", () => {
+  render(<App />);
+
+  expect(document.getElementById("realites")).not.toBeInTheDocument();
+  expect(document.getElementById("fonctionnalites")).not.toBeInTheDocument();
+  expect(document.getElementById("modules")).not.toBeInTheDocument();
 });
 
 test("does not render copy outside the inspected source", () => {
@@ -38,12 +49,7 @@ test("renders the inspected source copy and connects every conversion link", () 
   [
     "Chaque jour, 13h20 minimum* de présence soignante s'évaporent dans l'administratif. Ce temps vous appartient. Méliah Santé vous le rend.",
     "Cette innovation ne vient pas d'une tendance, elle vient du terrain.",
-    "Chacune a un nom. Chacune a un coût.",
     "Chaque soignant est payé pour soigner. Pas pour saisir ou pour chercher dans les dossiers. AURA transforme la parole en traçabilité riche, structurée et horodatée.",
-    "Charge de travail maîtrisée",
-    "Transmission automatisée",
-    "Une suite complète qui grandit avec votre établissement.",
-    "La traçabilité est un acte de soin, le clavier ne doit plus être un obstacle.",
     "3 mois offerts. Accompagnement direct avec la fondatrice. Suivi personnalisé inclus. Tarif ancré les 12 premiers mois.",
     "Réclamer au soin le temps qui lui appartient.",
     "© 2026 Méliah Santé — Tous droits réservés",
@@ -54,34 +60,26 @@ test("renders the inspected source copy and connects every conversion link", () 
   [
     "hero",
     "origine",
-    "realites",
     "solution",
-    "fonctionnalites",
-    "modules",
     "calculatrice",
     "pilote",
   ].forEach((id) => {
     expect(document.getElementById(id)).toBeInTheDocument();
   });
 
-  screen.getAllByRole("img", { name: /interface aura/i }).forEach((image) => {
-    expect(image).toHaveAttribute("src", "/assets/phone-aura.png");
-    expect(image).toHaveAttribute("width", "500");
-    expect(image).toHaveAttribute("height", "1008");
-  });
   const hero = document.getElementById("hero");
   expect(hero).not.toBeNull();
-  const heroArtwork = within(hero!).getByRole("img", { name: /interface aura/i });
-  expect(heroArtwork).toHaveAttribute("src", "/assets/phone-aura.png");
-  expect(heroArtwork).toHaveAttribute("loading", "eager");
-  expect(heroArtwork).toHaveAttribute("fetchpriority", "high");
-
-  const dailyArtwork = within(document.getElementById("fonctionnalites")!).getByRole(
-    "img",
-    { name: /interface aura/i },
+  expect(within(hero!).queryByRole("img", { name: /interface aura/i })).not.toBeInTheDocument();
+  expect(document.querySelector('img[src*="phone-aura.png"]')).not.toBeInTheDocument();
+  expect(
+    within(hero!).getByRole("link", { name: /réserver ma place pilote/i }),
+  ).toHaveAttribute("href", PILOT_REQUEST_URL);
+  expect(within(hero!).getByRole("link", { name: /calculer mes pertes/i })).toHaveAttribute(
+    "href",
+    "#calculatrice",
   );
-  expect(dailyArtwork).toHaveAttribute("loading", "lazy");
-  expect(dailyArtwork).toHaveAttribute("fetchpriority", "low");
+  expect(within(hero!).getByText("150 mots/min", { exact: true })).toBeInTheDocument();
+  expect(within(hero!).getByText("4x plus rapide", { exact: true })).toBeInTheDocument();
   screen.getAllByRole("link", { name: /calculer mes pertes/i }).forEach((link) => {
     expect(link).toHaveAttribute("href", "#calculatrice");
   });
@@ -92,6 +90,30 @@ test("renders the inspected source copy and connects every conversion link", () 
   });
 });
 
+test("keeps founder proof in the origin section without a repeated testimonial", () => {
+  render(<App />);
+  const origin = document.getElementById("origine");
+  const pilot = document.getElementById("pilote");
+
+  expect(origin).not.toBeNull();
+  expect(pilot).not.toBeNull();
+  expect(
+    within(origin!).getByText(
+      "J'ai créé AURA parce qu'en 10 ans de terrain, je sais exactement ce que coûte l'administratif : en temps, en risque, et en humanité.",
+      { exact: true },
+    ),
+  ).toBeInTheDocument();
+  expect(
+    screen.queryByText(
+      "La traçabilité est un acte de soin, le clavier ne doit plus être un obstacle.",
+      { exact: true },
+    ),
+  ).not.toBeInTheDocument();
+  expect(
+    within(pilot!).getByRole("link", { name: /réserver ma place pilote/i }),
+  ).toHaveAttribute("href", PILOT_REQUEST_URL);
+});
+
 test("renders every comparison and statistic literally", () => {
   render(<App />);
 
@@ -100,80 +122,72 @@ test("renders every comparison and statistic literally", () => {
     ["À LA VOIX", "150 mots/min"],
   ].forEach(([label, value]) => {
     expect(screen.getByText(label, { exact: true })).toBeInTheDocument();
-    expect(screen.getByText(value, { exact: true })).toBeInTheDocument();
+    expect(screen.getAllByText(value, { exact: true }).length).toBeGreaterThan(0);
   });
 
   [
     ["13h20", "minimum récupérées chaque jour sans embaucher."],
     ["76 766€", "réinjectés dans le soin réel."],
-    ["1.1 ETP", "récupéré par jour sans un seul recrutement."],
+    ["1.1 ETP", "de capacité récupérée sans un seul recrutement."],
     ["4x", "plus rapide que l'écrit traçabilité vocale vs clavier."],
   ].forEach(([value, description]) => {
-    expect(screen.getByText(value, { exact: true })).toBeInTheDocument();
+    expect(screen.getAllByText(value, { exact: true }).length).toBeGreaterThan(0);
     expect(screen.getByText(description, { exact: true })).toBeInTheDocument();
   });
 });
 
-test("renders all daily features literally", () => {
+test("merges the strongest proof into one scannable solution section", () => {
   render(<App />);
+  const solution = document.getElementById("solution");
 
+  expect(solution).not.toBeNull();
   [
-    [
-      "Charge de travail maîtrisée",
-      "La journée s'organise. Les priorités sont claires dès la prise de poste.",
-    ],
-    [
-      "Alertes visibles et segmentées",
-      "Chaque signal au bon endroit. Rien ne se note dans les dossiers.",
-    ],
-    [
-      "Réduction des risques d'incident",
-      "Tout est à portée de main. Chaque décision s'appuie sur des données fiables.",
-    ],
-    [
-      "Filet de sécurité",
-      "Chaque information tracée, horodatée. Rien ne se perd. Jamais.",
-    ],
-    ["Interrogation vocale", "Une question ? AURA répond immédiatement."],
-    [
-      "Transmission automatisée",
-      "AURA génère la synthèse au poste. La relève est complète, priorisée, adaptée et prête rapidement.",
-    ],
-  ].forEach(([title, description]) => {
-    expect(screen.getByRole("heading", { level: 3, name: title })).toBeInTheDocument();
-    expect(screen.getByText(description, { exact: true })).toBeInTheDocument();
+    "150 mots/min",
+    "13h20",
+    "76 766€",
+    "1.1 ETP",
+    "4x",
+    "Traçabilité structurée",
+    "Priorités et transmissions",
+  ].forEach((text) => {
+    expect(within(solution!).getByText(text, { exact: true })).toBeInTheDocument();
   });
+  expect(
+    within(solution!).queryByRole("link", { name: "Prendre rendez-vous" }),
+  ).not.toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: /une suite complète/i })).not.toBeInTheDocument();
 });
 
-test("renders all modules literally", () => {
+test("presents four coherent benefit and proof narratives", () => {
   render(<App />);
+  const solutionElement = document.getElementById("solution")!;
+  const solution = within(solutionElement);
+  const capacityCard = solution
+    .getByRole("heading", { name: "Temps et capacité retrouvés" })
+    .closest("article");
+  const traceabilityCard = solution
+    .getByRole("heading", { name: "Traçabilité structurée" })
+    .closest("article");
+  const handoverCard = solution
+    .getByRole("heading", { name: "Priorités et transmissions" })
+    .closest("article");
 
-  [
-    [
-      "AURA",
-      "Traçabilité vocale",
-      "AURA est invisible. Le soignant parle. AURA structure, horodate et sécurise chaque transmission en quelques secondes.",
-    ],
-    [
-      "FOCUS",
-      "Fin de poste",
-      "La relève structurée, complète, adaptée à chaque service. Zéro oubli. Zéro papier. La continuité du soin garantie à chaque passage de main.",
-    ],
-    [
-      "DÔME",
-      "Protection des appels",
-      "Plus de coupures en plein soin. Vos soignants restent concentrés là où ça compte. Moins d'interruptions, moins de risques d'erreurs.",
-    ],
-    [
-      "PRIORIS",
-      "Alertes & Priorisation",
-      "L'urgence au bon endroit, au bon moment. Sans aller-retour.",
-    ],
-  ].forEach(([name, subtitle, description]) => {
-    expect(screen.getByRole("heading", { level: 3, name })).toBeInTheDocument();
-    expect(screen.getByText(subtitle, { exact: true })).toBeInTheDocument();
-    expect(screen.getByText(description, { exact: true })).toBeInTheDocument();
+  expect(solutionElement.querySelectorAll(".solution-benefit-card")).toHaveLength(4);
+  expect(
+    solutionElement.querySelector(".solution-benefit-card")?.parentElement?.parentElement,
+  ).toHaveClass("md:grid-cols-2");
+  expect(capacityCard).not.toBeNull();
+  expect(traceabilityCard).not.toBeNull();
+  expect(handoverCard).not.toBeNull();
+  ["13h20", "76 766€", "1.1 ETP"].forEach((metric) => {
+    expect(within(capacityCard!).getByText(metric, { exact: true })).toBeInTheDocument();
   });
+  expect(traceabilityCard).toHaveTextContent(
+    "Chaque information est structurée, horodatée et sécurisée.",
+  );
+  expect(handoverCard).toHaveTextContent(
+    "Les alertes et la relève restent claires, complètes et actionnables.",
+  );
 });
 
 test("uses meaningful literal destinations for conversion and legal links", () => {
@@ -182,8 +196,6 @@ test("uses meaningful literal destinations for conversion and legal links", () =
   [
     ["Calculer ma perte", "#calculatrice"],
     ["Calculer mes pertes", "#calculatrice"],
-    ["Prendre rendez-vous", "#pilote"],
-    ["Découvrir tous les modules", "#pilote"],
   ].forEach(([name, href]) => {
     screen.getAllByRole("link", { name }).forEach((link) => {
       expect(link.getAttribute("href")).toBe(href);
@@ -212,33 +224,11 @@ test("uses meaningful literal destinations for conversion and legal links", () =
   ).toBe("mailto:contact@meliahsante.fr");
 });
 
-test("exposes named landmarks and reduced-motion state", async () => {
-  Object.defineProperty(window, "matchMedia", {
-    configurable: true,
-    writable: true,
-    value: (query: string) => ({
-      matches: query === "(prefers-reduced-motion: reduce)",
-      media: query,
-      onchange: null,
-      addListener: () => undefined,
-      removeListener: () => undefined,
-      addEventListener: () => undefined,
-      removeEventListener: () => undefined,
-      dispatchEvent: () => false,
-    }),
-  });
-
+test("exposes named landmarks", () => {
   render(<App />);
 
   screen.getAllByRole("region").forEach((region) => {
     expect(region).toHaveAccessibleName();
   });
   expect(screen.getByRole("navigation", { name: "Liens légaux" })).toBeInTheDocument();
-
-  await waitFor(() => {
-    expect(
-      screen.getByRole("region", { name: "Carrousel des réalités" }),
-    ).toHaveAttribute("data-reduced-motion", "true");
-  });
-  expect(document.querySelectorAll("[data-reduced-motion]").length).toBeGreaterThan(1);
 });
