@@ -53,7 +53,6 @@ export const origin = {
   heading: "Vos soignants, eux, sont au niveau.",
   paragraphs: [
     "Pendant 10 ans, j'ai vu des soignants excellents perdre la bataille contre le temps.",
-    "Pas par manque de compétence. Par manque d'outils adaptés.",
     "Cette innovation ne vient pas d'une tendance, elle vient du terrain.",
   ],
   quote:

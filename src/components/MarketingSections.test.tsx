@@ -46,7 +46,6 @@ test("renders the inspected source copy and connects every conversion link", () 
     "Chaque jour, 13h20 minimum* de présence soignante s'évaporent dans l'administratif. Ce temps vous appartient. Méliah Santé vous le rend.",
     "Cette innovation ne vient pas d'une tendance, elle vient du terrain.",
     "Chaque soignant est payé pour soigner. Pas pour saisir ou pour chercher dans les dossiers. AURA transforme la parole en traçabilité riche, structurée et horodatée.",
-    "La traçabilité est un acte de soin, le clavier ne doit plus être un obstacle.",
     "3 mois offerts. Accompagnement direct avec la fondatrice. Suivi personnalisé inclus. Tarif ancré les 12 premiers mois.",
     "Réclamer au soin le temps qui lui appartient.",
     "© 2026 Méliah Santé — Tous droits réservés",
@@ -85,6 +84,30 @@ test("renders the inspected source copy and connects every conversion link", () 
     expect(link).not.toHaveAttribute("target");
     expect(link).not.toHaveAttribute("rel");
   });
+});
+
+test("keeps founder proof in the origin section without a repeated testimonial", () => {
+  render(<App />);
+  const origin = document.getElementById("origine");
+  const pilot = document.getElementById("pilote");
+
+  expect(origin).not.toBeNull();
+  expect(pilot).not.toBeNull();
+  expect(
+    within(origin!).getByText(
+      "J'ai créé AURA parce qu'en 10 ans de terrain, je sais exactement ce que coûte l'administratif : en temps, en risque, et en humanité.",
+      { exact: true },
+    ),
+  ).toBeInTheDocument();
+  expect(
+    screen.queryByText(
+      "La traçabilité est un acte de soin, le clavier ne doit plus être un obstacle.",
+      { exact: true },
+    ),
+  ).not.toBeInTheDocument();
+  expect(
+    within(pilot!).getByRole("link", { name: /réserver ma place pilote/i }),
+  ).toHaveAttribute("href", PILOT_REQUEST_URL);
 });
 
 test("renders every comparison and statistic literally", () => {
