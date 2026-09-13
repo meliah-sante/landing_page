@@ -13,6 +13,9 @@ test("renders the complete AURA conversion journey", () => {
     }),
   ).toBeInTheDocument();
   expect(
+    within(document.getElementById("hero")!).getByText("76 766€", { exact: true }),
+  ).toHaveClass("whitespace-nowrap");
+  expect(
     screen.getByRole("heading", { name: /vos soignants, eux, sont au niveau/i }),
   ).toBeInTheDocument();
   expect(

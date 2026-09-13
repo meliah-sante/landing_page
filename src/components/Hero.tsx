@@ -19,7 +19,9 @@ export function Hero() {
         <Reveal className="relative z-10 max-w-3xl">
           <p className="eyebrow mb-6">{hero.eyebrow}</p>
           <h1 id="hero-title" className="display-title max-w-[13ch]">
-            {hero.heading}
+            {hero.headingLead}{" "}
+            <span className="whitespace-nowrap">{hero.amount}</span>{" "}
+            {hero.headingTail}
           </h1>
           <p className="mt-7 max-w-2xl text-lg leading-8 text-charcoal/70 sm:text-xl">
             {hero.body}
