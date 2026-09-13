@@ -3,6 +3,7 @@ import * as Tabs from "@radix-ui/react-tabs";
 import { ChevronDown } from "lucide-react";
 import { useId, useState, type FormEvent } from "react";
 import { Button } from "../../components/ui/Button";
+import { PILOT_REQUEST_URL } from "../../content/siteContent";
 import { cn } from "../../lib/cn";
 import {
   calculateLoss,
@@ -134,6 +135,9 @@ function DetailedBreakdown({
         Vos données sont traitées localement dans votre navigateur. Elles ne sont ni
         envoyées ni enregistrées.
       </p>
+      <a href={PILOT_REQUEST_URL} className="cta-primary mt-5">
+        Réserver ma place pilote
+      </a>
     </div>
   );
 }

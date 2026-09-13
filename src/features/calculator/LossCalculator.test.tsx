@@ -2,6 +2,9 @@ import { fireEvent, render, screen, waitFor, within } from "@testing-library/rea
 import userEvent from "@testing-library/user-event";
 import { LossCalculator } from "./LossCalculator";
 
+const PILOT_REQUEST_URL =
+  "mailto:contact@meliahsante.fr?subject=Candidature%20%C3%A9tablissement%20pilote%20AURA";
+
 test("switches between euro and hour results", async () => {
   const user = userEvent.setup();
   render(<LossCalculator />);
@@ -69,6 +72,9 @@ test("uses an accessible unfocused boundary on every form input", () => {
 test("reveals the detailed result only after valid local submission", async () => {
   const user = userEvent.setup();
   render(<LossCalculator />);
+  expect(
+    screen.queryByRole("link", { name: /réserver ma place pilote/i }),
+  ).not.toBeInTheDocument();
   await user.click(screen.getByRole("button", { name: /voir ma perte réelle/i }));
   expect(screen.getByText("Indiquez votre nom.")).toBeInTheDocument();
   await user.type(screen.getByLabelText("Votre nom"), "Camille");
@@ -87,6 +93,9 @@ test("reveals the detailed result only after valid local submission", async () =
   expect(detail).toHaveTextContent(
     "Vos données sont traitées localement dans votre navigateur. Elles ne sont ni envoyées ni enregistrées.",
   );
+  expect(
+    within(detail).getByRole("link", { name: /réserver ma place pilote/i }),
+  ).toHaveAttribute("href", PILOT_REQUEST_URL);
 });
 
 test("identifies required lead fields before validation without changing labels", () => {
