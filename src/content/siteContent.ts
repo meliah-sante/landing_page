@@ -42,7 +42,9 @@ export const navigation: readonly NavigationItem[] = [
 
 export const hero = {
   eyebrow: "SOLUTION DE TRAÇABILITÉ VOCALE",
-  heading: "Réinjectez 76 766€ minimum* par an dans le soin réel.",
+  headingLead: "Réinjectez",
+  amount: "76 766€",
+  headingTail: "minimum* par an dans le soin réel.",
   body: "Chaque jour, 13h20 minimum* de présence soignante s'évaporent dans l'administratif. Ce temps vous appartient. Méliah Santé vous le rend.",
   note: "*Calcul basé sur un établissement de 40 soignants - Détail disponible sur demande",
 } as const;
