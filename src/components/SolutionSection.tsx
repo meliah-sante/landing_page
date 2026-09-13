@@ -87,7 +87,7 @@ export function SolutionSection() {
           })}
         </Reveal>
 
-        <div className="mt-5 grid gap-4 lg:grid-cols-2">
+        <div className="mt-5 grid gap-4 md:grid-cols-2">
           {solutionBenefits.map((benefit, index) => {
             const Icon = benefitIcons[benefit.icon];
 

@@ -173,6 +173,9 @@ test("presents four coherent benefit and proof narratives", () => {
     .closest("article");
 
   expect(solutionElement.querySelectorAll(".solution-benefit-card")).toHaveLength(4);
+  expect(
+    solutionElement.querySelector(".solution-benefit-card")?.parentElement?.parentElement,
+  ).toHaveClass("md:grid-cols-2");
   expect(capacityCard).not.toBeNull();
   expect(traceabilityCard).not.toBeNull();
   expect(handoverCard).not.toBeNull();
