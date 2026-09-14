@@ -44,7 +44,7 @@ export function SolutionSection() {
             <h2 id="solution-title" className="section-title text-foreground">
               {solution.heading}
             </h2>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-muted-foreground">{solution.body}</p>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-foreground/80">{solution.body}</p>
           </div>
         </Reveal>
 
@@ -64,7 +64,7 @@ export function SolutionSection() {
               >
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className={index === 0 ? "eyebrow text-muted-foreground" : "eyebrow text-accent-foreground"}>
+                    <p className={index === 0 ? "eyebrow text-foreground/80" : "eyebrow text-accent-foreground"}>
                       {item.label}
                     </p>
                     <p className="font-heading mt-3 text-3xl font-semibold tracking-tight text-foreground">{item.value}</p>
@@ -118,7 +118,7 @@ export function SolutionSection() {
                           <p className="font-heading text-3xl font-semibold tracking-[-0.04em] text-accent-foreground">
                             {metric.value}
                           </p>
-                          <p className="mt-2 text-xs leading-5 text-muted-foreground">
+                          <p className="mt-2 text-xs leading-5 text-foreground/80">
                             {metric.description}
                           </p>
                         </div>

@@ -82,7 +82,7 @@ export function Hero() {
             </div>
             <div className="hero-proof-metric">
               <strong>13h20</strong>
-              <span>récupérées chaque jour</span>
+              <span className="text-foreground/80">récupérées chaque jour</span>
             </div>
           </div>
         </Reveal>

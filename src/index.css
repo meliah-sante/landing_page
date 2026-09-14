@@ -170,7 +170,7 @@
   }
 
   .hero-proof-metric span {
-    @apply mt-1 text-xs leading-5 text-muted-foreground;
+    @apply mt-1 text-xs leading-5 text-foreground/80;
   }
 
   .voice-bar {

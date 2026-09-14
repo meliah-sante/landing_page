@@ -34,7 +34,7 @@ export default function App() {
               <h2 id="calculator-title" className="section-title mx-auto mt-5 max-w-[16ch]">
                 {calculator.heading}
               </h2>
-              <p className="mt-5 text-lg text-muted-foreground">{calculator.subheading}</p>
+              <p className="mt-5 text-lg text-foreground/80">{calculator.subheading}</p>
             </Reveal>
             <Reveal delay={0.08} className="mx-auto max-w-4xl">
               <LossCalculator />

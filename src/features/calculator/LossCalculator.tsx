@@ -113,7 +113,7 @@ function DetailedBreakdown({
       tabIndex={-1}
       className="mt-6 rounded-2xl border border-primary/20 bg-accent p-5 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2"
     >
-      <h3 id={headingId} className="font-semibold">Votre résultat détaillé</h3>
+      <h3 id={headingId} className="font-heading font-semibold">Votre résultat détaillé</h3>
       <p className="mt-2 text-foreground/80">
         Pour {staffCount} soignant{staffCount > 1 ? "s" : ""}, voici l&apos;ensemble
         de votre perte estimée.
@@ -126,7 +126,7 @@ function DetailedBreakdown({
             aria-label={mode === "euros" ? "Perte en euros" : "Perte en heures"}
             className="rounded-xl border border-border bg-card p-4"
           >
-            <h4 className="font-semibold">{mode === "euros" ? "Euros" : "Heures"}</h4>
+            <h4 className="font-heading font-semibold">{mode === "euros" ? "Euros" : "Heures"}</h4>
             <dl className="mt-3 space-y-2">
               {resultCards.map((period) => (
                 <div key={period.key} className="flex items-baseline justify-between gap-4">
@@ -240,7 +240,7 @@ export function LossCalculator() {
           className={cn(inputClassName, "max-w-xs")}
         />
         {staffError ? (
-          <p id={staffErrorId} className="mt-2 text-sm text-destructive" role="alert">
+          <p id={staffErrorId} className="mt-2 border-l-2 border-destructive pl-2 text-sm text-foreground" role="alert">
             {STAFF_COUNT_ERROR}
           </p>
         ) : null}
@@ -275,7 +275,7 @@ export function LossCalculator() {
               value="euros"
               className={cn(
                 "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2",
-                "text-muted-foreground hover:text-foreground",
+                "text-foreground/80 hover:text-foreground",
                 "data-[state=active]:bg-accent-foreground data-[state=active]:text-primary-foreground",
               )}
             >
@@ -285,7 +285,7 @@ export function LossCalculator() {
               value="heures"
               className={cn(
                 "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2",
-                "text-muted-foreground hover:text-foreground",
+                "text-foreground/80 hover:text-foreground",
                 "data-[state=active]:bg-accent-foreground data-[state=active]:text-primary-foreground",
               )}
             >
@@ -350,7 +350,7 @@ export function LossCalculator() {
             className={inputClassName}
           />
           {errors.name ? (
-            <p id={nameErrorId} className="mt-2 text-sm text-destructive" role="alert">
+            <p id={nameErrorId} className="mt-2 border-l-2 border-destructive pl-2 text-sm text-foreground" role="alert">
               {errors.name}
             </p>
           ) : null}
@@ -373,7 +373,7 @@ export function LossCalculator() {
             className={inputClassName}
           />
           {errors.email ? (
-            <p id={emailErrorId} className="mt-2 text-sm text-destructive" role="alert">
+            <p id={emailErrorId} className="mt-2 border-l-2 border-destructive pl-2 text-sm text-foreground" role="alert">
               {errors.email}
             </p>
           ) : null}

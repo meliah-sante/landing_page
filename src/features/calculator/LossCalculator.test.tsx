@@ -237,8 +237,12 @@ test("associates lead validation errors with inputs", async () => {
   expect(document.getElementById(emailDescriptionIds.at(-1)!)).toHaveTextContent(
     "Indiquez un email professionnel valide.",
   );
-  expect(document.getElementById(nameDescriptionIds.at(-1)!)).toHaveClass("text-destructive");
-  expect(document.getElementById(emailDescriptionIds.at(-1)!)).toHaveClass("text-destructive");
+  [nameDescriptionIds, emailDescriptionIds].forEach((descriptionIds) => {
+    expect(document.getElementById(descriptionIds.at(-1)!)).toHaveClass(
+      "border-destructive",
+      "text-foreground",
+    );
+  });
 });
 
 test("shows staff input errors without clamping the displayed value", async () => {

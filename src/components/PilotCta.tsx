@@ -22,7 +22,7 @@ export function PilotCta() {
               <h2 id="pilot-title" className="font-heading mt-6 text-4xl font-semibold tracking-[-0.045em] text-foreground sm:text-6xl lg:text-7xl">
                 {pilot.heading}
               </h2>
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-foreground">{pilot.body}</p>
+              <p className="mt-7 max-w-2xl text-lg leading-8 text-foreground/80">{pilot.body}</p>
               <div className="mt-9 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
                 <a
                   href={PILOT_REQUEST_URL}

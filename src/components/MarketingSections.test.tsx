@@ -16,6 +16,9 @@ test("renders the complete AURA conversion journey", () => {
     within(document.getElementById("hero")!).getByText("76 766€", { exact: true }),
   ).toHaveClass("whitespace-nowrap", "text-accent-foreground");
   expect(document.querySelector(".hero-proof-panel")).toHaveClass("bg-card", "border-border");
+  expect(screen.getByText("récupérées chaque jour", { exact: true })).toHaveClass(
+    "text-foreground/80",
+  );
   expect(
     screen.getByRole("heading", { name: /vos soignants, eux, sont au niveau/i }),
   ).toBeInTheDocument();
@@ -128,6 +131,12 @@ test("uses light surfaces for founder proof, pilot, and footer", () => {
   expect(originQuote).not.toHaveClass("bg-charcoal", "text-white");
   expect(pilotCard).toHaveClass("bg-card", "text-foreground");
   expect(pilotCard).not.toHaveClass("bg-charcoal", "text-white");
+  expect(
+    within(document.getElementById("pilote")!).getByText(
+      "3 mois offerts. Accompagnement direct avec la fondatrice. Suivi personnalisé inclus. Tarif ancré les 12 premiers mois.",
+      { exact: true },
+    ),
+  ).toHaveClass("text-foreground/80");
   expect(footer).toHaveClass("bg-background", "text-foreground");
   expect(footer).not.toHaveClass("bg-charcoal", "text-white");
 });
@@ -217,6 +226,12 @@ test("uses only light semantic surfaces in the solution section", () => {
   solution.querySelectorAll(".solution-benefit-card").forEach((card) => {
     expect(card).toHaveClass("border-border", "bg-card", "text-foreground");
   });
+  expect(within(solution).getByText("AU CLAVIER", { exact: true })).toHaveClass(
+    "text-foreground/80",
+  );
+  expect(within(solution).getByText("réinjectés dans le soin réel.", { exact: true })).toHaveClass(
+    "text-foreground/80",
+  );
 });
 
 test("uses meaningful literal destinations for conversion and legal links", () => {
