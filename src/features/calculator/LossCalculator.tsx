@@ -34,7 +34,7 @@ const resultCards = [
 ] as const;
 
 const inputClassName =
-  "w-full rounded-xl border border-charcoal/50 bg-warm-white px-4 py-3 text-base text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-white";
+  "w-full rounded-xl border border-muted-foreground bg-card px-4 py-3 text-base text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-card";
 
 type ResultMode = "euros" | "heures";
 type ResultPeriod = (typeof resultCards)[number]["key"];
@@ -82,10 +82,10 @@ function ResultCards({
       {resultCards.map((card) => (
         <article
           key={card.key}
-          className="rounded-2xl border border-charcoal/10 bg-warm-white p-5 text-center"
+          className="rounded-2xl border border-border bg-background p-5 text-center"
         >
-          <p className="mb-2 text-sm font-medium text-charcoal/70">{card.label}</p>
-          <p className="text-2xl font-semibold text-charcoal">
+          <p className="mb-2 text-sm font-medium text-muted-foreground">{card.label}</p>
+          <p className="font-heading text-2xl font-semibold text-foreground">
             {getPeriodValue(mode, loss, card.key)}
           </p>
         </article>
@@ -111,10 +111,10 @@ function DetailedBreakdown({
       role="region"
       aria-labelledby={headingId}
       tabIndex={-1}
-      className="mt-6 rounded-2xl border border-coral/20 bg-coral/5 p-5 text-sm text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2"
+      className="mt-6 rounded-2xl border border-primary/20 bg-accent p-5 text-sm text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2"
     >
       <h3 id={headingId} className="font-semibold">Votre résultat détaillé</h3>
-      <p className="mt-2 text-charcoal/80">
+      <p className="mt-2 text-foreground/80">
         Pour {staffCount} soignant{staffCount > 1 ? "s" : ""}, voici l&apos;ensemble
         de votre perte estimée.
       </p>
@@ -124,13 +124,13 @@ function DetailedBreakdown({
           <section
             key={mode}
             aria-label={mode === "euros" ? "Perte en euros" : "Perte en heures"}
-            className="rounded-xl border border-charcoal/10 bg-white/75 p-4"
+            className="rounded-xl border border-border bg-card p-4"
           >
             <h4 className="font-semibold">{mode === "euros" ? "Euros" : "Heures"}</h4>
             <dl className="mt-3 space-y-2">
               {resultCards.map((period) => (
                 <div key={period.key} className="flex items-baseline justify-between gap-4">
-                  <dt className="text-charcoal/70">{period.label}</dt>
+                  <dt className="text-muted-foreground">{period.label}</dt>
                   <dd className="font-semibold">
                     {getPeriodValue(mode, loss, period.key)}
                   </dd>
@@ -141,7 +141,7 @@ function DetailedBreakdown({
         ))}
       </div>
 
-      <p className="mt-5 border-t border-charcoal/10 pt-4 font-medium text-charcoal/80">
+      <p className="mt-5 border-t border-border pt-4 font-medium text-foreground/80">
         Vos données sont traitées localement dans votre navigateur. Elles ne sont ni
         envoyées ni enregistrées.
       </p>
@@ -223,9 +223,9 @@ export function LossCalculator() {
   };
 
   return (
-    <div className="rounded-3xl border border-charcoal/10 bg-white p-6 shadow-soft sm:p-8">
+    <div className="rounded-3xl border border-border bg-card p-6 shadow-soft sm:p-8">
       <div className="mb-6">
-        <label htmlFor={staffInputId} className="mb-2 block text-sm font-medium text-charcoal">
+        <label htmlFor={staffInputId} className="mb-2 block text-sm font-medium text-foreground">
           Nombre de soignants
         </label>
         <input
@@ -240,7 +240,7 @@ export function LossCalculator() {
           className={cn(inputClassName, "max-w-xs")}
         />
         {staffError ? (
-          <p id={staffErrorId} className="mt-2 text-sm text-coral-accessible" role="alert">
+          <p id={staffErrorId} className="mt-2 text-sm text-destructive" role="alert">
             {STAFF_COUNT_ERROR}
           </p>
         ) : null}
@@ -249,7 +249,7 @@ export function LossCalculator() {
       {staffError ? (
         <p
           id={previewStatusId}
-          className="mb-4 rounded-xl border border-coral-accessible/25 bg-coral-soft px-4 py-3 text-sm font-medium text-charcoal"
+          className="mb-4 rounded-xl border border-destructive/25 bg-destructive/5 px-4 py-3 text-sm font-medium text-foreground"
         >
           Aperçu calculé pour le dernier effectif valide : {lastValidStaff} soignant
           {lastValidStaff > 1 ? "s" : ""}.
@@ -269,14 +269,14 @@ export function LossCalculator() {
         >
           <Tabs.List
             aria-label="Mode d'affichage des résultats"
-            className="mb-6 inline-flex rounded-full border border-charcoal/10 bg-warm-white p-1"
+            className="mb-6 inline-flex rounded-full border border-border bg-muted p-1"
           >
             <Tabs.Trigger
               value="euros"
               className={cn(
-                "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2",
-                "text-charcoal/70 hover:text-charcoal",
-                "data-[state=active]:bg-coral-accessible data-[state=active]:text-white",
+                "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2",
+                "text-muted-foreground hover:text-foreground",
+                "data-[state=active]:bg-accent-foreground data-[state=active]:text-primary-foreground",
               )}
             >
               Euros
@@ -284,9 +284,9 @@ export function LossCalculator() {
             <Tabs.Trigger
               value="heures"
               className={cn(
-                "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2",
-                "text-charcoal/70 hover:text-charcoal",
-                "data-[state=active]:bg-coral-accessible data-[state=active]:text-white",
+                "min-h-11 rounded-full px-5 py-2.5 text-sm font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2",
+                "text-muted-foreground hover:text-foreground",
+                "data-[state=active]:bg-accent-foreground data-[state=active]:text-primary-foreground",
               )}
             >
               Heures
@@ -306,17 +306,17 @@ export function LossCalculator() {
       </div>
 
       <Accordion.Root type="single" collapsible className="mb-8">
-        <Accordion.Item value="methodology" className="rounded-2xl border border-charcoal/10">
+        <Accordion.Item value="methodology" className="rounded-2xl border border-border">
           <Accordion.Header>
-            <Accordion.Trigger className="group flex min-h-11 w-full items-center justify-between gap-3 px-5 py-4 text-left text-sm font-semibold text-charcoal focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-inset">
+            <Accordion.Trigger className="group flex min-h-11 w-full items-center justify-between gap-3 px-5 py-4 text-left text-sm font-semibold text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-inset">
               Comment ces chiffres sont calculés
               <ChevronDown
-                className="h-4 w-4 shrink-0 text-charcoal/65 transition-transform motion-reduce:transition-none group-data-[state=open]:rotate-180 motion-reduce:group-data-[state=open]:rotate-0"
+                className="h-4 w-4 shrink-0 text-muted-foreground transition-transform motion-reduce:transition-none group-data-[state=open]:rotate-180 motion-reduce:group-data-[state=open]:rotate-0"
                 aria-hidden="true"
               />
             </Accordion.Trigger>
           </Accordion.Header>
-          <Accordion.Content className="overflow-hidden px-5 pb-4 text-sm leading-relaxed text-charcoal/70 data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down motion-reduce:animate-none motion-reduce:transition-none">
+          <Accordion.Content className="overflow-hidden px-5 pb-4 text-sm leading-relaxed text-muted-foreground data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down motion-reduce:animate-none motion-reduce:transition-none">
             Les estimations partent d&apos;une référence de 40 soignants : 13 h 20
             récupérées par jour et 76 766 € par an. Les valeurs évoluent
             proportionnellement au nombre de soignants, sur 230 jours ouvrés et 12 mois.
@@ -324,17 +324,17 @@ export function LossCalculator() {
         </Accordion.Item>
       </Accordion.Root>
 
-      <p className="mb-5 rounded-xl border border-charcoal/10 bg-warm-white px-4 py-3 text-sm font-medium leading-6 text-charcoal/80">
+      <p className="mb-5 rounded-xl border border-border bg-background px-4 py-3 text-sm font-medium leading-6 text-foreground/80">
         Vos données sont traitées localement dans votre navigateur. Elles ne sont ni
         envoyées ni enregistrées.
       </p>
 
       <form onSubmit={handleSubmit} className="space-y-4" noValidate>
-        <p id={leadRequiredGuidanceId} className="text-sm font-medium text-charcoal/75">
+        <p id={leadRequiredGuidanceId} className="text-sm font-medium text-muted-foreground">
           Tous les champs ci-dessous sont obligatoires.
         </p>
         <div>
-          <label htmlFor={nameInputId} className="mb-2 block text-sm font-medium text-charcoal">
+          <label htmlFor={nameInputId} className="mb-2 block text-sm font-medium text-foreground">
             Votre nom
           </label>
           <input
@@ -350,14 +350,14 @@ export function LossCalculator() {
             className={inputClassName}
           />
           {errors.name ? (
-            <p id={nameErrorId} className="mt-2 text-sm text-coral-accessible" role="alert">
+            <p id={nameErrorId} className="mt-2 text-sm text-destructive" role="alert">
               {errors.name}
             </p>
           ) : null}
         </div>
 
         <div>
-          <label htmlFor={emailInputId} className="mb-2 block text-sm font-medium text-charcoal">
+          <label htmlFor={emailInputId} className="mb-2 block text-sm font-medium text-foreground">
             Email professionnel
           </label>
           <input
@@ -373,7 +373,7 @@ export function LossCalculator() {
             className={inputClassName}
           />
           {errors.email ? (
-            <p id={emailErrorId} className="mt-2 text-sm text-coral-accessible" role="alert">
+            <p id={emailErrorId} className="mt-2 text-sm text-destructive" role="alert">
               {errors.email}
             </p>
           ) : null}

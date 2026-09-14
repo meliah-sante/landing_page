@@ -52,6 +52,7 @@ test("renders section landmarks in the approved order", () => {
   sections.forEach((section, index) => {
     expect(section).toHaveAttribute("id", expectedSectionIds[index]);
   });
+  expect(document.getElementById("calculatrice")).toHaveClass("bg-muted");
 });
 
 test("does not load unused Google font or preconnect resources", () => {

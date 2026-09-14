@@ -196,12 +196,12 @@
   }
 
   .comparison-card:hover {
-    box-shadow: 0 20px 48px rgba(0, 0, 0, 0.2);
+    box-shadow: var(--shadow-card);
     transform: translateY(-0.2rem);
   }
 
   .comparison-card:focus-within {
-    box-shadow: 0 0 0 2px var(--color-coral);
+    box-shadow: 0 0 0 2px var(--color-accent-foreground);
   }
 
   .solution-benefit-card {
@@ -209,12 +209,12 @@
       transform 300ms ease,
       border-color 300ms ease,
       background-color 300ms ease;
-    @apply h-full rounded-[1.75rem] border border-white/10 bg-white/[0.04] p-6 motion-reduce:transition-none;
+    @apply h-full rounded-[1.75rem] border border-border bg-card p-6 shadow-sm motion-reduce:transition-none;
   }
 
   .solution-benefit-card:hover {
     transform: translateY(-0.2rem);
-    @apply border-coral/30 bg-white/[0.06];
+    @apply border-primary/25 bg-card;
   }
 
   .feature-card {
@@ -303,16 +303,16 @@
   }
 
   #solution {
-    background-color: var(--color-charcoal);
+    background-color: var(--color-background);
     background-image:
-      radial-gradient(circle at 8% 18%, rgba(232, 95, 80, 0.15), transparent 24rem),
-      radial-gradient(circle at 92% 72%, rgba(143, 47, 40, 0.2), transparent 28rem),
-      linear-gradient(180deg, #20201f 0%, #181817 100%);
+      radial-gradient(circle at 8% 18%, rgba(234, 46, 93, 0.1), transparent 24rem),
+      radial-gradient(circle at 92% 72%, rgba(250, 148, 46, 0.12), transparent 28rem),
+      linear-gradient(180deg, var(--color-background) 0%, var(--color-accent) 52%, var(--color-background) 100%);
     @apply relative isolate;
   }
 
   #solution::before {
-    background-image: radial-gradient(rgba(255, 255, 255, 0.12) 0.07rem, transparent 0.08rem);
+    background-image: radial-gradient(rgba(184, 20, 61, 0.12) 0.07rem, transparent 0.08rem);
     background-size: 2.4rem 2.4rem;
     content: "";
     mask-image: linear-gradient(to bottom, black, transparent 72%);

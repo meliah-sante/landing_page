@@ -208,6 +208,17 @@ test("presents four coherent benefit and proof narratives", () => {
   );
 });
 
+test("uses only light semantic surfaces in the solution section", () => {
+  render(<App />);
+  const solution = document.getElementById("solution")!;
+
+  expect(solution).toHaveClass("bg-background", "text-foreground");
+  expect(solution).not.toHaveClass("bg-charcoal", "text-white");
+  solution.querySelectorAll(".solution-benefit-card").forEach((card) => {
+    expect(card).toHaveClass("border-border", "bg-card", "text-foreground");
+  });
+});
+
 test("uses meaningful literal destinations for conversion and legal links", () => {
   render(<App />);
 

@@ -65,7 +65,7 @@ test("uses an accessible unfocused boundary on every form input", () => {
     screen.getByRole("textbox", { name: "Votre nom" }),
     screen.getByRole("textbox", { name: "Email professionnel" }),
   ].forEach((input) => {
-    expect(input.className.split(" ")).toContain("border-charcoal/50");
+    expect(input.className.split(" ")).toContain("border-muted-foreground");
   });
 });
 
@@ -237,6 +237,8 @@ test("associates lead validation errors with inputs", async () => {
   expect(document.getElementById(emailDescriptionIds.at(-1)!)).toHaveTextContent(
     "Indiquez un email professionnel valide.",
   );
+  expect(document.getElementById(nameDescriptionIds.at(-1)!)).toHaveClass("text-destructive");
+  expect(document.getElementById(emailDescriptionIds.at(-1)!)).toHaveClass("text-destructive");
 });
 
 test("shows staff input errors without clamping the displayed value", async () => {
