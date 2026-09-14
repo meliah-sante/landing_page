@@ -73,7 +73,7 @@ test("provides useful local metadata without inventing a canonical URL", () => {
     '<meta property="og:description" content="Réduisez le temps administratif de vos soignants avec la traçabilité vocale AURA." />',
   );
   expect(indexHtml).toContain('<meta property="og:type" content="website" />');
-  expect(indexHtml).toContain('<meta name="theme-color" content="#FBFAF9" />');
+  expect(indexHtml).toContain('<meta name="theme-color" content="#FFFFFF" />');
   expect(indexHtml).toContain(
     '<link rel="icon" type="image/png" href="/assets/meliah-logo.png" />',
   );

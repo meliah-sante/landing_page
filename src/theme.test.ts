@@ -6,7 +6,7 @@ const cssSource = readFileSync(`${process.cwd()}/src/index.css`, "utf8");
 
 test("defines the approved AURA semantic color tokens", () => {
   [
-    ["background", "#FBFAF9"],
+    ["background", "#FFFFFF"],
     ["card", "#FFFFFF"],
     ["muted", "#F2F0ED"],
     ["border", "#E9E6E2"],
@@ -42,8 +42,8 @@ test("uses self-hosted Outfit and DM Sans variable fonts", () => {
   expect(cssSource).toMatch(/\.section-title\s*\{[^}]*@apply font-heading/s);
 });
 
-test("uses the approved ivory browser theme color", () => {
-  expect(indexHtml).toContain('<meta name="theme-color" content="#FBFAF9" />');
+test("uses a white browser theme color", () => {
+  expect(indexHtml).toContain('<meta name="theme-color" content="#FFFFFF" />');
 });
 
 test("keeps the mobile document height content-driven", () => {

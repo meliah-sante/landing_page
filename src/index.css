@@ -4,7 +4,7 @@
   --font-heading: "Outfit Variable", "Outfit", "Avenir Next", sans-serif;
   --font-sans: "DM Sans Variable", "DM Sans", "Helvetica Neue", Arial, sans-serif;
 
-  --color-background: #FBFAF9;
+  --color-background: #FFFFFF;
   --color-card: #FFFFFF;
   --color-muted: #F2F0ED;
   --color-border: #E9E6E2;
@@ -328,19 +328,7 @@
 
   #solution {
     background-color: var(--color-background);
-    background-image:
-      radial-gradient(circle at 8% 18%, rgba(238, 74, 78, 0.1), transparent 24rem),
-      radial-gradient(circle at 92% 72%, rgba(246, 117, 58, 0.12), transparent 28rem),
-      linear-gradient(180deg, var(--color-background) 0%, var(--color-accent) 52%, var(--color-background) 100%);
     @apply relative isolate;
-  }
-
-  #solution::before {
-    background-image: radial-gradient(rgba(202, 62, 66, 0.12) 0.07rem, transparent 0.08rem);
-    background-size: 2.4rem 2.4rem;
-    content: "";
-    mask-image: linear-gradient(to bottom, black, transparent 72%);
-    @apply pointer-events-none absolute inset-0 opacity-25;
   }
 
   #solution > .container {

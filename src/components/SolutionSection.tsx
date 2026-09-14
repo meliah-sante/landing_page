@@ -52,31 +52,19 @@ export function SolutionSection() {
                 className={
                   index === 0
                     ? "comparison-card border-border bg-muted"
-                    : "comparison-card ink-card"
+                    : "comparison-card border-primary/20 bg-gradient-to-br from-accent via-card to-secondary/15"
                 }
               >
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className={index === 0 ? "eyebrow text-foreground/80" : "eyebrow"}>
+                    <p className={index === 0 ? "eyebrow text-foreground/80" : "eyebrow text-accent-foreground"}>
                       {item.label}
                     </p>
-                    <p
-                      className={
-                        index === 0
-                          ? "font-heading mt-3 text-3xl font-semibold tracking-tight text-foreground"
-                          : "font-heading mt-3 text-3xl font-semibold tracking-tight text-ink-foreground"
-                      }
-                    >
+                    <p className="font-heading mt-3 text-3xl font-semibold tracking-tight text-foreground">
                       {item.value}
                     </p>
                   </div>
-                  <span
-                    className={
-                      index === 0
-                        ? "grid h-12 w-12 place-items-center rounded-full border border-primary/20 bg-card text-accent-foreground"
-                        : "grid h-12 w-12 place-items-center rounded-full border border-white/10 text-primary"
-                    }
-                  >
+                  <span className="grid h-12 w-12 place-items-center rounded-full border border-primary/20 bg-card text-accent-foreground">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                 </div>
