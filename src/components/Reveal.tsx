@@ -14,10 +14,10 @@ export function Reveal({ children, className, delay = 0 }: RevealProps) {
   return (
     <motion.div
       data-reduced-motion={reducedMotion ? "true" : "false"}
-      initial={reducedMotion ? false : { opacity: 0, y: 24 }}
+      initial={reducedMotion ? false : { opacity: 0.25, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.16 }}
-      transition={reducedMotion ? { duration: 0 } : { duration: 0.58, delay, ease: "easeOut" }}
+      viewport={{ once: true, amount: 0.05, margin: "0px 0px -40px 0px" }}
+      transition={reducedMotion ? { duration: 0 } : { duration: 0.35, delay, ease: "easeOut" }}
       className={cn("will-change-transform motion-reduce:transform-none", className)}
     >
       {children}

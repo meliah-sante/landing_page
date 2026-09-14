@@ -32,7 +32,7 @@ export function SolutionSection() {
       <div className="container">
         <Reveal className="max-w-3xl">
           <p className="eyebrow">{solution.eyebrow}</p>
-          <p className="font-heading mt-4 text-4xl font-bold tracking-[-0.06em] text-primary sm:text-5xl">
+          <p className="brand-amount font-heading mt-4 text-4xl font-bold tracking-[-0.06em] sm:text-5xl">
             {solution.brand}
           </p>
           <h2 id="solution-title" className="section-title mt-5 text-foreground">
