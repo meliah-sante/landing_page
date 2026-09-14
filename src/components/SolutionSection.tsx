@@ -30,21 +30,21 @@ export function SolutionSection() {
       id="solution"
       role="region"
       aria-labelledby="solution-title"
-      className="section-pad overflow-hidden bg-charcoal text-white"
+      className="section-pad overflow-hidden bg-background text-foreground"
     >
       <div className="container">
         <Reveal className="grid items-end gap-10 lg:grid-cols-[0.8fr_1.2fr]">
           <div>
             <p className="eyebrow eyebrow-on-dark">{solution.eyebrow}</p>
-            <p className="mt-5 text-6xl font-bold tracking-[-0.06em] text-coral sm:text-8xl">
+            <p className="font-heading mt-5 text-6xl font-bold tracking-[-0.06em] text-primary sm:text-8xl">
               {solution.brand}
             </p>
           </div>
           <div>
-            <h2 id="solution-title" className="section-title text-white">
+            <h2 id="solution-title" className="section-title text-foreground">
               {solution.heading}
             </h2>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-white/60">{solution.body}</p>
+            <p className="mt-6 max-w-3xl text-lg leading-8 text-foreground/80">{solution.body}</p>
           </div>
         </Reveal>
 
@@ -58,18 +58,18 @@ export function SolutionSection() {
                 key={item.label}
                 className={
                   index === 0
-                    ? "comparison-card border-white/10 bg-white/[0.04]"
-                    : "comparison-card border-coral-accessible bg-coral-accessible"
+                    ? "comparison-card border-border bg-muted"
+                    : "comparison-card border-primary/20 bg-gradient-to-br from-accent via-card to-secondary/15"
                 }
               >
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className={index === 0 ? "eyebrow text-white/60" : "eyebrow text-white"}>
+                    <p className={index === 0 ? "eyebrow text-foreground/80" : "eyebrow text-accent-foreground"}>
                       {item.label}
                     </p>
-                    <p className="mt-3 text-3xl font-semibold tracking-tight">{item.value}</p>
+                    <p className="font-heading mt-3 text-3xl font-semibold tracking-tight text-foreground">{item.value}</p>
                   </div>
-                  <span className="grid h-12 w-12 place-items-center rounded-full border border-white/20">
+                  <span className="grid h-12 w-12 place-items-center rounded-full border border-primary/20 bg-card text-accent-foreground">
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                 </div>
@@ -77,7 +77,11 @@ export function SolutionSection() {
                   {bars.map((height, barIndex) => (
                     <span
                       key={`${height}-${barIndex}`}
-                      className="min-w-1 flex-1 rounded-full bg-white/75"
+                      className={
+                        index === 0
+                          ? "min-w-1 flex-1 rounded-full bg-muted-foreground/35"
+                          : "min-w-1 flex-1 rounded-full bg-gradient-to-t from-primary to-secondary"
+                      }
                       style={{ height: `${height}%` }}
                     />
                   ))}
@@ -93,14 +97,14 @@ export function SolutionSection() {
 
             return (
               <Reveal key={benefit.title} delay={index * 0.05} className="h-full">
-                <article className="solution-benefit-card">
-                  <span className="grid h-11 w-11 place-items-center rounded-full border border-coral/30 bg-coral/10 text-coral">
+                <article className="solution-benefit-card border-border bg-card text-foreground">
+                  <span className="grid h-11 w-11 place-items-center rounded-full border border-primary/20 bg-accent text-accent-foreground">
                     <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
                   </span>
-                  <h3 className="mt-7 text-xl font-semibold tracking-tight text-white">
+                  <h3 className="font-heading mt-7 text-xl font-semibold tracking-tight text-foreground">
                     {benefit.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-6 text-white/60">{benefit.description}</p>
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{benefit.description}</p>
                   {benefit.metrics.length > 0 ? (
                     <div
                       className={
@@ -110,11 +114,11 @@ export function SolutionSection() {
                       }
                     >
                       {benefit.metrics.map((metric) => (
-                        <div key={metric.value} className="rounded-2xl bg-white/[0.05] p-4">
-                          <p className="text-3xl font-semibold tracking-[-0.04em] text-coral">
+                        <div key={metric.value} className="rounded-2xl bg-muted p-4">
+                          <p className="font-heading text-3xl font-semibold tracking-[-0.04em] text-accent-foreground">
                             {metric.value}
                           </p>
-                          <p className="mt-2 text-xs leading-5 text-white/55">
+                          <p className="mt-2 text-xs leading-5 text-foreground/80">
                             {metric.description}
                           </p>
                         </div>
@@ -127,12 +131,12 @@ export function SolutionSection() {
           })}
         </div>
 
-        <Reveal className="mt-9 grid gap-5 border-t border-white/10 pt-8 md:grid-cols-[0.8fr_1.2fr]">
-          <p className="flex max-w-xl items-center gap-3 text-xs font-semibold tracking-[0.12em] text-white/55">
-            <Check className="h-4 w-4 shrink-0 text-coral" aria-hidden="true" />
+        <Reveal className="mt-9 grid gap-5 border-t border-border pt-8 md:grid-cols-[0.8fr_1.2fr]">
+          <p className="flex max-w-xl items-center gap-3 text-xs font-semibold tracking-[0.12em] text-muted-foreground">
+            <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
             {solution.finePrint}
           </p>
-          <p className="text-sm leading-6 text-white/55">{suiteNote}</p>
+          <p className="text-sm leading-6 text-muted-foreground">{suiteNote}</p>
         </Reveal>
       </div>
     </section>

@@ -10,7 +10,7 @@ export function Hero() {
       id="hero"
       role="region"
       aria-labelledby="hero-title"
-      className="relative isolate overflow-hidden border-b border-charcoal/10"
+      className="relative isolate overflow-hidden border-b border-border bg-background"
     >
       <div className="hero-orb hero-orb-coral" aria-hidden="true" />
       <div className="hero-orb hero-orb-cream" aria-hidden="true" />
@@ -20,10 +20,10 @@ export function Hero() {
           <p className="eyebrow mb-6">{hero.eyebrow}</p>
           <h1 id="hero-title" className="display-title max-w-[13ch]">
             {hero.headingLead}{" "}
-            <span className="whitespace-nowrap">{hero.amount}</span>{" "}
+            <span className="whitespace-nowrap text-accent-foreground">{hero.amount}</span>{" "}
             {hero.headingTail}
           </h1>
-          <p className="mt-7 max-w-2xl text-lg leading-8 text-charcoal/70 sm:text-xl">
+          <p className="mt-7 max-w-2xl text-lg leading-8 text-muted-foreground sm:text-xl">
             {hero.body}
           </p>
 
@@ -46,29 +46,29 @@ export function Hero() {
               />
             </a>
           </div>
-          <p className="mt-6 max-w-xl text-xs leading-5 text-charcoal/70">{hero.note}</p>
+          <p className="mt-6 max-w-xl text-xs leading-5 text-muted-foreground">{hero.note}</p>
         </Reveal>
 
         <Reveal delay={0.12} className="relative mx-auto w-full max-w-[30rem]">
           <div className="hero-proof">
-            <div className="hero-proof-panel">
+            <div className="hero-proof-panel border-border bg-card">
               <div className="flex items-center justify-between gap-4">
-                <span className="grid h-12 w-12 place-items-center rounded-full bg-coral-soft text-coral-accessible">
+                <span className="grid h-12 w-12 place-items-center rounded-full bg-accent text-accent-foreground">
                   <AudioWaveform className="h-6 w-6" aria-hidden="true" />
                 </span>
-                <span className="inline-flex items-center gap-2 rounded-full border border-charcoal/10 bg-warm-white px-3 py-2 text-xs font-semibold text-charcoal/70">
-                  <ShieldCheck className="h-4 w-4 text-coral-accessible" aria-hidden="true" />
+                <span className="inline-flex items-center gap-2 rounded-full border border-border bg-background px-3 py-2 text-xs font-semibold text-muted-foreground">
+                  <ShieldCheck className="h-4 w-4 text-accent-foreground" aria-hidden="true" />
                   Structuré & horodaté
                 </span>
               </div>
 
-              <p className="mt-10 text-sm font-semibold uppercase tracking-[0.18em] text-charcoal/60">
+              <p className="mt-10 text-sm font-semibold uppercase tracking-[0.18em] text-muted-foreground">
                 À la voix
               </p>
-              <p className="mt-2 text-5xl font-semibold tracking-[-0.055em] text-charcoal sm:text-6xl">
+              <p className="font-heading mt-2 text-5xl font-semibold tracking-[-0.055em] text-foreground sm:text-6xl">
                 150 mots/min
               </p>
-              <p className="mt-3 text-base font-semibold text-coral-accessible">4x plus rapide</p>
+              <p className="mt-3 text-base font-semibold text-accent-foreground">4x plus rapide</p>
 
               <div className="hero-waveform mt-8 flex h-16 items-center gap-1.5" aria-hidden="true">
                 {voiceBars.map((height, index) => (
@@ -82,7 +82,7 @@ export function Hero() {
             </div>
             <div className="hero-proof-metric">
               <strong>13h20</strong>
-              <span>récupérées chaque jour</span>
+              <span className="text-foreground/80">récupérées chaque jour</span>
             </div>
           </div>
         </Reveal>

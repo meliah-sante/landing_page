@@ -33,6 +33,8 @@ test("offers a focus-visible skip link targeting the main content", () => {
   expect(skipLink.className.split(" ")).toContain("fixed");
   expect(skipLink.className).toContain("-translate-y-[200%]");
   expect(skipLink.className).toContain("focus:translate-y-0");
+  expect(skipLink.className).toContain("bg-foreground");
+  expect(skipLink.className).toContain("text-primary-foreground");
   expect(skipLink.className).not.toContain("focus:not-sr-only");
   expect(skipLink.className.split(" ")).not.toContain("sr-only");
 
@@ -50,6 +52,10 @@ test("renders section landmarks in the approved order", () => {
   sections.forEach((section, index) => {
     expect(section).toHaveAttribute("id", expectedSectionIds[index]);
   });
+  expect(document.getElementById("calculatrice")).toHaveClass("bg-muted");
+  expect(screen.getByText("Entrez votre effectif. Votre perte apparaît immédiatement.")).toHaveClass(
+    "text-foreground/80",
+  );
 });
 
 test("does not load unused Google font or preconnect resources", () => {
@@ -67,7 +73,7 @@ test("provides useful local metadata without inventing a canonical URL", () => {
     '<meta property="og:description" content="Réduisez le temps administratif de vos soignants avec la traçabilité vocale AURA." />',
   );
   expect(indexHtml).toContain('<meta property="og:type" content="website" />');
-  expect(indexHtml).toContain('<meta name="theme-color" content="#f7f4ef" />');
+  expect(indexHtml).toContain('<meta name="theme-color" content="#FBFAF9" />');
   expect(indexHtml).toContain(
     '<link rel="icon" type="image/png" href="/assets/meliah-logo.png" />',
   );

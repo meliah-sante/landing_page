@@ -14,7 +14,11 @@ test("renders the complete AURA conversion journey", () => {
   ).toBeInTheDocument();
   expect(
     within(document.getElementById("hero")!).getByText("76 766€", { exact: true }),
-  ).toHaveClass("whitespace-nowrap");
+  ).toHaveClass("whitespace-nowrap", "text-accent-foreground");
+  expect(document.querySelector(".hero-proof-panel")).toHaveClass("bg-card", "border-border");
+  expect(screen.getByText("récupérées chaque jour", { exact: true })).toHaveClass(
+    "text-foreground/80",
+  );
   expect(
     screen.getByRole("heading", { name: /vos soignants, eux, sont au niveau/i }),
   ).toBeInTheDocument();
@@ -117,6 +121,26 @@ test("keeps founder proof in the origin section without a repeated testimonial",
   ).toHaveAttribute("href", PILOT_REQUEST_URL);
 });
 
+test("uses light surfaces for founder proof, pilot, and footer", () => {
+  render(<App />);
+  const originQuote = document.querySelector("#origine figure");
+  const pilotCard = document.querySelector("#pilote .pilot-card");
+  const footer = screen.getByRole("contentinfo");
+
+  expect(originQuote).toHaveClass("bg-accent", "text-foreground");
+  expect(originQuote).not.toHaveClass("bg-charcoal", "text-white");
+  expect(pilotCard).toHaveClass("bg-card", "text-foreground");
+  expect(pilotCard).not.toHaveClass("bg-charcoal", "text-white");
+  expect(
+    within(document.getElementById("pilote")!).getByText(
+      "3 mois offerts. Accompagnement direct avec la fondatrice. Suivi personnalisé inclus. Tarif ancré les 12 premiers mois.",
+      { exact: true },
+    ),
+  ).toHaveClass("text-foreground/80");
+  expect(footer).toHaveClass("bg-background", "text-foreground");
+  expect(footer).not.toHaveClass("bg-charcoal", "text-white");
+});
+
 test("renders every comparison and statistic literally", () => {
   render(<App />);
 
@@ -190,6 +214,23 @@ test("presents four coherent benefit and proof narratives", () => {
   );
   expect(handoverCard).toHaveTextContent(
     "Les alertes et la relève restent claires, complètes et actionnables.",
+  );
+});
+
+test("uses only light semantic surfaces in the solution section", () => {
+  render(<App />);
+  const solution = document.getElementById("solution")!;
+
+  expect(solution).toHaveClass("bg-background", "text-foreground");
+  expect(solution).not.toHaveClass("bg-charcoal", "text-white");
+  solution.querySelectorAll(".solution-benefit-card").forEach((card) => {
+    expect(card).toHaveClass("border-border", "bg-card", "text-foreground");
+  });
+  expect(within(solution).getByText("AU CLAVIER", { exact: true })).toHaveClass(
+    "text-foreground/80",
+  );
+  expect(within(solution).getByText("réinjectés dans le soin réel.", { exact: true })).toHaveClass(
+    "text-foreground/80",
   );
 });
 

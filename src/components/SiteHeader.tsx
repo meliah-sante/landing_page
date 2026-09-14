@@ -8,7 +8,7 @@ import { cn } from "../lib/cn";
 import { Button } from "./ui/Button";
 
 const linkClassName =
-  "text-sm font-medium text-charcoal/80 transition-colors hover:text-coral-accessible focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white";
+  "text-sm font-medium text-foreground/80 transition-colors hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background";
 
 const dialogMotionClasses =
   "motion-reduce:animate-none motion-reduce:transition-none motion-reduce:zoom-in-95 motion-reduce:zoom-out-95";
@@ -31,8 +31,8 @@ export function SiteHeader() {
       className={cn(
         "sticky top-0 z-50 border-b backdrop-blur-md transition-[background-color,border-color,box-shadow,backdrop-filter] duration-300 motion-reduce:transition-none",
         isScrolled
-          ? "border-charcoal/15 bg-warm-white/[0.98] shadow-[0_8px_30px_rgba(32,32,31,0.12)] backdrop-blur-xl"
-          : "border-charcoal/10 bg-warm-white/90",
+          ? "border-border bg-card/[0.98] shadow-[0_8px_30px_rgba(23,28,38,0.1)] backdrop-blur-xl"
+          : "border-border bg-background/90",
       )}
     >
       <div
@@ -45,7 +45,7 @@ export function SiteHeader() {
           href="#hero"
           className={cn(
             "flex shrink-0 items-center gap-3 rounded-md",
-            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white",
+            "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background",
           )}
         >
           <img
@@ -70,7 +70,7 @@ export function SiteHeader() {
           <span
             lang="fr"
             aria-label="Langue sélectionnée : Français"
-            className="hidden text-sm font-medium uppercase tracking-wide text-charcoal/70 md:inline"
+            className="hidden text-sm font-medium uppercase tracking-wide text-muted-foreground md:inline"
           >
             FR
           </span>
@@ -78,8 +78,8 @@ export function SiteHeader() {
           <a
             href={PILOT_REQUEST_URL}
             className={cn(
-              "inline-flex min-h-11 items-center font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2 focus-visible:ring-offset-warm-white",
-              "rounded-full bg-coral-accessible px-3 py-2 text-[0.7rem] leading-tight text-white hover:bg-coral-accessible-dark sm:px-4 sm:text-sm",
+              "inline-flex min-h-11 items-center font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background",
+              "rounded-full bg-accent-foreground px-3 py-2 text-[0.7rem] leading-tight text-primary-foreground hover:bg-coral-accessible-dark sm:px-4 sm:text-sm",
             )}
           >
             Réserver ma place pilote
@@ -100,20 +100,20 @@ export function SiteHeader() {
             <Dialog.Portal>
               <Dialog.Overlay
                 className={cn(
-                  "fixed inset-0 z-50 bg-charcoal/40 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
+                  "fixed inset-0 z-50 bg-foreground/30 data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0",
                   dialogMotionClasses,
                 )}
               />
               <Dialog.Content
                 aria-describedby={undefined}
                 className={cn(
-                  "fixed inset-x-4 top-20 z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain rounded-2xl border border-charcoal/10 bg-warm-white p-6 shadow-soft outline-none",
+                  "fixed inset-x-4 top-20 z-50 max-h-[calc(100dvh-6rem)] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-card p-6 shadow-soft outline-none",
                   "data-[state=open]:animate-in data-[state=closed]:animate-out data-[state=closed]:fade-out-0 data-[state=open]:fade-in-0 data-[state=closed]:zoom-out-95 data-[state=open]:zoom-in-95",
                   dialogMotionClasses,
                 )}
               >
                 <div className="mb-6 flex items-center justify-between gap-4">
-                  <Dialog.Title className="text-lg font-semibold text-charcoal">
+                  <Dialog.Title className="font-heading text-lg font-semibold text-foreground">
                     Navigation
                   </Dialog.Title>
                   <Dialog.Close asChild>
@@ -132,7 +132,7 @@ export function SiteHeader() {
                     <Dialog.Close asChild key={link.href}>
                       <a
                         href={link.href}
-                        className="flex min-h-11 items-center rounded-lg px-3 py-3 text-base font-medium text-charcoal/80 transition-colors hover:bg-charcoal/5 hover:text-coral-accessible focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible"
+                        className="flex min-h-11 items-center rounded-lg px-3 py-3 text-base font-medium text-foreground/80 transition-colors hover:bg-muted hover:text-accent-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground"
                       >
                         {link.label}
                       </a>
@@ -143,7 +143,7 @@ export function SiteHeader() {
                 <Dialog.Close asChild>
                   <a
                     href={PILOT_REQUEST_URL}
-                    className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-coral-accessible px-5 py-3 text-sm font-semibold text-white transition-colors hover:bg-coral-accessible-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-coral-accessible focus-visible:ring-offset-2"
+                    className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-accent-foreground px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-coral-accessible-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2"
                   >
                     Réserver ma place pilote
                   </a>
