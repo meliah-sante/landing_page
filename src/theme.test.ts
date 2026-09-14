@@ -31,6 +31,8 @@ test("uses self-hosted Outfit and DM Sans variable fonts", () => {
   expect(cssSource).toContain('--font-sans: "DM Sans Variable"');
   expect(indexHtml).not.toContain("fonts.googleapis.com");
   expect(indexHtml).not.toContain("fonts.gstatic.com");
+  expect(cssSource).toMatch(/\.display-title\s*\{[^}]*@apply font-heading/s);
+  expect(cssSource).toMatch(/\.section-title\s*\{[^}]*@apply font-heading/s);
 });
 
 test("uses the approved ivory browser theme color", () => {

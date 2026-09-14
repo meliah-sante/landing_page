@@ -33,6 +33,8 @@ test("offers a focus-visible skip link targeting the main content", () => {
   expect(skipLink.className.split(" ")).toContain("fixed");
   expect(skipLink.className).toContain("-translate-y-[200%]");
   expect(skipLink.className).toContain("focus:translate-y-0");
+  expect(skipLink.className).toContain("bg-foreground");
+  expect(skipLink.className).toContain("text-primary-foreground");
   expect(skipLink.className).not.toContain("focus:not-sr-only");
   expect(skipLink.className.split(" ")).not.toContain("sr-only");
 

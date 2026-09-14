@@ -52,7 +52,7 @@
   }
 
   ::selection {
-    @apply bg-coral-accessible text-white;
+    @apply bg-accent-foreground text-primary-foreground;
   }
 
   section[id] {
@@ -75,49 +75,49 @@
   }
 
   .eyebrow {
-    @apply text-xs font-bold uppercase tracking-[0.22em] text-coral-accessible;
+    @apply text-xs font-bold uppercase tracking-[0.22em] text-accent-foreground;
   }
 
   .eyebrow-on-dark {
-    @apply text-coral;
+    @apply text-accent-foreground;
   }
 
   .display-title {
     font-size: clamp(3.15rem, 7.2vw, 6.9rem);
     line-height: 1;
     letter-spacing: -0.065em;
-    @apply font-semibold text-charcoal;
+    @apply font-heading font-semibold text-foreground;
   }
 
   .section-title {
     font-size: clamp(2.35rem, 5vw, 4.4rem);
     line-height: 1.05;
     letter-spacing: -0.052em;
-    @apply font-semibold text-charcoal;
+    @apply font-heading font-semibold text-foreground;
   }
 
   .cta-primary,
   .cta-secondary,
   .cta-dark {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-coral focus-visible:ring-offset-2 motion-reduce:transition-none;
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-bold transition-all duration-300 focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2 motion-reduce:transition-none;
   }
 
   .cta-primary {
-    background-image: linear-gradient(135deg, var(--color-coral-accessible), var(--color-coral-accessible-dark));
+    background-color: var(--color-accent-foreground);
     box-shadow: var(--shadow-coral);
-    @apply text-white hover:-translate-y-0.5 focus-visible:ring-offset-warm-white motion-reduce:hover:translate-y-0;
+    @apply text-primary-foreground hover:-translate-y-0.5 focus-visible:ring-offset-background motion-reduce:hover:translate-y-0;
   }
 
   .cta-primary:hover {
-    background-image: linear-gradient(135deg, var(--color-coral-accessible-dark), #762720);
+    background-color: var(--color-coral-accessible-dark);
   }
 
   .cta-secondary {
-    @apply border border-charcoal/15 bg-white/60 text-charcoal hover:border-charcoal/30 hover:bg-white focus-visible:ring-coral-accessible focus-visible:ring-offset-warm-white;
+    @apply border border-border bg-card/80 text-foreground hover:border-primary/30 hover:bg-card focus-visible:ring-accent-foreground focus-visible:ring-offset-background;
   }
 
   .cta-dark {
-    @apply bg-charcoal text-white hover:-translate-y-0.5 hover:bg-charcoal/90 focus-visible:ring-coral-accessible focus-visible:ring-offset-coral-soft motion-reduce:hover:translate-y-0;
+    @apply bg-foreground text-primary-foreground hover:-translate-y-0.5 hover:bg-foreground/90 focus-visible:ring-accent-foreground focus-visible:ring-offset-accent motion-reduce:hover:translate-y-0;
   }
 
   .hero-orb {
@@ -129,7 +129,7 @@
     height: min(46rem, 70vw);
     right: -20rem;
     top: 4rem;
-    @apply bg-coral/15;
+    background: linear-gradient(135deg, rgba(234, 46, 93, 0.16), rgba(250, 148, 46, 0.18));
   }
 
   .hero-orb-cream {
@@ -137,7 +137,7 @@
     height: 28rem;
     left: -15rem;
     bottom: -11rem;
-    @apply bg-white/90;
+    @apply bg-card/90;
   }
 
   .hero-proof {
@@ -158,23 +158,24 @@
   }
 
   .hero-proof-panel {
-    @apply relative z-10 w-full max-w-sm rounded-[2rem] border border-charcoal/10 bg-white/90 p-7 shadow-soft backdrop-blur-xl sm:p-9;
+    @apply relative z-10 w-full max-w-sm rounded-[2rem] border border-border bg-card/95 p-7 shadow-soft backdrop-blur-xl sm:p-9;
   }
 
   .hero-proof-metric {
-    @apply absolute bottom-3 right-0 z-20 flex max-w-44 flex-col rounded-2xl border border-white/80 bg-charcoal px-5 py-4 text-white shadow-card;
+    @apply absolute bottom-3 right-0 z-20 flex max-w-44 flex-col rounded-2xl border border-primary/15 bg-accent px-5 py-4 text-foreground shadow-card;
   }
 
   .hero-proof-metric strong {
-    @apply text-2xl tracking-tight text-coral;
+    @apply font-heading text-2xl tracking-tight text-accent-foreground;
   }
 
   .hero-proof-metric span {
-    @apply mt-1 text-xs leading-5 text-white/65;
+    @apply mt-1 text-xs leading-5 text-muted-foreground;
   }
 
   .voice-bar {
-    @apply min-w-1 flex-1 rounded-full bg-coral;
+    background-image: linear-gradient(to top, var(--color-primary), var(--color-secondary));
+    @apply min-w-1 flex-1 rounded-full;
     animation: voice-pulse 1.8s ease-in-out infinite alternate;
   }
 
