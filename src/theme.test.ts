@@ -38,3 +38,9 @@ test("uses self-hosted Outfit and DM Sans variable fonts", () => {
 test("uses the approved ivory browser theme color", () => {
   expect(indexHtml).toContain('<meta name="theme-color" content="#FBFAF9" />');
 });
+
+test("keeps the mobile document height content-driven", () => {
+  const bodyRule = cssSource.match(/body\s*\{([^}]*)\}/)?.[1] ?? "";
+
+  expect(bodyRule).not.toContain("min-h-screen");
+});
