@@ -1,31 +1,46 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Avenir Next", Avenir, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-heading: "Outfit Variable", "Outfit", "Avenir Next", sans-serif;
+  --font-sans: "DM Sans Variable", "DM Sans", "Helvetica Neue", Arial, sans-serif;
 
-  --color-warm-white: #f7f4ef;
-  --color-charcoal: #20201f;
-  --color-coral: #e85f50;
-  --color-coral-dark: #c94c40;
-  --color-coral-accessible: #a83b32;
-  --color-coral-accessible-dark: #8f2f28;
-  --color-coral-soft: #f4e8e1;
+  --color-background: #FBFAF9;
+  --color-card: #FFFFFF;
+  --color-muted: #F2F0ED;
+  --color-border: #E9E6E2;
+  --color-foreground: #171C26;
+  --color-muted-foreground: #6A7181;
+  --color-primary: #EA2E5D;
+  --color-secondary: #FA942E;
+  --color-primary-foreground: #FFFFFF;
+  --color-accent: #FCE8ED;
+  --color-accent-foreground: #B8143D;
+  --color-success: #2EB877;
+  --color-destructive: #EF4343;
 
-  --shadow-soft: 0 22px 70px rgba(32, 32, 31, 0.09);
-  --shadow-card: 0 18px 44px rgba(32, 32, 31, 0.11);
-  --shadow-coral: 0 18px 42px rgba(143, 47, 40, 0.26);
+  --color-warm-white: #FBFAF9;
+  --color-charcoal: #171C26;
+  --color-coral: #EA2E5D;
+  --color-coral-dark: #B8143D;
+  --color-coral-accessible: #B8143D;
+  --color-coral-accessible-dark: #981033;
+  --color-coral-soft: #FCE8ED;
+
+  --shadow-soft: 0 22px 70px rgba(23, 28, 38, 0.08);
+  --shadow-card: 0 18px 44px rgba(23, 28, 38, 0.1);
+  --shadow-coral: 0 18px 42px rgba(184, 20, 61, 0.22);
 }
 
 @layer base {
   :root {
     color-scheme: light;
     font-family: var(--font-sans);
-    background-color: var(--color-warm-white);
-    color: var(--color-charcoal);
+    background-color: var(--color-background);
+    color: var(--color-foreground);
   }
 
   * {
-    @apply border-charcoal/10;
+    @apply border-border;
   }
 
   html {
@@ -33,7 +48,7 @@
   }
 
   body {
-    @apply min-h-screen overflow-x-hidden bg-warm-white text-charcoal antialiased;
+    @apply min-h-screen overflow-x-hidden bg-background text-foreground antialiased;
   }
 
   ::selection {
