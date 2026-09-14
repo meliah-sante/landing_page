@@ -18,16 +18,11 @@ export type Module = {
   icon: "wave" | "focus" | "dome" | "priority";
 };
 
-export type SolutionMetric = {
-  value: string;
-  description: string;
-};
-
-export type SolutionBenefit = {
+export type SolutionStep = {
+  step: string;
   title: string;
   description: string;
-  metrics: readonly SolutionMetric[];
-  icon: "mic" | "clock" | "shield" | "handover";
+  icon: "mic" | "shield" | "handover";
 };
 
 export const PILOT_REQUEST_URL =
@@ -41,21 +36,21 @@ export const navigation: readonly NavigationItem[] = [
 ];
 
 export const hero = {
-  eyebrow: "SOLUTION DE TRAÇABILITÉ VOCALE",
+  eyebrow: "01 — Le coût",
   headingLead: "Réinjectez",
   amount: "76 766€",
   headingTail: "minimum* par an dans le soin réel.",
   body: "Chaque jour, 13h20 minimum* de présence soignante s'évaporent dans l'administratif. Ce temps vous appartient. Méliah Santé vous le rend.",
   note: "*Calcul basé sur un établissement de 40 soignants - Détail disponible sur demande",
+  proofLabel: "Présence perdue",
+  proofValue: "13h20",
+  proofHint: "chaque jour, pour 40 soignants",
 } as const;
 
 export const origin = {
-  eyebrow: "À L'ORIGINE",
-  heading: "Vos soignants, eux, sont au niveau.",
-  paragraphs: [
-    "Pendant 10 ans, j'ai vu des soignants excellents perdre la bataille contre le temps.",
-    "Cette innovation ne vient pas d'une tendance, elle vient du terrain.",
-  ],
+  eyebrow: "02 — L'origine",
+  heading: "10 ans de terrain avant le produit.",
+  body: "Cette innovation ne vient pas d'une tendance. Elle vient du soin réel.",
   quote:
     "J'ai créé AURA parce qu'en 10 ans de terrain, je sais exactement ce que coûte l'administratif : en temps, en risque, et en humanité.",
   attribution: "— Mélissa, fondatrice",
@@ -72,56 +67,38 @@ export const realitiesIntro = {
 } as const;
 
 export const solution = {
-  eyebrow: "LA SOLUTION",
+  eyebrow: "03 — Le geste",
   brand: "AURA",
-  heading:
-    "Vous investissez dans le soin. Une partie s'évapore avant d'y arriver. AURA remet chaque minute là où vos équipes ont de la valeur.",
-  body: "Chaque soignant est payé pour soigner. Pas pour saisir ou pour chercher dans les dossiers. AURA transforme la parole en traçabilité riche, structurée et horodatée.",
+  heading: "Le soignant parle. Le dossier se structure.",
+  body: "AURA transforme la parole en traçabilité riche, structurée et horodatée. Le clavier n'est plus l'intermédiaire.",
   comparison: [
     { label: "AU CLAVIER", value: "40 mots/min" },
     { label: "À LA VOIX", value: "150 mots/min" },
   ],
+  capacity: "1,1 ETP retrouvé, sans recruter.",
   finePrint: "CONÇU PAR UNE SOIGNANTE, POUR ÊTRE CONFORME HDS & RGPD.",
 } as const;
 
-export const solutionBenefits: readonly SolutionBenefit[] = [
+export const solutionSteps: readonly SolutionStep[] = [
   {
-    title: "Traçabilité vocale",
-    description: "150 mots/min à la voix, contre 40 mots/min au clavier.",
-    metrics: [
-      {
-        value: "4x",
-        description: "plus rapide que l'écrit traçabilité vocale vs clavier.",
-      },
-    ],
+    step: "1",
+    title: "Parler au moment du soin",
+    description: "Le soignant dicte sans revenir au poste ni recopier.",
     icon: "mic",
   },
   {
-    title: "Temps et capacité retrouvés",
-    description: "Le temps, le budget et la présence soignante reviennent au soin.",
-    metrics: [
-      { value: "13h20", description: "minimum récupérées chaque jour sans embaucher." },
-      { value: "76 766€", description: "réinjectés dans le soin réel." },
-      { value: "1.1 ETP", description: "de capacité récupérée sans un seul recrutement." },
-    ],
-    icon: "clock",
-  },
-  {
-    title: "Traçabilité structurée",
-    description: "Chaque information est structurée, horodatée et sécurisée.",
-    metrics: [],
+    step: "2",
+    title: "Structurer et sécuriser",
+    description: "Chaque information est horodatée, exploitable, conçue pour HDS et RGPD.",
     icon: "shield",
   },
   {
-    title: "Priorités et transmissions",
-    description: "Les alertes et la relève restent claires, complètes et actionnables.",
-    metrics: [],
+    step: "3",
+    title: "Préparer la relève",
+    description: "FOCUS, DÔME et PRIORIS prolongent AURA : transmissions, concentration, alertes.",
     icon: "handover",
   },
 ] as const;
-
-export const suiteNote =
-  "AURA travaille avec FOCUS, DÔME et PRIORIS pour prolonger la traçabilité, protéger le soin et rendre les priorités visibles.";
 
 export const daily = {
   eyebrow: "AURA AU QUOTIDIEN",
@@ -205,9 +182,9 @@ export const modules: readonly Module[] = [
 ];
 
 export const calculator = {
-  eyebrow: "CALCULATRICE",
-  heading: "Combien perdez-vous exactement ? Calculez-le en 10 secondes.",
-  subheading: "Entrez votre effectif. Votre perte apparaît immédiatement.",
+  eyebrow: "04 — Votre chiffre",
+  heading: "Et chez vous ?",
+  subheading: "Entrez votre effectif. Le chiffre de votre établissement apparaît.",
 } as const;
 
 export const testimonial = {
@@ -216,6 +193,7 @@ export const testimonial = {
 } as const;
 
 export const pilot = {
+  eyebrow: "05 — La place pilote",
   heading: "1 seul établissement pilote. Peut-être le vôtre.",
   body: "3 mois offerts. Accompagnement direct avec la fondatrice. Suivi personnalisé inclus. Tarif ancré les 12 premiers mois.",
   cta: "Réserver ma place pilote",

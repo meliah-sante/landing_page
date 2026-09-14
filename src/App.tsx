@@ -26,10 +26,10 @@ export default function App() {
           id="calculatrice"
           role="region"
           aria-labelledby="calculator-title"
-          className="bg-muted py-16 sm:py-20 lg:py-24"
+          className="bg-muted py-12 sm:py-14 lg:py-16"
         >
           <div className="container">
-            <Reveal className="mx-auto mb-10 max-w-3xl text-center">
+            <Reveal className="mx-auto mb-8 max-w-3xl text-center">
               <p className="eyebrow">{calculator.eyebrow}</p>
               <h2 id="calculator-title" className="section-title mx-auto mt-5 max-w-[16ch]">
                 {calculator.heading}

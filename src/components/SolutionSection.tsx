@@ -1,7 +1,6 @@
 import {
   ArrowRightLeft,
   Check,
-  Clock3,
   Keyboard,
   Mic2,
   ShieldCheck,
@@ -9,17 +8,15 @@ import {
 } from "lucide-react";
 import {
   solution,
-  solutionBenefits,
-  suiteNote,
-  type SolutionBenefit,
+  solutionSteps,
+  type SolutionStep,
 } from "../content/siteContent";
 import { Reveal } from "./Reveal";
 
 const keyboardBars = [20, 28, 18, 34, 24, 30, 16, 26];
 const voiceBars = [26, 52, 34, 76, 48, 92, 38, 68, 30, 54, 22];
-const benefitIcons: Record<SolutionBenefit["icon"], LucideIcon> = {
+const stepIcons: Record<SolutionStep["icon"], LucideIcon> = {
   mic: Mic2,
-  clock: Clock3,
   shield: ShieldCheck,
   handover: ArrowRightLeft,
 };
@@ -33,22 +30,18 @@ export function SolutionSection() {
       className="section-pad overflow-hidden bg-background text-foreground"
     >
       <div className="container">
-        <Reveal className="grid items-end gap-10 lg:grid-cols-[0.8fr_1.2fr]">
-          <div>
-            <p className="eyebrow eyebrow-on-dark">{solution.eyebrow}</p>
-            <p className="font-heading mt-5 text-6xl font-bold tracking-[-0.06em] text-primary sm:text-8xl">
-              {solution.brand}
-            </p>
-          </div>
-          <div>
-            <h2 id="solution-title" className="section-title text-foreground">
-              {solution.heading}
-            </h2>
-            <p className="mt-6 max-w-3xl text-lg leading-8 text-foreground/80">{solution.body}</p>
-          </div>
+        <Reveal className="max-w-3xl">
+          <p className="eyebrow">{solution.eyebrow}</p>
+          <p className="font-heading mt-4 text-4xl font-bold tracking-[-0.06em] text-primary sm:text-5xl">
+            {solution.brand}
+          </p>
+          <h2 id="solution-title" className="section-title mt-5 text-foreground">
+            {solution.heading}
+          </h2>
+          <p className="mt-5 max-w-2xl text-lg leading-8 text-foreground/80">{solution.body}</p>
         </Reveal>
 
-        <Reveal delay={0.08} className="mt-14 grid gap-5 md:grid-cols-2">
+        <Reveal delay={0.08} className="mt-10 grid gap-4 md:grid-cols-2">
           {solution.comparison.map((item, index) => {
             const bars = index === 0 ? keyboardBars : voiceBars;
             const Icon = index === 0 ? Keyboard : Mic2;
@@ -73,14 +66,14 @@ export function SolutionSection() {
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                 </div>
-                <div className="mt-8 flex h-20 items-center gap-2" aria-hidden="true">
+                <div className="mt-6 flex h-16 items-center gap-2" aria-hidden="true">
                   {bars.map((height, barIndex) => (
                     <span
                       key={`${height}-${barIndex}`}
                       className={
                         index === 0
                           ? "min-w-1 flex-1 rounded-full bg-muted-foreground/35"
-                          : "min-w-1 flex-1 rounded-full bg-gradient-to-t from-primary to-secondary"
+                          : "min-w-1 flex-1 rounded-full bg-gradient-to-t from-primary via-brand-mid to-secondary"
                       }
                       style={{ height: `${height}%` }}
                     />
@@ -91,52 +84,38 @@ export function SolutionSection() {
           })}
         </Reveal>
 
-        <div className="mt-5 grid gap-4 md:grid-cols-2">
-          {solutionBenefits.map((benefit, index) => {
-            const Icon = benefitIcons[benefit.icon];
+        <p className="mt-4 text-sm font-semibold text-accent-foreground">{solution.capacity}</p>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-3">
+          {solutionSteps.map((step, index) => {
+            const Icon = stepIcons[step.icon];
 
             return (
-              <Reveal key={benefit.title} delay={index * 0.05} className="h-full">
+              <Reveal key={step.title} delay={index * 0.05} className="h-full">
                 <article className="solution-benefit-card border-border bg-card text-foreground">
-                  <span className="grid h-11 w-11 place-items-center rounded-full border border-primary/20 bg-accent text-accent-foreground">
-                    <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
-                  </span>
-                  <h3 className="font-heading mt-7 text-xl font-semibold tracking-tight text-foreground">
-                    {benefit.title}
+                  <div className="flex items-center justify-between gap-3">
+                    <span className="grid h-11 w-11 place-items-center rounded-full border border-primary/20 bg-accent text-accent-foreground">
+                      <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
+                    </span>
+                    <span className="font-heading text-sm font-semibold tracking-[0.18em] text-muted-foreground">
+                      {step.step}
+                    </span>
+                  </div>
+                  <h3 className="font-heading mt-5 text-xl font-semibold tracking-tight text-foreground">
+                    {step.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{benefit.description}</p>
-                  {benefit.metrics.length > 0 ? (
-                    <div
-                      className={
-                        benefit.metrics.length > 1
-                          ? "mt-7 grid gap-3 sm:grid-cols-3"
-                          : "mt-7"
-                      }
-                    >
-                      {benefit.metrics.map((metric) => (
-                        <div key={metric.value} className="rounded-2xl bg-muted p-4">
-                          <p className="font-heading text-3xl font-semibold tracking-[-0.04em] text-accent-foreground">
-                            {metric.value}
-                          </p>
-                          <p className="mt-2 text-xs leading-5 text-foreground/80">
-                            {metric.description}
-                          </p>
-                        </div>
-                      ))}
-                    </div>
-                  ) : null}
+                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{step.description}</p>
                 </article>
               </Reveal>
             );
           })}
         </div>
 
-        <Reveal className="mt-9 grid gap-5 border-t border-border pt-8 md:grid-cols-[0.8fr_1.2fr]">
+        <Reveal className="mt-8 border-t border-border pt-6">
           <p className="flex max-w-xl items-center gap-3 text-xs font-semibold tracking-[0.12em] text-muted-foreground">
             <Check className="h-4 w-4 shrink-0 text-primary" aria-hidden="true" />
             {solution.finePrint}
           </p>
-          <p className="text-sm leading-6 text-muted-foreground">{suiteNote}</p>
         </Reveal>
       </div>
     </section>

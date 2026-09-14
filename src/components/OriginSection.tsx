@@ -11,34 +11,27 @@ export function OriginSection() {
       className="section-pad relative overflow-hidden bg-card"
     >
       <div className="container">
-        <Reveal className="grid gap-12 lg:grid-cols-[0.82fr_1.18fr] lg:gap-20">
+        <Reveal className="grid gap-8 lg:grid-cols-[0.82fr_1.18fr] lg:gap-16">
           <div>
             <p className="eyebrow">{origin.eyebrow}</p>
-            <h2 id="origin-title" className="section-title mt-5 max-w-[10ch]">
+            <h2 id="origin-title" className="section-title mt-4 max-w-[12ch]">
               {origin.heading}
             </h2>
-            <div className="mt-10 hidden h-px w-full bg-border lg:block">
-              <span className="block h-px w-1/3 bg-primary" />
-            </div>
           </div>
 
           <div className="relative">
-            <div className="space-y-4 border-l border-border pl-6 text-lg leading-8 text-muted-foreground sm:pl-9">
-              {origin.paragraphs.map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
+            <p className="max-w-2xl text-lg leading-8 text-muted-foreground">{origin.body}</p>
 
-            <figure className="relative mt-10 overflow-hidden rounded-[2rem] border border-primary/15 bg-accent px-7 py-9 text-foreground shadow-soft sm:px-10 sm:py-11">
+            <figure className="relative mt-8 overflow-hidden rounded-[1.75rem] border border-primary/15 bg-accent px-6 py-8 text-foreground shadow-soft sm:px-9 sm:py-9">
               <Quote
-                className="absolute -right-4 -top-5 h-28 w-28 rotate-180 text-primary/15"
+                className="absolute -right-4 -top-5 h-24 w-24 rotate-180 text-primary/15"
                 strokeWidth={1}
                 aria-hidden="true"
               />
               <blockquote className="relative max-w-2xl text-xl leading-8 sm:text-2xl sm:leading-9">
                 {origin.quote}
               </blockquote>
-              <figcaption className="mt-6 text-sm font-semibold tracking-wide text-accent-foreground">
+              <figcaption className="mt-5 text-sm font-semibold tracking-wide text-accent-foreground">
                 {origin.attribution}
               </figcaption>
             </figure>

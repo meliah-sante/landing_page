@@ -53,7 +53,7 @@ test("renders section landmarks in the approved order", () => {
     expect(section).toHaveAttribute("id", expectedSectionIds[index]);
   });
   expect(document.getElementById("calculatrice")).toHaveClass("bg-muted");
-  expect(screen.getByText("Entrez votre effectif. Votre perte apparaît immédiatement.")).toHaveClass(
+  expect(screen.getByText("Entrez votre effectif. Le chiffre de votre établissement apparaît.")).toHaveClass(
     "text-foreground/80",
   );
 });

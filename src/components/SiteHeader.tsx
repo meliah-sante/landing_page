@@ -78,8 +78,7 @@ export function SiteHeader() {
           <a
             href={PILOT_REQUEST_URL}
             className={cn(
-              "inline-flex min-h-11 items-center font-semibold transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2 focus-visible:ring-offset-background",
-              "rounded-full bg-accent-foreground px-3 py-2 text-[0.7rem] leading-tight text-primary-foreground hover:bg-coral-accessible-dark sm:px-4 sm:text-sm",
+              "cta-primary min-h-11 px-3 py-2 text-[0.7rem] leading-tight sm:px-4 sm:text-sm",
             )}
           >
             Réserver ma place pilote
@@ -143,7 +142,7 @@ export function SiteHeader() {
                 <Dialog.Close asChild>
                   <a
                     href={PILOT_REQUEST_URL}
-                    className="mt-6 inline-flex min-h-11 w-full items-center justify-center rounded-full bg-accent-foreground px-5 py-3 text-sm font-semibold text-primary-foreground transition-colors hover:bg-coral-accessible-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent-foreground focus-visible:ring-offset-2"
+                    className="cta-primary mt-6 min-h-11 w-full"
                   >
                     Réserver ma place pilote
                   </a>

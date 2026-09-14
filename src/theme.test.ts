@@ -12,16 +12,23 @@ test("defines the approved AURA semantic color tokens", () => {
     ["border", "#E9E6E2"],
     ["foreground", "#171C26"],
     ["muted-foreground", "#6A7181"],
-    ["primary", "#EA2E5D"],
-    ["secondary", "#FA942E"],
+    ["primary", "#ee4a4e"],
+    ["brand-mid", "#f75b46"],
+    ["secondary", "#f6753a"],
     ["primary-foreground", "#FFFFFF"],
-    ["accent", "#FCE8ED"],
-    ["accent-foreground", "#B8143D"],
+    ["accent", "#FDECEC"],
+    ["accent-foreground", "#ca3e42"],
     ["success", "#2EB877"],
     ["destructive", "#EF4343"],
   ].forEach(([token, value]) => {
     expect(cssSource).toContain(`--color-${token}: ${value};`);
   });
+  expect(cssSource).toContain("#ee4a4e");
+  expect(cssSource).toContain("#f75b46");
+  expect(cssSource).toContain("#f6753a");
+  expect(cssSource).not.toContain("#EA2E5D");
+  expect(cssSource).not.toContain("#FA942E");
+  expect(cssSource).not.toContain("#B8143D");
 });
 
 test("uses self-hosted Outfit and DM Sans variable fonts", () => {
@@ -43,4 +50,13 @@ test("keeps the mobile document height content-driven", () => {
   const bodyRule = cssSource.match(/body\s*\{([^}]*)\}/)?.[1] ?? "";
 
   expect(bodyRule).not.toContain("min-h-screen");
+});
+
+test("keeps section height content-driven and uses the brand gradient on primary CTAs", () => {
+  expect(cssSource).not.toContain("min-h-[calc(88svh-73px)]");
+  expect(cssSource).toMatch(/\.section-pad\s*\{[^}]*py-12 sm:py-14 lg:py-16/);
+  expect(cssSource).toMatch(/\.cta-primary[\s\S]*--gradient-brand/);
+  expect(cssSource).toContain(
+    "--gradient-brand: linear-gradient(135deg, #ee4a4e 0%, #f75b46 50%, #f6753a 100%)",
+  );
 });

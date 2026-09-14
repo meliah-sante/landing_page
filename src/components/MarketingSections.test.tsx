@@ -14,17 +14,15 @@ test("renders the complete AURA conversion journey", () => {
   ).toBeInTheDocument();
   expect(
     within(document.getElementById("hero")!).getByText("76 766€", { exact: true }),
-  ).toHaveClass("whitespace-nowrap", "text-accent-foreground");
+  ).toHaveClass("whitespace-nowrap", "brand-amount");
   expect(document.querySelector(".hero-proof-panel")).toHaveClass("bg-card", "border-border");
-  expect(screen.getByText("récupérées chaque jour", { exact: true })).toHaveClass(
+  expect(screen.getByText("chaque jour, pour 40 soignants", { exact: true })).toHaveClass(
     "text-foreground/80",
   );
   expect(
-    screen.getByRole("heading", { name: /vos soignants, eux, sont au niveau/i }),
+    screen.getByRole("heading", { name: /10 ans de terrain avant le produit/i }),
   ).toBeInTheDocument();
-  expect(
-    screen.getByRole("heading", { name: /combien perdez-vous exactement/i }),
-  ).toBeInTheDocument();
+  expect(screen.getByRole("heading", { name: /et chez vous \?/i })).toBeInTheDocument();
   expect(
     screen.getByRole("heading", { name: /1 seul établissement pilote/i }),
   ).toBeInTheDocument();
@@ -50,13 +48,46 @@ test("does not render copy outside the inspected source", () => {
   });
 });
 
+test("advances one claim per section without repeating proof", () => {
+  render(<App />);
+
+  [
+    "01 — Le coût",
+    "02 — L'origine",
+    "03 — Le geste",
+    "04 — Votre chiffre",
+    "05 — La place pilote",
+  ].forEach((eyebrow) => {
+    expect(screen.getByText(eyebrow, { exact: true })).toBeInTheDocument();
+  });
+
+  expect(screen.getAllByText("76 766€", { exact: true })).toHaveLength(1);
+  expect(screen.getAllByText("13h20", { exact: true })).toHaveLength(1);
+  expect(screen.getAllByText("150 mots/min", { exact: true })).toHaveLength(1);
+  expect(screen.getAllByText("40 mots/min", { exact: true })).toHaveLength(1);
+
+  const hero = within(document.getElementById("hero")!);
+  const origin = within(document.getElementById("origine")!);
+  const solution = within(document.getElementById("solution")!);
+  const calculator = within(document.getElementById("calculatrice")!);
+
+  expect(hero.getByText("76 766€", { exact: true })).toBeInTheDocument();
+  expect(hero.getByText("13h20", { exact: true })).toBeInTheDocument();
+  expect(hero.queryByText("150 mots/min", { exact: true })).not.toBeInTheDocument();
+  expect(origin.queryByText("76 766€", { exact: true })).not.toBeInTheDocument();
+  expect(solution.queryByText("76 766€", { exact: true })).not.toBeInTheDocument();
+  expect(solution.queryByText("13h20", { exact: true })).not.toBeInTheDocument();
+  expect(solution.getByText("150 mots/min", { exact: true })).toBeInTheDocument();
+  expect(calculator.queryByText("Combien perdez-vous exactement ? Calculez-le en 10 secondes.", { exact: true })).not.toBeInTheDocument();
+});
+
 test("renders the inspected source copy and connects every conversion link", () => {
   render(<App />);
 
   [
     "Chaque jour, 13h20 minimum* de présence soignante s'évaporent dans l'administratif. Ce temps vous appartient. Méliah Santé vous le rend.",
-    "Cette innovation ne vient pas d'une tendance, elle vient du terrain.",
-    "Chaque soignant est payé pour soigner. Pas pour saisir ou pour chercher dans les dossiers. AURA transforme la parole en traçabilité riche, structurée et horodatée.",
+    "Cette innovation ne vient pas d'une tendance. Elle vient du soin réel.",
+    "AURA transforme la parole en traçabilité riche, structurée et horodatée. Le clavier n'est plus l'intermédiaire.",
     "3 mois offerts. Accompagnement direct avec la fondatrice. Suivi personnalisé inclus. Tarif ancré les 12 premiers mois.",
     "Réclamer au soin le temps qui lui appartient.",
     "© 2026 Méliah Santé — Tous droits réservés",
@@ -85,8 +116,8 @@ test("renders the inspected source copy and connects every conversion link", () 
     "href",
     "#calculatrice",
   );
-  expect(within(hero!).getByText("150 mots/min", { exact: true })).toBeInTheDocument();
-  expect(within(hero!).getByText("4x plus rapide", { exact: true })).toBeInTheDocument();
+  expect(hero).not.toHaveClass("min-h-[calc(88svh-73px)]");
+  expect(hero!.querySelector(".container")).not.toHaveClass("min-h-[calc(88svh-73px)]");
   screen.getAllByRole("link", { name: /calculer mes pertes/i }).forEach((link) => {
     expect(link).toHaveAttribute("href", "#calculatrice");
   });
@@ -141,80 +172,39 @@ test("uses light surfaces for founder proof, pilot, and footer", () => {
   expect(footer).not.toHaveClass("bg-charcoal", "text-white");
 });
 
-test("renders every comparison and statistic literally", () => {
+test("renders the voice comparison once as the solution mechanism", () => {
   render(<App />);
+  const solution = within(document.getElementById("solution")!);
 
   [
     ["AU CLAVIER", "40 mots/min"],
     ["À LA VOIX", "150 mots/min"],
   ].forEach(([label, value]) => {
-    expect(screen.getByText(label, { exact: true })).toBeInTheDocument();
-    expect(screen.getAllByText(value, { exact: true }).length).toBeGreaterThan(0);
+    expect(solution.getByText(label, { exact: true })).toBeInTheDocument();
+    expect(solution.getByText(value, { exact: true })).toBeInTheDocument();
   });
-
-  [
-    ["13h20", "minimum récupérées chaque jour sans embaucher."],
-    ["76 766€", "réinjectés dans le soin réel."],
-    ["1.1 ETP", "de capacité récupérée sans un seul recrutement."],
-    ["4x", "plus rapide que l'écrit traçabilité vocale vs clavier."],
-  ].forEach(([value, description]) => {
-    expect(screen.getAllByText(value, { exact: true }).length).toBeGreaterThan(0);
-    expect(screen.getByText(description, { exact: true })).toBeInTheDocument();
-  });
+  expect(solution.getByText("1,1 ETP retrouvé, sans recruter.", { exact: true })).toBeInTheDocument();
 });
 
-test("merges the strongest proof into one scannable solution section", () => {
-  render(<App />);
-  const solution = document.getElementById("solution");
-
-  expect(solution).not.toBeNull();
-  [
-    "150 mots/min",
-    "13h20",
-    "76 766€",
-    "1.1 ETP",
-    "4x",
-    "Traçabilité structurée",
-    "Priorités et transmissions",
-  ].forEach((text) => {
-    expect(within(solution!).getByText(text, { exact: true })).toBeInTheDocument();
-  });
-  expect(
-    within(solution!).queryByRole("link", { name: "Prendre rendez-vous" }),
-  ).not.toBeInTheDocument();
-  expect(screen.queryByRole("heading", { name: /une suite complète/i })).not.toBeInTheDocument();
-});
-
-test("presents four coherent benefit and proof narratives", () => {
+test("presents three sequential solution steps", () => {
   render(<App />);
   const solutionElement = document.getElementById("solution")!;
   const solution = within(solutionElement);
-  const capacityCard = solution
-    .getByRole("heading", { name: "Temps et capacité retrouvés" })
-    .closest("article");
-  const traceabilityCard = solution
-    .getByRole("heading", { name: "Traçabilité structurée" })
-    .closest("article");
-  const handoverCard = solution
-    .getByRole("heading", { name: "Priorités et transmissions" })
-    .closest("article");
 
-  expect(solutionElement.querySelectorAll(".solution-benefit-card")).toHaveLength(4);
+  expect(solutionElement.querySelectorAll(".solution-benefit-card")).toHaveLength(3);
   expect(
     solutionElement.querySelector(".solution-benefit-card")?.parentElement?.parentElement,
-  ).toHaveClass("md:grid-cols-2");
-  expect(capacityCard).not.toBeNull();
-  expect(traceabilityCard).not.toBeNull();
-  expect(handoverCard).not.toBeNull();
-  ["13h20", "76 766€", "1.1 ETP"].forEach((metric) => {
-    expect(within(capacityCard!).getByText(metric, { exact: true })).toBeInTheDocument();
-  });
-  expect(traceabilityCard).toHaveTextContent(
-    "Chaque information est structurée, horodatée et sécurisée.",
-  );
-  expect(handoverCard).toHaveTextContent(
-    "Les alertes et la relève restent claires, complètes et actionnables.",
-  );
+  ).toHaveClass("md:grid-cols-3");
+  expect(solution.getByRole("heading", { name: "Parler au moment du soin" })).toBeInTheDocument();
+  expect(solution.getByRole("heading", { name: "Structurer et sécuriser" })).toBeInTheDocument();
+  expect(solution.getByRole("heading", { name: "Préparer la relève" })).toBeInTheDocument();
+  expect(
+    solution.queryByRole("heading", { name: "Temps et capacité retrouvés" }),
+  ).not.toBeInTheDocument();
+  expect(
+    within(solutionElement).queryByRole("link", { name: "Prendre rendez-vous" }),
+  ).not.toBeInTheDocument();
+  expect(screen.queryByRole("heading", { name: /une suite complète/i })).not.toBeInTheDocument();
 });
 
 test("uses only light semantic surfaces in the solution section", () => {
@@ -227,9 +217,6 @@ test("uses only light semantic surfaces in the solution section", () => {
     expect(card).toHaveClass("border-border", "bg-card", "text-foreground");
   });
   expect(within(solution).getByText("AU CLAVIER", { exact: true })).toHaveClass(
-    "text-foreground/80",
-  );
-  expect(within(solution).getByText("réinjectés dans le soin réel.", { exact: true })).toHaveClass(
     "text-foreground/80",
   );
 });

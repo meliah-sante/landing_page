@@ -10,7 +10,7 @@ export function PilotCta() {
       aria-labelledby="pilot-title"
       className="overflow-hidden bg-card"
     >
-      <Reveal className="container py-16 sm:py-20 lg:py-24">
+      <Reveal className="container py-12 sm:py-14 lg:py-16">
           <div className="pilot-card bg-card text-foreground">
             <div className="pilot-lines" aria-hidden="true">
               <span />
@@ -18,12 +18,13 @@ export function PilotCta() {
               <span />
             </div>
             <div className="relative z-10 max-w-4xl">
-              <div className="h-1 w-16 rounded-full bg-gradient-to-r from-primary to-secondary" aria-hidden="true" />
-              <h2 id="pilot-title" className="font-heading mt-6 text-4xl font-semibold tracking-[-0.045em] text-foreground sm:text-6xl lg:text-7xl">
+              <p className="eyebrow">{pilot.eyebrow}</p>
+              <div className="mt-5 h-1 w-16 rounded-full bg-gradient-to-r from-primary via-brand-mid to-secondary" aria-hidden="true" />
+              <h2 id="pilot-title" className="section-title mt-6 max-w-[16ch]">
                 {pilot.heading}
               </h2>
-              <p className="mt-7 max-w-2xl text-lg leading-8 text-foreground/80">{pilot.body}</p>
-              <div className="mt-9 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
+              <p className="mt-6 max-w-2xl text-lg leading-8 text-foreground/80">{pilot.body}</p>
+              <div className="mt-8 flex flex-col items-start gap-5 sm:flex-row sm:items-center">
                 <a
                   href={PILOT_REQUEST_URL}
                   className="cta-primary"
