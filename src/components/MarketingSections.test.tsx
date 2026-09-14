@@ -207,14 +207,18 @@ test("presents three sequential solution steps", () => {
   expect(screen.queryByRole("heading", { name: /une suite complète/i })).not.toBeInTheDocument();
 });
 
-test("uses only light semantic surfaces in the solution section", () => {
+test("keeps the solution section light and puts ink only on selected cards", () => {
   render(<App />);
   const solution = document.getElementById("solution")!;
+  const keyboardCard = within(solution).getByText("AU CLAVIER", { exact: true }).closest("article");
+  const voiceCard = within(solution).getByText("À LA VOIX", { exact: true }).closest("article");
 
   expect(solution).toHaveClass("bg-background", "text-foreground");
   expect(solution).not.toHaveClass("bg-charcoal", "text-white");
+  expect(keyboardCard).not.toHaveClass("ink-card");
+  expect(voiceCard).toHaveClass("ink-card");
   solution.querySelectorAll(".solution-benefit-card").forEach((card) => {
-    expect(card).toHaveClass("border-border", "bg-card", "text-foreground");
+    expect(card).toHaveClass("ink-card");
   });
   expect(within(solution).getByText("AU CLAVIER", { exact: true })).toHaveClass(
     "text-foreground/80",

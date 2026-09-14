@@ -60,3 +60,10 @@ test("keeps section height content-driven and uses the brand gradient on primary
     "--gradient-brand: linear-gradient(135deg, #ee4a4e 0%, #f75b46 50%, #f6753a 100%)",
   );
 });
+
+test("defines accessible ink tokens for dark accent cards", () => {
+  expect(cssSource).toContain("--color-ink: #141414;");
+  expect(cssSource).toContain("--color-ink-foreground: #FFFFFF;");
+  expect(cssSource).toContain("--color-ink-muted: #C8C4BE;");
+  expect(cssSource).toMatch(/\.ink-card\s*\{/);
+});

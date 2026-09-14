@@ -52,17 +52,31 @@ export function SolutionSection() {
                 className={
                   index === 0
                     ? "comparison-card border-border bg-muted"
-                    : "comparison-card border-primary/20 bg-gradient-to-br from-accent via-card to-secondary/15"
+                    : "comparison-card ink-card"
                 }
               >
                 <div className="flex items-center justify-between gap-4">
                   <div>
-                    <p className={index === 0 ? "eyebrow text-foreground/80" : "eyebrow text-accent-foreground"}>
+                    <p className={index === 0 ? "eyebrow text-foreground/80" : "eyebrow"}>
                       {item.label}
                     </p>
-                    <p className="font-heading mt-3 text-3xl font-semibold tracking-tight text-foreground">{item.value}</p>
+                    <p
+                      className={
+                        index === 0
+                          ? "font-heading mt-3 text-3xl font-semibold tracking-tight text-foreground"
+                          : "font-heading mt-3 text-3xl font-semibold tracking-tight text-ink-foreground"
+                      }
+                    >
+                      {item.value}
+                    </p>
                   </div>
-                  <span className="grid h-12 w-12 place-items-center rounded-full border border-primary/20 bg-card text-accent-foreground">
+                  <span
+                    className={
+                      index === 0
+                        ? "grid h-12 w-12 place-items-center rounded-full border border-primary/20 bg-card text-accent-foreground"
+                        : "grid h-12 w-12 place-items-center rounded-full border border-white/10 text-primary"
+                    }
+                  >
                     <Icon className="h-5 w-5" aria-hidden="true" />
                   </span>
                 </div>
@@ -92,19 +106,19 @@ export function SolutionSection() {
 
             return (
               <Reveal key={step.title} delay={index * 0.05} className="h-full">
-                <article className="solution-benefit-card border-border bg-card text-foreground">
+                <article className="solution-benefit-card ink-card">
                   <div className="flex items-center justify-between gap-3">
-                    <span className="grid h-11 w-11 place-items-center rounded-full border border-primary/20 bg-accent text-accent-foreground">
+                    <span className="grid h-11 w-11 place-items-center rounded-full border border-white/10 text-primary">
                       <Icon className="h-5 w-5" strokeWidth={1.8} aria-hidden="true" />
                     </span>
-                    <span className="font-heading text-sm font-semibold tracking-[0.18em] text-muted-foreground">
+                    <span className="font-heading text-sm font-semibold tracking-[0.18em] text-ink-muted">
                       {step.step}
                     </span>
                   </div>
-                  <h3 className="font-heading mt-5 text-xl font-semibold tracking-tight text-foreground">
+                  <h3 className="font-heading mt-5 text-xl font-semibold tracking-tight text-ink-foreground">
                     {step.title}
                   </h3>
-                  <p className="mt-3 text-sm leading-6 text-muted-foreground">{step.description}</p>
+                  <p className="mt-3 text-sm leading-6 text-ink-muted">{step.description}</p>
                 </article>
               </Reveal>
             );
