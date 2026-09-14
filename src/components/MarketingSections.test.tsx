@@ -118,6 +118,20 @@ test("keeps founder proof in the origin section without a repeated testimonial",
   ).toHaveAttribute("href", PILOT_REQUEST_URL);
 });
 
+test("uses light surfaces for founder proof, pilot, and footer", () => {
+  render(<App />);
+  const originQuote = document.querySelector("#origine figure");
+  const pilotCard = document.querySelector("#pilote .pilot-card");
+  const footer = screen.getByRole("contentinfo");
+
+  expect(originQuote).toHaveClass("bg-accent", "text-foreground");
+  expect(originQuote).not.toHaveClass("bg-charcoal", "text-white");
+  expect(pilotCard).toHaveClass("bg-card", "text-foreground");
+  expect(pilotCard).not.toHaveClass("bg-charcoal", "text-white");
+  expect(footer).toHaveClass("bg-background", "text-foreground");
+  expect(footer).not.toHaveClass("bg-charcoal", "text-white");
+});
+
 test("renders every comparison and statistic literally", () => {
   render(<App />);
 
