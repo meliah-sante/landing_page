@@ -65,6 +65,9 @@ export function Hero() {
                 {hero.proofValue}
               </p>
               <p className="mt-3 text-base font-medium text-foreground/80">{hero.proofHint}</p>
+              {hero.proofSub && (
+                <p className="mt-1 text-sm text-muted-foreground">{hero.proofSub}</p>
+              )}
 
               <div className="hero-waveform mt-8 flex h-14 items-center gap-1.5" aria-hidden="true">
                 {voiceBars.map((height, index) => (

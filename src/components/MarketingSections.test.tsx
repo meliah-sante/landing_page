@@ -9,14 +9,14 @@ test("renders the complete AURA conversion journey", () => {
 
   expect(
     screen.getByRole("heading", {
-      name: /réinjectez 76 766€ minimum\* par an dans le soin réel\./i,
+      name: /réinjectez 58 173€ minimum\* par an dans le soin réel\./i,
     }),
   ).toBeInTheDocument();
   expect(
-    within(document.getElementById("hero")!).getByText("76 766€", { exact: true }),
+    within(document.getElementById("hero")!).getByText("58 173€", { exact: true }),
   ).toHaveClass("whitespace-nowrap", "brand-amount");
   expect(document.querySelector(".hero-proof-panel")).toHaveClass("bg-card", "border-border");
-  expect(screen.getByText("chaque jour, pour 40 soignants", { exact: true })).toHaveClass(
+  expect(screen.getByText("de soin rendues par an", { exact: true })).toHaveClass(
     "text-foreground/80",
   );
   expect(
@@ -61,8 +61,8 @@ test("advances one claim per section without repeating proof", () => {
     expect(screen.getByText(eyebrow, { exact: true })).toBeInTheDocument();
   });
 
-  expect(screen.getAllByText("76 766€", { exact: true })).toHaveLength(1);
-  expect(screen.getAllByText("13h20", { exact: true })).toHaveLength(1);
+  expect(screen.getAllByText("58 173€", { exact: true })).toHaveLength(1);
+  expect(screen.getAllByText("1 786 heures", { exact: true })).toHaveLength(1);
   expect(screen.getAllByText("150 mots/min", { exact: true })).toHaveLength(1);
   expect(screen.getAllByText("40 mots/min", { exact: true })).toHaveLength(1);
 
@@ -71,8 +71,8 @@ test("advances one claim per section without repeating proof", () => {
   const solution = within(document.getElementById("solution")!);
   const calculator = within(document.getElementById("calculatrice")!);
 
-  expect(hero.getByText("76 766€", { exact: true })).toBeInTheDocument();
-  expect(hero.getByText("13h20", { exact: true })).toBeInTheDocument();
+  expect(hero.getByText("58 173€", { exact: true })).toBeInTheDocument();
+  expect(hero.getByText("1 786 heures", { exact: true })).toBeInTheDocument();
   expect(hero.queryByText("150 mots/min", { exact: true })).not.toBeInTheDocument();
   expect(origin.queryByText("76 766€", { exact: true })).not.toBeInTheDocument();
   expect(solution.queryByText("76 766€", { exact: true })).not.toBeInTheDocument();
