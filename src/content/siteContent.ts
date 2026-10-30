@@ -38,13 +38,14 @@ export const navigation: readonly NavigationItem[] = [
 export const hero = {
   eyebrow: "01 — Le coût",
   headingLead: "Réinjectez",
-  amount: "76 766€",
+  amount: "58 173€",
   headingTail: "minimum* par an dans le soin réel.",
   body: "Chaque jour, 13h20 minimum* de présence soignante s'évaporent dans l'administratif. Ce temps vous appartient. Méliah Santé vous le rend.",
   note: "*Calcul basé sur un établissement de 40 soignants - Détail disponible sur demande",
   proofLabel: "Présence perdue",
-  proofValue: "13h20",
-  proofHint: "chaque jour, pour 40 soignants",
+  proofValue: "1 786 heures",
+  proofHint: "de soin rendues par an",
+  proofSub: "soit 1,1 poste rendu au soin",
 } as const;
 
 export const origin = {
